@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.controller;
 
+import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,15 +53,12 @@ public class MemberController {
                     member.setAge(newMember.getAge());
                     member.setEmail(newMember.getEmail());
                     return memberRepository.save(member);
-                })
-                .orElseGet(() -> {
-                    newMember.setMember_id(id);
-                    return memberRepository.save(newMember);
                 });
+                //.orElseGet();
     }
 
     /**
-     * 등록
+     * 삭제
      */
     @DeleteMapping("/{member_id}")
     public void deleteMember(@PathVariable("member_id") Long id){

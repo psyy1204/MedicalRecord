@@ -5,6 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Table
 @NoArgsConstructor
@@ -13,9 +15,9 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id
-    @Column
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_id;
+    private Long id;
 
     @Column(nullable = false)
     private String userName;        //회원이름
@@ -44,8 +46,13 @@ public class Member {
     private LocalDateTime updatedDate;  //수정날짜
 
 //    @OneToOne(fetch = FetchType.LAZY)
-//    //객체가 실제 사용할때 조회
-//    private DrugInfo drugInfo;
+//    @JoinColumn(name = "allergy_id")
+//    //객체가 실제 사용할때 조회 / 알러지 키 1 멤버 1
+//    private DrugAllergy drugAllergy;
+
+    @OneToMany(mappedBy = "member")
+     List<MedicalRecord> medicalRecordList = new ArrayList<>();
+
 
     @Builder
     public Member(String userName, int age, String email, String sex, int height, int weight, LocalDateTime createdDate,

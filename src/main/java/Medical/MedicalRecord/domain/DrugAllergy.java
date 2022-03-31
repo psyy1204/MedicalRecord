@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table
 @Getter
@@ -11,9 +13,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class DrugAllergy {
 
-    @Column
+    @Column(name = "allergy_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long allergy_id;
+    private Long id;
 
+    @OneToMany                          //일대다(약 알러지 1- 약 성분 여러개)
+    private List<DrugComponent> drugComponentList = new ArrayList<>();
+
+    //member는 member에서 가져다??
+//    @OneToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 }

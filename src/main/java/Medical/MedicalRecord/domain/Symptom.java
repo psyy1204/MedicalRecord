@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @Getter
 public class Symptom {
 
-    @Column
+    @Column(name ="symptom_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long symptom_id;
+    private Long id;
 
     @Column(nullable = false)
     private String symptom;                 //증상기입
@@ -41,6 +41,14 @@ public class Symptom {
 
     @Column(nullable = false)
     private LocalDateTime updatedDate;      //수정날짜
+
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToOne
+    @JoinColumn(name = "record_id")
+    private MedicalRecord medicalRecord;
 
     @Builder
     public Symptom(String symptom, int body_temperature, int pulse, String blood_pressure,

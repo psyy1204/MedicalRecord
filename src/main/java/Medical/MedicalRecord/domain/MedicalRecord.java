@@ -1,22 +1,24 @@
 package Medical.MedicalRecord.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class MedicalRecord {
 
     @Id
-    @Column
+    @Column(name = "record_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long record_id;
+    private Long id;
 
     @Column
     private String doctor_name;                     //의사이름
@@ -36,14 +38,20 @@ public class MedicalRecord {
     @Column(nullable = false)
     private LocalDateTime updatedDate;              //수정날짜
 
-    @Builder
-    public MedicalRecord(String doctor_name, String diagnosis,
-                         String etc, int price, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.doctor_name = doctor_name;
-        this.diagnosis = diagnosis;
-        this.etc = etc;
-        this.price = price;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-    }
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToOne
+    @JoinColumn(name = "hospita_id")
+    private HospitalInfo hospitalInfo;
+
+    @OneToOne
+    @JoinColumn(name = "symptom_id")
+    private Symptom symptom;
+
+    @OneToMany
+    List<DrugInfo> drugInfoList = new ArrayList<>();
+
+    //진료과
 }

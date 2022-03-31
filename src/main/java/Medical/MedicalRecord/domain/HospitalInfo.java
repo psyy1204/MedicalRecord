@@ -13,8 +13,8 @@ public class HospitalInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long hospital_id;
+    @Column(name = "hospital_id")
+    private Long id;
 
     @Column
     private String address;     //주소

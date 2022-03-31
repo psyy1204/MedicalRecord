@@ -12,9 +12,9 @@ import javax.persistence.*;
 public class DrugComponent {
 
     @Id
-    @Column
+    @Column(name="component_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long component_id;
+    private Long id;
 
     @Column(nullable = false)
     private String component_name;                      //약성분

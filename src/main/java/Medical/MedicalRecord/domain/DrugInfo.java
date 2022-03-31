@@ -12,12 +12,16 @@ import javax.persistence.*;
 public class DrugInfo {
 
     @Id
-    @Column
+    @Column (name = "drug_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long drug_id;
+    private Long id;
 
     @Column(nullable = false)                   //약이름
     private String drug_name;
+
+    @OneToOne
+    @JoinColumn(name = "component_id")
+    private DrugComponent drugComponent;
 
     @Column
     public void setDrug_name(String drug_name) {

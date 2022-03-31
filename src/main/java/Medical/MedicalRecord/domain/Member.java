@@ -20,22 +20,28 @@ public class Member {
     private Long id;
 
     @Column(nullable = false)
-    private String userName;        //회원이름
+    // 회원이름
+    private String userName;
 
     @Column//(nullable = false)
-    private String email;        //회원이름
+    // 이메일
+    private String email;
 
     @Column
-    private int age;                //회원나이
+    // 회원나이
+    private int age;
 
     @Column
-    private String sex;                //회원성별
+    // 회원성별
+    private String gender;
 
     @Column
-    private int height;             //회원 키
+    // 키
+    private int height;
 
     @Column
-    private int weight;             //회원 몸무게
+    // 몸무게
+    private int weight;
 
     @Column//(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -45,22 +51,13 @@ public class Member {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedDate;  //수정날짜
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "allergy_id")
-//    //객체가 실제 사용할때 조회 / 알러지 키 1 멤버 1
-//    private DrugAllergy drugAllergy;
-
-    @OneToMany(mappedBy = "member")
-     List<MedicalRecord> medicalRecordList = new ArrayList<>();
-
-
     @Builder
-    public Member(String userName, int age, String email, String sex, int height, int weight, LocalDateTime createdDate,
+    public Member(String userName, int age, String email, String gender, int height, int weight, LocalDateTime createdDate,
                   LocalDateTime updatedDate) {
         this.userName = userName;
         this.age = age;
         this.email = email;
-        this.sex = sex;
+        this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.createdDate = createdDate;

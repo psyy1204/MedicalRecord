@@ -18,40 +18,43 @@ public class MedicalRecord {
     @Id
     @Column(name = "record_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long record_id;
 
     @Column
-    private String doctor_name;                     //의사이름
+    // 의사이름
+    private String doctorName;
 
     @Column(nullable = false)
-    private String diagnosis;                       //진단명
+    // 진단명
+    private String diagnosis;
 
     @Column
-    private String etc;                             //기타사항 입력
+    // 기타사항
+    private String etc;
 
     @Column
-    private int price;                              //비용
+    // 진료비
+    private int price;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;              //생성날짜
+    // 등록일
+    private LocalDateTime created_date;
 
     @Column(nullable = false)
-    private LocalDateTime updatedDate;              //수정날짜
+    // 수정일
+    private LocalDateTime updated_date;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
-    @JoinColumn(name = "hospita_id")
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
     private HospitalInfo hospitalInfo;
 
     @OneToOne
     @JoinColumn(name = "symptom_id")
     private Symptom symptom;
 
-    @OneToMany
-    List<DrugInfo> drugInfoList = new ArrayList<>();
-
-    //진료과
+    // 처방약
 }

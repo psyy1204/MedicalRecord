@@ -17,8 +17,14 @@ public class HospitalInfo {
     private Long id;
 
     @Column
-    private String address;     //주소
+    // 병원명
+    private String hospitalName;
 
     @Column
-    private String contact;     //연락처
+    // 병원주소
+    private String address;
+
+    @Column
+    // 연락처
+    private String contact;
 }

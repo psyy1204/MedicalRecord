@@ -17,9 +17,10 @@ public class DrugComponent {
     private Long id;
 
     @Column(nullable = false)
-    private String component_name;                      //약성분
+    // 약성분명
+    private String componentName;
 
-    public void setComponent_name(String component_name) {
-        this.component_name = component_name;
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 }

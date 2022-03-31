@@ -16,20 +16,21 @@ public class DrugInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)                   //약이름
-    private String drug_name;
+    @Column(nullable = false)
+    // 약명
+    private String drugName;
 
     @OneToOne
     @JoinColumn(name = "component_id")
     private DrugComponent drugComponent;
 
     @Column
-    public void setDrug_name(String drug_name) {
-        this.drug_name = drug_name;
+    public void setDrugName(String drug_name) {
+        this.drugName = drug_name;
     }
 
     @Builder
     public DrugInfo(String drug_name) {
-        this.drug_name = drug_name;
+        this.drugName = drug_name;
     }
 }

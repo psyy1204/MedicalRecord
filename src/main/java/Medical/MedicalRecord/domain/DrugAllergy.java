@@ -18,11 +18,12 @@ public class DrugAllergy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany                          //일대다(약 알러지 1- 약 성분 여러개)
+    @OneToMany
+    // 일대다(약 알러지 1- 약 성분 여러개)
     private List<DrugComponent> drugComponentList = new ArrayList<>();
 
     //member는 member에서 가져다??
-//    @OneToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 }

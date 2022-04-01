@@ -43,13 +43,12 @@ public class Member {
     // 몸무게
     private int weight;
 
-    //처방약
 
-    @Column//(nullable = false)
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate;  //생성날짜
 
-    @Column//(nullable = false)
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedDate;  //수정날짜
 

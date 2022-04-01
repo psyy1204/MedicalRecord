@@ -18,29 +18,38 @@ public class Symptom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long symptomId;
 
+    //증상기입
     @Column(nullable = false)
-    private String symptom;                 //증상기입
+    private String symptom;
 
+    //체온
     @Column
-    private int bodyTemperature;           //체온
+    private int bodyTemperature;
 
+    //맥박
     @Column
-    private int pulse;                      //맥박
+    private int pulse;
 
+    //혈압
     @Column
-    private String bloodPressure;          //혈압
+    private String bloodPressure;
+    //120/80 이런식으로 입력이 되어야하는데 String으로 하는게 맞는지 의문ㅜㅜ
 
+    //산소포화도
     @Column
-    private int oxygenSaturation;          //산소포화도
+    private int oxygenSaturation;
 
+    //호흡수
     @Column
-    private int respirationRate;           //호흡수
+    private int respirationRate;
 
+    //생성날짜
     @Column(nullable = false)
-    private LocalDateTime createdDate;      //생성날짜
+    private LocalDateTime createdDate;
 
+    //수정날짜
     @Column(nullable = false)
-    private LocalDateTime updatedDate;      //수정날짜
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(name = "memberId")

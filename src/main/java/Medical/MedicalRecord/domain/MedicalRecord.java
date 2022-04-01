@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +17,9 @@ import java.util.List;
 public class MedicalRecord {
 
     @Id
-    @Column(name = "record_id")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long record_id;
+    private Long recordId;
 
     @Column
     // 의사이름
@@ -38,23 +39,38 @@ public class MedicalRecord {
 
     @Column(nullable = false)
     // 등록일
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     // 수정일
-    private LocalDateTime updated_date;
+    private LocalDateTime updatedDate;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id")
+    @JoinColumn(name = "hospitalId")
     private HospitalInfo hospitalInfo;
 
     @OneToOne
-    @JoinColumn(name = "symptom_id")
+    @JoinColumn(name = "symptomId")
     private Symptom symptom;
 
     // 처방약
+
+    @Builder
+    public MedicalRecord(String doctorName, String diagnosis, String etc, int price,
+                         Member member, HospitalInfo hospitalInfo, Symptom symptom) {
+        this.recordId = recordId;
+        this.doctorName = doctorName;
+        this.diagnosis = diagnosis;
+        this.etc = etc;
+        this.price = price;
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+        this.member = member;
+        this.hospitalInfo = hospitalInfo;
+        this.symptom = symptom;
+    }
 }

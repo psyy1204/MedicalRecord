@@ -15,9 +15,9 @@ import java.util.List;
 public class Member {
 
     @Id
-    @Column(name = "member_id")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long memberId;
 
     @Column(nullable = false)
     // 회원이름
@@ -31,9 +31,9 @@ public class Member {
     // 회원나이
     private int age;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     // 회원성별
-    private String gender;
+    private Gender gender;
 
     @Column
     // 키
@@ -42,6 +42,8 @@ public class Member {
     @Column
     // 몸무게
     private int weight;
+
+    //처방약
 
     @Column//(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -52,15 +54,14 @@ public class Member {
     private LocalDateTime updatedDate;  //수정날짜
 
     @Builder
-    public Member(String userName, int age, String email, String gender, int height, int weight, LocalDateTime createdDate,
-                  LocalDateTime updatedDate) {
+    public Member(String userName, int age, String email, Gender gender, int height, int weight) {
         this.userName = userName;
         this.age = age;
         this.email = email;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
     }
 }

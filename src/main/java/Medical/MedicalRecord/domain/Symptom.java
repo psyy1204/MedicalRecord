@@ -13,28 +13,28 @@ import java.time.LocalDateTime;
 @Getter
 public class Symptom {
 
-    @Column(name ="symptom_id")
+    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long symptomId;
 
     @Column(nullable = false)
     private String symptom;                 //증상기입
 
     @Column
-    private int body_temperature;           //체온
+    private int bodyTemperature;           //체온
 
     @Column
     private int pulse;                      //맥박
 
     @Column
-    private String blood_pressure;          //혈압
+    private String bloodPressure;          //혈압
 
     @Column
-    private int oxygen_saturation;          //산소포화도
+    private int oxygenSaturation;          //산소포화도
 
     @Column
-    private int respiration_rate;           //호흡수
+    private int respirationRate;           //호흡수
 
     @Column(nullable = false)
     private LocalDateTime createdDate;      //생성날짜
@@ -42,25 +42,26 @@ public class Symptom {
     @Column(nullable = false)
     private LocalDateTime updatedDate;      //수정날짜
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
+    @ManyToOne
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @OneToOne
-    @JoinColumn(name = "record_id")
+    @JoinColumn(name = "recordId")
     private MedicalRecord medicalRecord;
 
     @Builder
-    public Symptom(String symptom, int body_temperature, int pulse, String blood_pressure,
-                   int oxygen_saturation, int respiration_rate, LocalDateTime createdDate,
-                   LocalDateTime updatedDate) {
+    public Symptom(String symptom, int bodyTemperature, int pulse, String bloodPressure, int oxygenSaturation,
+                   int respirationRate, Member member, MedicalRecord medicalRecord) {
         this.symptom = symptom;
-        this.body_temperature = body_temperature;
+        this.bodyTemperature = bodyTemperature;
         this.pulse = pulse;
-        this.blood_pressure = blood_pressure;
-        this.oxygen_saturation = oxygen_saturation;
-        this.respiration_rate = respiration_rate;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
+        this.bloodPressure = bloodPressure;
+        this.oxygenSaturation = oxygenSaturation;
+        this.respirationRate = respirationRate;
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+        this.member = member;
+        this.medicalRecord = medicalRecord;
     }
 }

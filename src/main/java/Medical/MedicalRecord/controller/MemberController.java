@@ -36,8 +36,8 @@ public class MemberController {
     /**
      * 아이디로 조회
      */
-    @GetMapping("/{member_id}")
-    public Member getMember(@PathVariable("member_id") Long id) {
+    @GetMapping("/{memberId}")
+    public Member getMember(@PathVariable("membeId") Long id) {
         return  memberRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("조회하는 아이디가 없습니다"));
     }
@@ -45,23 +45,28 @@ public class MemberController {
     /**
      * 수정
      */
-    @PutMapping("/{member_id}")
-    public void updateMember(@PathVariable("member_id") Long id, @RequestBody Member newMember) {
+    @PutMapping("/{memberId}")
+    public void updateMember(@PathVariable("memberId") Long id, @RequestBody Member newMember) {
         memberRepository.findById(id)
                 .map(member -> {
                     member.setUserName(newMember.getUserName());
                     member.setAge(newMember.getAge());
                     member.setEmail(newMember.getEmail());
+                    member.setGender(newMember.getGender());
+                    member.setHeight(newMember.getHeight());
+                    member.setWeight(newMember.getWeight());
+                    member.setUpdatedDate(newMember.getUpdatedDate());
                     return memberRepository.save(member);
-                });
-                //.orElseGet();
+                })
+                .orElseThrow(() -> new IllegalArgumentException("조회하는 아이디가 없습니다"));
+
     }
 
     /**
      * 삭제
      */
-    @DeleteMapping("/{member_id}")
-    public void deleteMember(@PathVariable("member_id") Long id){
+    @DeleteMapping("/{memberId}")
+    public void deleteMember(@PathVariable("memberId") Long id){
         memberRepository.deleteById(id);
     }
 }

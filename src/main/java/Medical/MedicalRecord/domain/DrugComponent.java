@@ -26,7 +26,6 @@ public class DrugComponent {
     }
 
     public DrugComponent(String componentName) {
-        this.componentId = componentId;
         this.componentName = componentName;
     }
 }

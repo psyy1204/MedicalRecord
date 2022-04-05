@@ -3,12 +3,18 @@ package Medical.MedicalRecord.controller;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+import static Medical.MedicalRecord.domain.Gender.*;
+
+@Controller
 @RequestMapping("/members")
 public class MemberController {
 
@@ -16,38 +22,53 @@ public class MemberController {
     private MemberRepository memberRepository;
 
     /**
-     * 생성
-     */
-    @PostMapping
-    public ResponseEntity<?> saveMember(@RequestBody Member member){
-        Member saveMember = memberRepository.save(member);
-        return ResponseEntity.ok(saveMember);
-    }
-
-    /**
-     * 전체 사용자 목록 조회
+     * 전체리스트 보기
      */
     @GetMapping("/list")
-    public List<Member> getMemberList(){
-        List<Member> memberList = memberRepository.findAll();
-        return memberList;
+    public String members(Model model) {
+        List<Member> members = memberRepository.findAll();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
+
+    @GetMapping("/member/{memberId}")
+    public String member(@PathVariable long memberId, Model model) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 데이터입니다."));
+        model.addAttribute("member", member);
+        return "members/member";
     }
 
     /**
-     * 아이디로 조회
+     * 가입 폼 띄우기
      */
-    @GetMapping("/{memberId}")
-    public Member getMember(@PathVariable("membeId") Long id) {
-        return  memberRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("조회하는 아이디가 없습니다"));
+    @GetMapping("/new")
+    public String addForm() { return "members/addForm"; }
+
+    @PostMapping("/new")
+    public String addMember(Member member, RedirectAttributes redirectAttributes) {
+        Member saveMember = memberRepository.save(member);
+        redirectAttributes.addAttribute("memberId", saveMember.getMemberId());
+        //redirectAttributes.addAttribute("status", true);
+        return "redirect:/members/member/{memberId}";
     }
 
+    /**
+     * 수정폼
+     */
+    @GetMapping("/member/{memberId}/edit")
+    public String editForm(@PathVariable Long memberId, Model model) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
+        model.addAttribute("member", member);
+        return "members/editForm";
+    }
     /**
      * 수정
      */
-    @PutMapping("/{memberId}")
-    public void updateMember(@PathVariable("memberId") Long id, @RequestBody Member newMember) {
-        memberRepository.findById(id)
+    @PostMapping("/member/{memberId}/edit")
+    public String edit(@PathVariable Long memberId, @ModelAttribute Member newMember) {
+        memberRepository.findById(memberId)
                 .map(member -> {
                     member.setUserName(newMember.getUserName());
                     member.setAge(newMember.getAge());
@@ -59,14 +80,18 @@ public class MemberController {
                     return memberRepository.save(member);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("조회하는 아이디가 없습니다"));
-
+        return "redirect:/members/member/{memberId}";
     }
+
 
     /**
-     * 삭제
+     * 테스트용 멤버 넣어두기
      */
-    @DeleteMapping("/{memberId}")
-    public void deleteMember(@PathVariable("memberId") Long id){
-        memberRepository.deleteById(id);
+    @PostConstruct
+    public void init() {
+        memberRepository.save(new Member("A",20,"aa@gmail.com", FEMALE, 167, 55));
+        memberRepository.save(new Member("B",56,"bb@gmail.com", MALE, 187, 70));
+        memberRepository.save(new Member("C",34,"cc@gmail.com", FEMALE, 155, 50));
     }
+    //String userName, int age, String email, Gender gender, int height, int weight
 }

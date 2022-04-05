@@ -58,6 +58,7 @@ public class MedicalRecord {
     private Symptom symptom;
 
     // 처방약
+    // 다대다?
 
     @Builder
     public MedicalRecord(String doctorName, String diagnosis, String etc, int price,

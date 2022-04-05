@@ -32,7 +32,6 @@ public class HospitalInfo {
 
     @Builder
     public HospitalInfo(String hospitalName, String hospitalAddress, String hospitalContact) {
-        this.hospitalId = hospitalId;
         this.hospitalName = hospitalName;
         this.hospitalAddress = hospitalAddress;
         this.hospitalContact = hospitalContact;

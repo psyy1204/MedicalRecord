@@ -31,7 +31,6 @@ public class DrugAllergy {
     @Builder
 
     public DrugAllergy(List<DrugComponent> drugComponentList, Member member) {
-        this.allergyId = allergyId;
         this.drugComponentList = drugComponentList;
         this.member = member;
     }

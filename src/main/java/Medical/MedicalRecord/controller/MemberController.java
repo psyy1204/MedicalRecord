@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
 
 import static Medical.MedicalRecord.domain.Gender.*;
 

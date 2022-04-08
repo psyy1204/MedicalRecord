@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+            href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 수정</h2>
+    </div>
+    <form action="item.html" th:action method="post">
+        <div>
+            <label for="memberId">회원 ID</label>
+            <input type="text" id="memberId" name="memberId" class="form-control" value="1"
+                   th:value="${member.memberId}" readonly>
+        </div>
+        <div>
+            <label for="userName">이름</label>
+            <input type="text" id="userName" name="userName" class="form-control"
+                   value="A" th:value="${member.userName}">
+        </div>
+        <div>
+            <label for="email">이메일</label>
+            <input type="text" id="email" name="email" class="form-control"
+                   value="10000" th:value="${member.email}">
+        </div>
+        <div>
+            <label for="age">나이</label>
+            <input type="text" id="age" name="age" class="form-control"
+                   value="10" th:value="${member.age}">
+        </div>
+
+        <!-- radio button -->
+        <div>
+            <div>성별</div>
+            <div th:each="type : ${gender}" class="form-check form-check-inline">
+                <input type="radio" th:field="${member.gender}" th:value="${type.name()}"
+                       class="form-check-input">
+                <label th:for="${#ids.prev('gender')}" th:text="${type.description}"
+                       class="form-check-label">
+                    MALE
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="height">키</label>
+            <input type="text" id="height" th:field="${member.height}" class="form-control">
+        </div>
+
+        <div>
+            <label for="weight">몸무게</label>
+            <input type="text" id="weight" th:field="${member.weight}" class="form-control">
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='member.html'"
+                        th:onclick="|location.href='@{/members/member/{memberId}(memberId=${member.memberId})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>

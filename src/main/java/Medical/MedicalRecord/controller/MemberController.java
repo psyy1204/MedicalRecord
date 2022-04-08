@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.controller;
 
+import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class MemberController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @ModelAttribute("gender")
+    public Gender[] gender() {
+        return Gender.values();
+    }
 
     /**
      * 전체리스트 보기
@@ -42,7 +48,10 @@ public class MemberController {
      * 가입 폼 띄우기
      */
     @GetMapping("/new")
-    public String addForm() { return "members/addForm"; }
+    public String addForm(Model model) {
+        model.addAttribute("member", new Member());
+        return "members/addForm";
+    }
 
     @PostMapping("/new")
     public String addMember(Member member, RedirectAttributes redirectAttributes) {

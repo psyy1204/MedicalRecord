@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
@@ -51,18 +49,19 @@ public class MedicalRecord {
 
     @ManyToOne
     @JoinColumn(name = "hospitalId")
-    private HospitalInfo hospitalInfo;
+    private Hospital hospital;
 
     @OneToOne
     @JoinColumn(name = "symptomId")
     private Symptom symptom;
 
-    // 처방약
-    // 다대다?
+    @ManyToOne
+    @JoinColumn(name = "prescriptionDrugId")
+    private PrescriptionDrug prescriptionDrug;
 
     @Builder
     public MedicalRecord(String doctorName, String diagnosis, String etc, int price,
-                         Member member, HospitalInfo hospitalInfo, Symptom symptom) {
+                         Member member, Hospital hospital, Symptom symptom) {
         this.recordId = recordId;
         this.doctorName = doctorName;
         this.diagnosis = diagnosis;
@@ -71,7 +70,7 @@ public class MedicalRecord {
         this.createdDate = LocalDateTime.now();
         this.updatedDate = LocalDateTime.now();
         this.member = member;
-        this.hospitalInfo = hospitalInfo;
+        this.hospital = hospital;
         this.symptom = symptom;
     }
 }

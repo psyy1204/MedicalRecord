@@ -36,6 +36,32 @@
             <input type="text" id="age" name="age" class="form-control"
                    value="10" th:value="${member.age}">
         </div>
+
+        <!-- radio button -->
+        <div>
+            <div>성별</div>
+            <div th:each="type : ${gender}" class="form-check form-check-inline">
+                <input type="radio" th:field="${member.gender}" th:value="${type.name()}"
+                       class="form-check-input">
+                <label th:for="${#ids.prev('gender')}" th:text="${type.description}"
+                       class="form-check-label">
+                    MALE
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="height">키</label>
+            <input type="text" id="height" name="height" class="form-control"
+                   value="160" th:value="${member.height}">
+        </div>
+
+        <div>
+            <label for="weight">몸무게</label>
+            <input type="text" id="weight" name="weight" class="form-control"
+                   value="160" th:value="${member.weight}">
+        </div>
+
         <hr class="my-4">
         <div class="row">
             <div class="col">

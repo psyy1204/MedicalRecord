@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <h1>🏥My Medical Record🏥</h1>
+        <h3>회원 기능</h3>
+        <p>
+        <button class="w-100 btn btn-outline-info btn-lg"
+                onclick="location.href='/members/new'"
+                type="button">회원 등록</button>
+        <button class="w-100 btn btn-outline-secondary btn-lg"
+                onclick="location.href='/members/list'"
+                type="button">회원 조회</button>
+        </p>
+
+        <h3>병원 기능</h3>
+        <p>
+            <button class="w-100 btn btn-outline-info btn-lg"
+                    onclick="location.href='/hospitals/new'"
+                    type="button">병원 추가</button>
+            <button class="w-100 btn btn-outline-secondary btn-lg"
+                    onclick="location.href='/hospitals/list'"
+                    type="button">병원 목록</button>
+        </p>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

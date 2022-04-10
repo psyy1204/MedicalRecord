@@ -4,6 +4,10 @@ spring:
     username: root
     password: thdud1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

@@ -40,14 +40,13 @@ public class Member {
     // 몸무게
     private Integer weight;
 
-
-    @Column//(nullable = false)
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdDate;  //생성날짜
+    private LocalDateTime createdDate = LocalDateTime.now();  //생성날짜
 
-    @Column//(nullable = false)
+    @Column (nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedDate;  //수정날짜
+    private LocalDateTime updatedDate = LocalDateTime.now();  //수정날짜
 
     @Builder
     public Member(String userName, int age, String email, Gender gender, int height, int weight) {

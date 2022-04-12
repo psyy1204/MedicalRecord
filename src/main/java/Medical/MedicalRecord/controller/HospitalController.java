@@ -86,15 +86,7 @@ public class HospitalController {
     }
 
     @GetMapping("/hospital/{hospitalId}/delete")
-    public String deleteForm(@PathVariable Long hospitalId, Model model) {
-        Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() ->  new IllegalArgumentException("존재하지 않는 병원입니다"));
-        model.addAttribute("hospital", hospital);
-        return "hospitals/delete";
-    }
-
-    @DeleteMapping("/hospital/{hospitalId}/delete")
-    public String delete(@PathVariable("hospitalId") Long id) {
+    public String deleteHospital(@PathVariable("hospitalId") Long id){
         hospitalRepository.deleteById(id);
         return "redirect:/hospitals/list";
     }

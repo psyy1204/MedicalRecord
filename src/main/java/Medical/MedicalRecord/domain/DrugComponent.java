@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "drugcomponent")
 @NoArgsConstructor
 @Getter @Setter
 public class DrugComponent {
@@ -21,10 +22,7 @@ public class DrugComponent {
     // 약성분명
     private String componentName;
 
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
-
+    @Builder
     public DrugComponent(String componentName) {
         this.componentName = componentName;
     }

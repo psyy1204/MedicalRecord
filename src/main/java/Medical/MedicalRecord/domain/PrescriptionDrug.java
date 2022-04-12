@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity @Table
+@Entity @Table(name = "prescriptiondrug")
 @NoArgsConstructor
 @Getter
 public class PrescriptionDrug {

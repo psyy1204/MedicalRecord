@@ -85,6 +85,9 @@ public class HospitalController {
         return "redirect:/hospitals/hospital/{hospitalId}";
     }
 
+    /**
+     * 삭제
+     */
     @GetMapping("/hospital/{hospitalId}/delete")
     public String deleteHospital(@PathVariable("hospitalId") Long id){
         hospitalRepository.deleteById(id);

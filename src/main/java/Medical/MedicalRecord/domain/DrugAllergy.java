@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table
+@Table(name = "drugallergy")
 @Getter @Setter
 @Entity
 @NoArgsConstructor

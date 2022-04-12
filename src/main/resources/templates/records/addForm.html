@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>진료 기록 등록</h2>
+    </div>
+    <h4 class="mb-3">진료 기록 입력</h4>
+    <form action="record.html" th:action th:object="${record}" method="post">
+        <div>
+            <label for="visitedDate">방문일</label>
+            <input type="date" id="visitedDate" th:field="*{visitedDate}" class="form-control"
+                   placeholder="병원 방문일을 입력하세요">
+        </div>
+        <div>
+            <div>진료과</div>
+            <select th:field="*{medicalDepartmentCode}" class="form-select">
+                <option value="">==진료과 선택==</option>
+                <option th:each="medicalDepartmentCode : ${medicalDepartmentCodes}" th:value="${medicalDepartmentCode.code}"
+                        th:text="${medicalDepartmentCode.displayName}">FAST</option>
+            </select>
+        </div>
+        <!--진료과 선택하는거-->
+        <!--
+        <div>
+            <label for="hospitalName">병원명</label>
+            <input type="search" id="hospitalName" th:field="*{hospital.hospitalName}" class="form-control">
+        </div> -->
+        <div>
+            <label for="doctorName">담당의</label>
+            <input type="text" id="doctorName" th:field="*{doctorName}" class="form-control"
+                   placeholder="진료받은 의사 이름을 입력하세요">
+        </div>
+        <div>
+            <label for="diagnosis">진단명</label>
+            <input type="text" id="diagnosis" th:field="*{diagnosis}" class="form-control"
+                   placeholder="진단명 입력하세요">
+        </div>
+        <div>
+            <label for="etc">기타</label>
+            <input type="text" id="etc" th:field="*{etc}" class="form-control"
+                   placeholder="예)주사처치, 드레싱 등 추가 입력 필요한 사항을 입력하세요">
+        </div>
+        <div>
+            <label for="price">진료비</label>
+            <input type="text" id="price" th:field="*{price}" class="form-control"
+                   placeholder="청구된 진료비를 입력하세요">
+        </div>
+
+        <div>
+            <label for="nextVisitDate">방문 예정일</label>
+            <input type="date" id="nextVisitDate" th:field="*{nextVisitDate}" class="form-control"
+                   placeholder="병원 방문일을 입력하세요">
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">진료 기록 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='/'"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>

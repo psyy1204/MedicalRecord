@@ -21,7 +21,7 @@
 <body>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>병원 수정 폼</h2>
+        <h2>병원 수정</h2>
     </div>
     <form action="hospital.html" th:action method="post">
         <div>
@@ -53,7 +53,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='member.html'"
+                        onclick="location.href='hospital.html'"
                         th:onclick="|location.href='@{/hospitals/hospital/{hospitalId}(hospitalId=${hospital.hospitalId})}'|"
                         type="button">취소</button>
             </div>

@@ -102,5 +102,4 @@ public class MemberController {
         memberRepository.save(new Member("B",56,"bb@gmail.com", MALE, 187, 70));
         memberRepository.save(new Member("C",34,"cc@gmail.com", FEMALE, 155, 50));
     }
-    //String userName, int age, String email, Gender gender, int height, int weight
 }

@@ -3,12 +3,14 @@ package Medical.MedicalRecord.controller;
 import Medical.MedicalRecord.domain.DrugComponent;
 import Medical.MedicalRecord.repository.DrugComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/drugs")
 public class DrugComponentController {
 
@@ -16,50 +18,77 @@ public class DrugComponentController {
     private DrugComponentRepository drugComponentRepository;
 
     /**
-     * 생성
-     */
-    @PostMapping
-    public ResponseEntity<?> saveDrugComponent(@RequestBody DrugComponent drugComponent){
-        DrugComponent saveDrugComponent = drugComponentRepository.save(drugComponent);
-        return ResponseEntity.ok(saveDrugComponent);
-    }
-
-    /**
-     * 전체 병원 목록 조회
+     * 전체 리스트
      */
     @GetMapping("/list")
-    public List<DrugComponent> getDrugComponentList(){
-        List<DrugComponent> drugComponentList = drugComponentRepository.findAll();
-        return drugComponentList;
+    public String drugs(Model model) {
+        List<DrugComponent> drugComponents = drugComponentRepository.findAll();
+        model.addAttribute("drugs", drugComponents);
+        return "drugs/drugList";
     }
 
     /**
-     * 아이디로 조회
+     * 아이디로 가져오기
      */
-    @GetMapping("/{componentId}")
-    public DrugComponent getDrugComponent(@PathVariable("componentId") Long id) {
-        return drugComponentRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("조회하는 성분명이 없습니다"));
+    @GetMapping("/drug/{drugId}")
+    public String drug(@PathVariable long drugId, Model model) {
+        DrugComponent drugComponent = drugComponentRepository.findById(drugId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 데이터입니다"));
+        model.addAttribute("drug", drugComponent);
+        return "drugs/drug";
+    }
+
+    /**
+     * 약 성분명 등록폼
+     */
+    @GetMapping("/new")
+    public String addForm(Model model) {
+        model.addAttribute("drug", new DrugComponent());
+        return "drugs/addForm";
+    }
+
+    /**
+     * 등록
+     */
+    @PostMapping("/new")
+    public String addDrug(DrugComponent drugComponent, RedirectAttributes redirectAttributes) {
+        DrugComponent saveDrug = drugComponentRepository.save(drugComponent);
+        redirectAttributes.addAttribute("drugId", saveDrug.getComponentId());
+        return "redirect:/drugs/drug/{drugId}";
+    }
+
+    /**
+     * 수정폼
+     */
+    @GetMapping("/drug/{drugId}/edit")
+    public String editForm(@PathVariable Long drugId, Model model) {
+        DrugComponent drugComponent = drugComponentRepository.findById(drugId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 데이터입니다"));
+        model.addAttribute("drug",drugComponent);
+        return "drugs/editForm";
     }
 
     /**
      * 수정
      */
-    @PutMapping("/{componentId}")
-    public void updateHopitalInfo(@PathVariable("componentId") Long id, @RequestBody DrugComponent newDrugComponent) {
-        drugComponentRepository.findById(id)
-                .map(drugComponent -> {
-                    drugComponent.setComponentName(newDrugComponent.getComponentName());
-                    return drugComponentRepository.save(drugComponent);
+    @PostMapping("/drug/{drugId}/edit")
+    public String edit(@PathVariable Long drugId, @ModelAttribute DrugComponent newdrug){
+        drugComponentRepository.findById(drugId)
+                .map(drug -> {
+                    drug.setComponentName(newdrug.getComponentName());
+                    return drugComponentRepository.save(drug);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("조회하는 성분명이 없습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("조회하는 약 성분명이 없습니다"));
+                return "redirect:/drugs/drug/{drugId}";
     }
 
     /**
      * 삭제
      */
-    @DeleteMapping("/{componentId}")
-    public void deleteDrugComponent(@PathVariable("componentId") Long id){
+    @GetMapping("/drug/{drugId}/delete")
+    public String deleteDrug(@PathVariable("drugId") Long id){
         drugComponentRepository.deleteById(id);
+        return "redirect:/drugs/list";
     }
 }
+

@@ -1,38 +1,43 @@
+
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
-</head>
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .fieldError {
+        border-color: #bd2121;
+    }
+</style>
+
 <body>
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="py-5 text-center">
         <h2>회원 등록</h2>
     </div>
     <h4 class="mb-3">회원 정보 입력</h4>
-    <form action="member.html" th:action th:object="${member}" method="post">
-        <div>
-            <label for="userName">이름</label>
-            <input type="text" id="userName" th:field="*{userName}" class="form-control"
-                   placeholder="이름을 입력하세요">
-        </div>
-        <div>
-            <label for="email">메일</label>
-            <input type="email" id="email" th:field="*{email}" class="form-control"
-                   placeholder="메일을 입력하세요">
-        </div>
-        <div>
-            <label for="age">나이</label>
-            <input type="text" id="age" th:field="*{age}" class="form-control"
-                   placeholder="나이를 입력하세요">
+
+    <form role="form" action="/members/new" th:object="${memberForm}" method="post">
+        <div class="form-group">
+            <label th:for="userName">이름</label>
+
+            <input type="text" th:field="*{username}" class="form-control" placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect date</p>
         </div>
 
+        <div class="form-group">
+            <label th:for="email">메일</label>
+
+            <input type="email" th:field="*{email}" class="form-control" placeholder="메일을 입력하세요"
+                   th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+        </div>
+
+        <div class="form-group">
+            <label th:for="age">나이</label>
+            <input type="number" th:field="*{age}" class="form-control">
+        </div>
 
         <!-- radio button -->
         <div>
@@ -47,14 +52,15 @@
             </div>
         </div>
 
-        <div>
-            <label for="height">키</label>
-            <input type="text" id="height" th:field="*{height}" class="form-control">
+
+        <div class="form-group">
+            <label th:for="height">키</label>
+            <input type="number" th:field="*{height}" class="form-control">
         </div>
 
-        <div>
-            <label for="weight">몸무게</label>
-            <input type="text" id="weight" th:field="*{weight}" class="form-control">
+        <div class="form-group">
+            <label th:for="weight">몸무게</label>
+            <input type="number" th:field="*{weight}" class="form-control">
         </div>
 
         <hr class="my-4">
@@ -69,6 +75,9 @@
             </div>
         </div>
     </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
+
 </body>
 </html>

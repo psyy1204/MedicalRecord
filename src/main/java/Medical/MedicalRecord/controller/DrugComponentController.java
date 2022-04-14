@@ -2,6 +2,7 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.DrugComponent;
 import Medical.MedicalRecord.repository.DrugComponentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +13,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/drugs")
+@RequiredArgsConstructor
 public class DrugComponentController {
 
-    @Autowired
-    private DrugComponentRepository drugComponentRepository;
+    private final DrugComponentRepository drugComponentRepository;
 
     /**
      * 전체 리스트

@@ -4,6 +4,7 @@ import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/records")
+@RequiredArgsConstructor
 public class MedicalRecordController {
 
-    @Autowired
-    private MedicalRecordRepository medicalRecordRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> deliveryCodes() {

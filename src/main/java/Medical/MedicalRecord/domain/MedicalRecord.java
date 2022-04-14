@@ -92,4 +92,5 @@ public class MedicalRecord {
         this.visitedDate = visitedDate;
         this.nextVisitDate = nextVisitDate;
     }
+
 }

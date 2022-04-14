@@ -2,6 +2,7 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.repository.HospitalRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +13,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/hospitals")
+@RequiredArgsConstructor
 public class HospitalController {
 
-    @Autowired
-    private HospitalRepository hospitalRepository;
+    private final HospitalRepository hospitalRepository;
 
     /**
      * 전체 리스트

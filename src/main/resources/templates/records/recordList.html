@@ -37,11 +37,11 @@
             <tbody>
             <tr th:each="record : ${records}">
                 <td><a href="record.html" th:href="@{/records/record/{recordId}(recordId=${record.recordId})}" th:text="${record.recordId}">진료기록 No</a></td>
-                <td th:text="${record.visitedDate}">방문일</a></td>
+                <td th:text="${record.visitedDateString()}">방문일</a></td>
                 <td th:text="${record.medicalDepartmentCode}">진료과</td>
                 <!--<td th:text="${record.hospital.hospitalName}">병원명</td>일단 보류-->
                 <td th:text="${record.diagnosis}">진단명</td>
-                <td th:text="${record.nextVisitDate}">진료 예정일</td>
+                <td th:text="${record.nextVisitDateString()}">진료 예정일</td>
             </tr>
             </tbody>
         </table>

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -46,10 +47,20 @@ public class MedicalRecord {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date visitedDate;
 
+    // 진료일자 포맷변경
+    public String visitedDateString(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(visitedDate);
+    }
+
     @Column
     //진료예정일자
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date nextVisitDate;
+
+    // 진료예정일자 포맷변경
+    public String nextVisitDateString(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(nextVisitDate);
+    }
 
     @Column(nullable = false)
     // 등록일

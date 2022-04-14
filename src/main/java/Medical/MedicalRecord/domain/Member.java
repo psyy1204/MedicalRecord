@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id
-    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 

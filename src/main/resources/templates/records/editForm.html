@@ -32,7 +32,7 @@
         <div>
             <label for="visitedDate">방문일</label>
             <input type="date" id="visitedDate" name="visitedDate" class="form-control"
-                   value="A" th:value="${record.visitedDate}"
+                   value="A" th:value="${record.visitedDateString()}"
                    placeholder="병원 방문일을 입력하세요">
         </div>
         <div>
@@ -71,7 +71,8 @@
         <div>
             <label for="nextVisitDate">방문 예정일</label>
             <input type="date" id="nextVisitDate" class="form-control"
-                   placeholder="병원 방문일을 입력하세요">
+                   value="A" th:value="${record.nextVisitDateString()}"
+                   placeholder="병원 방문 예정일을 입력하세요">
         </div>
 
         <hr class="my-4">

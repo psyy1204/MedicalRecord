@@ -1,16 +1,17 @@
 package Medical.MedicalRecord.controller;
 
-import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
-import Medical.MedicalRecord.repository.MedicalRecordRepository;
+import Medical.MedicalRecord.form.MedicalRecordForm;
+import Medical.MedicalRecord.service.MedicalRecordService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MedicalRecordController {
 
-    private final MedicalRecordRepository medicalRecordRepository;
+    private final MedicalRecordService medicalRecordService;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> deliveryCodes() {
@@ -44,32 +45,11 @@ public class MedicalRecordController {
     }
 
     /**
-     * 전체 리스트
-     */
-    @GetMapping("/list")
-    public String records(Model model){
-        List<MedicalRecord> records = medicalRecordRepository.findAll();
-        model.addAttribute("records",records);
-        return "records/recordList";
-    }
-
-    /**
-     * No로 가져오기
-     */
-    @GetMapping("/record/{recordId}")
-    public String record(@PathVariable long recordId, Model model){
-        MedicalRecord medicalRecord = medicalRecordRepository.findById(recordId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 데이터입니다"));
-        model.addAttribute("record", medicalRecord);
-        return "records/record";
-    }
-
-    /**
      * 기록 등록폼
      */
     @GetMapping("/new")
     public String addForm(Model model) {
-        model.addAttribute("record", new MedicalRecord());
+        model.addAttribute("medicalRecordForm", new MedicalRecordForm());
         return "records/addForm";
     }
 
@@ -77,20 +57,67 @@ public class MedicalRecordController {
      * 진료기록 등록
      */
     @PostMapping("/new")
-    public String addHospital(MedicalRecord medicalRecord, RedirectAttributes redirectAttributes) {
-        MedicalRecord saveRecord = medicalRecordRepository.save(medicalRecord);
-        redirectAttributes.addAttribute("recordId", saveRecord.getRecordId());
-        return "redirect:/records/record/{recordId}";
+    public String addHospital(@Valid MedicalRecordForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return "records/addForm";
+        }
+
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setDoctorName(form.getDoctorName());
+        medicalRecord.setDiagnosis(form.getDiagnosis());
+        medicalRecord.setMedicalDepartmentCode(form.getMedicalDepartmentCode());
+        medicalRecord.setEtc(form.getEtc());
+        medicalRecord.setPrice(form.getPrice());
+        medicalRecord.setVisitedDate(form.getVisitedDate());
+        medicalRecord.setNextVisitDate(form.getNextVisitDate());
+        medicalRecord.setCreatedDate(LocalDateTime.now());
+        medicalRecord.setUpdatedDate(LocalDateTime.now());
+
+        medicalRecordService.add(medicalRecord);
+        return "redirect:/records/list";
+    }
+
+    /**
+     * No로 가져오기
+     */
+    @GetMapping("/{recordId}")
+    public String record(@PathVariable long recordId, Model model){
+        MedicalRecord medicalRecord = medicalRecordService.findById(recordId);
+        model.addAttribute("record", medicalRecord);
+        return "records/record";
+    }
+
+
+    /**
+     * 전체 리스트
+     */
+    @GetMapping("/list")
+    public String records(Model model){
+        List<MedicalRecord> records = medicalRecordService.findAll();
+        model.addAttribute("records",records);
+        return "records/recordList";
     }
 
     /**
      * 수정폼
      */
-    @GetMapping("/record/{recordId}/edit")
-    public String editForm(@PathVariable Long recordId, Model model) {
-        MedicalRecord medicalRecord = medicalRecordRepository.findById(recordId)
-                .orElseThrow(() ->  new IllegalArgumentException("존재하지 않는 기록입니다"));
-        model.addAttribute("record", medicalRecord);
+    @GetMapping("/{recordId}/edit")
+    public String editForm(@PathVariable("recordId") Long recordId, Model model) {
+        MedicalRecord medicalRecord = medicalRecordService.findById(recordId);
+
+        MedicalRecordForm form = new MedicalRecordForm();
+        form.setId(medicalRecord.getRecordId());
+        form.setDoctorName(medicalRecord.getDoctorName());
+        form.setDiagnosis(medicalRecord.getDiagnosis());
+        form.setMedicalDepartmentCode(medicalRecord.getMedicalDepartmentCode());
+        form.setEtc(medicalRecord.getEtc());
+        form.setPrice(medicalRecord.getPrice());
+        form.setVisitedDate(medicalRecord.getVisitedDate());
+        form.setNextVisitDate(medicalRecord.getNextVisitDate());
+        form.setUpdateDate(LocalDateTime.now());
+
+
+        model.addAttribute("form", form);
         return "records/editForm";
     }
 
@@ -98,30 +125,27 @@ public class MedicalRecordController {
      * 수정
      */
 
-    @PostMapping("/record/{recordId}/edit")
-    public String edit(@PathVariable Long recordId, @ModelAttribute MedicalRecord newRecord) {
-        medicalRecordRepository.findById(recordId)
-                .map(record -> {
-                    record.setDoctorName(newRecord.getDoctorName());
-                    record.setDiagnosis(newRecord.getDiagnosis());
-                    record.setMedicalDepartmentCode(newRecord.getMedicalDepartmentCode());
-                    record.setEtc(newRecord.getEtc());
-                    record.setPrice(newRecord.getPrice());
-                    record.setVisitedDate(newRecord.getVisitedDate());
-                    record.setNextVisitDate(newRecord.getNextVisitDate());
-                    record.setUpdatedDate(newRecord.getUpdatedDate());
-                    return medicalRecordRepository.save(record);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("조회하는 병원이 없습니다"));
-        return "redirect:/records/record/{recordId}";
+    @PostMapping("/{recordId}/edit")
+    public String edit(@PathVariable Long recordId,
+                       @ModelAttribute("form") @Valid MedicalRecordForm form,
+                       BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "members/editForm";
+        }
+        medicalRecordService.editRecord(recordId, form.getDoctorName(),
+                form.getDiagnosis(), form.getMedicalDepartmentCode(),
+                form.getEtc(),form.getPrice(),form.getVisitedDate(),form.getNextVisitDate());
+
+        return "redirect:/records/list";
     }
 
     /**
      * 삭제
      */
-    @GetMapping("/record/{recordId}/delete")
-    public String deleteHospital(@PathVariable("recordId") Long id){
-        medicalRecordRepository.deleteById(id);
+    @GetMapping("/{recordId}/delete")
+    public String deleteRecord(@PathVariable("recordId") Long id){
+        medicalRecordService.deleteRecord(id);
         return "redirect:/records/list";
     }
 

@@ -1,17 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
+<head th:replace="fragments/header :: header" />
+
 </head>
 <body>
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
         <h2>병원 상세</h2>
     </div>
@@ -41,7 +35,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/hospitals/hospital/{hospitalId}/edit(hospitalId=${hospital.hospitalId})}'|"
+                    th:onclick="|location.href='@{/hospital/{hospitalId}/edit(hospitalId=${hospital.hospitalId})}'|"
                     type="button">수정/삭제</button>
         </div>
 
@@ -52,6 +46,9 @@
                     type="button">목록으로</button>
         </div>
     </div>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+
 </div> <!-- /container -->
 </body>
 </html>

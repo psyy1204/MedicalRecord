@@ -1,51 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="fragments/header :: header" />
+
 <body>
 
-<div class="container" style="max-width: 1000px">
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
-        <h2>진료기록 조회(간단)</h2>
+        <h2>진료 기록 목록</h2>
     </div>
-
-    <div class="row">
+    <h4 class="mb-3">기록 조회(간단)</h4>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>방문일</th>
+                <th>진료과</th>
+                <!--<th>병원명</th>-->
+                <th>진단명</th>
+                <th>방문예정일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${records}">
+                <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${record.recordId}">No</a></td>
+                <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${record.nextVisitDateString()}">방문일</a></td>
+                <td th:text="${record.medicalDepartmentCode}"></td>
+                <td th:text="${record.diagnosis}"></td>
+                <td th:text="${record.nextVisitDateString()}"></td>
+                <td>
+                    <a href="#" th:href="@{/records/{id}/edit (id=${record.recordId})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/records/new}'|"
-                    type="button">진료 기록 등록</button>
+                    type="button">기록 입력</button>
         </div>
     </div>
-    <hr class="my-4">
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>날짜</th>
-                <th>진료과</th>
-                <!--<th>병원명</th>-->
-                <th>진단명</th>
-                <th>다음 예약일</th>
-            </tr>
 
-            </thead>
-            <tbody>
-            <tr th:each="record : ${records}">
-                <td><a href="record.html" th:href="@{/records/record/{recordId}(recordId=${record.recordId})}" th:text="${record.recordId}">진료기록 No</a></td>
-                <td th:text="${record.visitedDateString()}">방문일</a></td>
-                <td th:text="${record.medicalDepartmentCode}">진료과</td>
-                <!--<td th:text="${record.hospital.hospitalName}">병원명</td>일단 보류-->
-                <td th:text="${record.diagnosis}">진단명</td>
-                <td th:text="${record.nextVisitDateString()}">진료 예정일</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <div th:replace="fragments/footer :: footer"/>
+
 </div> <!-- /container -->
 </body>
 </html>

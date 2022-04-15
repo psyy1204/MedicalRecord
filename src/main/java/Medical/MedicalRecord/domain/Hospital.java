@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table
 @NoArgsConstructor
 @Getter @Setter
 public class Hospital {
@@ -18,20 +17,17 @@ public class Hospital {
     @Column
     private Long hospitalId;
 
-    @Column
     // 병원명
     private String hospitalName;
 
-    @Column
     // 병원주소
     private String hospitalAddress;
 
-    @Column
     // 연락처
-    private String hospitalContact;
+    private Integer hospitalContact;
 
     @Builder
-    public Hospital(String hospitalName, String hospitalAddress, String hospitalContact) {
+    public Hospital(String hospitalName, String hospitalAddress, Integer hospitalContact) {
         this.hospitalName = hospitalName;
         this.hospitalAddress = hospitalAddress;
         this.hospitalContact = hospitalContact;

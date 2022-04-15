@@ -13,12 +13,14 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long memberId;
 
     // 회원이름
     private String userName;
 
     // 이메일
+    @Column(nullable = false)
     private String email;
 
     // 회원나이
@@ -34,11 +36,11 @@ public class Member {
     // 몸무게
     private Integer weight;
 
-    @Column(name = "create_date")//(nullable = false)
+    @Column(nullable = false)
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate; //생성날짜
 
-    @Column(name = "updated_date")//(nullable = false)
+    @Column(nullable = false)
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedDate; //수정날짜
 

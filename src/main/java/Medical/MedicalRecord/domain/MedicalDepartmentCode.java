@@ -9,6 +9,4 @@ public class MedicalDepartmentCode {
 
     private String code;
     private String displayName;
-
-
 }

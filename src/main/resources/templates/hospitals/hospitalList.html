@@ -1,18 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="fragments/header :: header" />
+
 <body>
 
-<div class="container" style="max-width: 600px">
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
-        <h2>병원 목록</h2>
-    </div>
-
-    <div class="row">
+        <h2>병원 목록(</h2>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>병원명</th>
+                <th>주소</th>
+                <th>연락처</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hospital : ${hospitals}">
+                <td><a href="../../../../resources/templates/hopitals/hospital.html" th:href="@{/hospitals/{hospitaId}(hospitaId=${hospital.hospitalId})}" th:text="${hospital.hospitalId}">id</a></td>
+                <td><a href="../../../../resources/templates/hopitals/hospital.html" th:href="@{/hospitals/{hospitaId}(hospitaId=${hospital.hospitalId})}" th:text="${hospital.hospitalName}">병원명</a></td>
+                <td th:text="${hospital.hospitalAddress}"></td>
+                <td th:text="${hospital.hospitalContact}"></td>
+                <td>
+                    <a href="#" th:href="@{/hospitals/{id}/edit (id=${hospital.hospitalId})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
@@ -20,27 +37,9 @@
                     type="button">병원 등록</button>
         </div>
     </div>
-    <hr class="my-4">
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>이름</th>
-                <th>주소</th>
-                <th>연락처</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="hospital : ${hospitals}">
-                <td><a href="hospital.html" th:href="@{/hospitals/hospital/{hospitalId}(hospitalId=${hospital.hospitalId})}" th:text="${hospital.hospitalId}">병원id</a></td>
-                <td><a href="hospital.html" th:href="@{/hospitals/hospital/{hospitalId}(hospitalId=${hospital.hospitalId})}" th:text="${hospital.hospitalName}">이름</a></td>
-                <td th:text="${hospital.hospitalAddress}">경기도 수원시</td>
-                <td th:text="${hospital.hospitalContact}">012-345-6789</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <br/>
+    <div th:replace="fragments/footer :: footer"/>
+
 </div> <!-- /container -->
 </body>
 </html>

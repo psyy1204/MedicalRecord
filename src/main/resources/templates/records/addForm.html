@@ -1,27 +1,38 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 800px;
-        }
-    </style>
-</head>
+
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .fieldError {
+        border-color: #bd2121;
+    }
+</style>
+
+<style>
+    .dateError {
+        border-color: #21bd93;
+    }
+</style>
+
 <body>
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="py-5 text-center">
         <h2>진료 기록 등록</h2>
     </div>
     <h4 class="mb-3">진료 기록 입력</h4>
-    <form action="record.html" th:action th:object="${record}" method="post">
-        <div>
-            <label for="visitedDate">방문일</label>
-            <input type="date" id="visitedDate" th:field="*{visitedDate}" class="form-control"
-                   placeholder="병원 방문일을 입력하세요">
+
+    <form role="form" action="/records/new" th:object="${medicalRecordForm}" method="post">
+        <div class="form-group">
+
+            <label th:for="visitedDate">방문일</label>
+
+            <input type="date" th:field="*{visitedDate}" class="form-control" placeholder="방문일을 입력하세요"
+                   th:class="${#fields.hasErrors('visitedDate')}? 'form-control dateError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('visitedDate')}" th:errors="*{visitedDate}">Incorrect date</p>
         </div>
+
         <div>
             <div>진료과</div>
             <select th:field="*{medicalDepartmentCode}" class="form-select">
@@ -38,31 +49,40 @@
 <!--            <input type="search" id="hospitalName" th:field="*{hospital.hospitalName}" class="form-control">-->
 <!--        </div>-->
 
-        <div>
-            <label for="doctorName">담당의</label>
-            <input type="text" id="doctorName" th:field="*{doctorName}" class="form-control"
+        <div class="form-group">
+            <label th:for="doctorName">담당의</label>
+            <input type="text" th:field="*{doctorName}" class="form-control"
                    placeholder="진료받은 의사 이름을 입력하세요">
         </div>
-        <div>
-            <label for="diagnosis">진단명</label>
-            <input type="text" id="diagnosis" th:field="*{diagnosis}" class="form-control"
-                   placeholder="진단명 입력하세요">
+
+        <div class="form-group">
+
+            <label th:for="diagnosis">진단명</label>
+
+            <input type="text" th:field="*{diagnosis}" class="form-control" placeholder="진단명을 입력하세요"
+                   th:class="${#fields.hasErrors('diagnosis')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('diagnosis')}" th:errors="*{diagnosis}">Incorrect date</p>
         </div>
-        <div>
-            <label for="etc">기타</label>
-            <input type="text" id="etc" th:field="*{etc}" class="form-control"
+
+        <div class="form-group">
+            <label th:for="etc">기타</label>
+            <input type="text" th:field="*{etc}" class="form-control"
                    placeholder="예)주사처치, 드레싱 등 추가 입력 필요한 사항을 입력하세요">
         </div>
-        <div>
-            <label for="price">진료비</label>
-            <input type="text" id="price" th:field="*{price}" class="form-control"
+
+        <div class="form-group">
+            <label th:for="price">진료비</label>
+            <input type="number" th:field="*{price}" class="form-control"
                    placeholder="청구된 진료비를 입력하세요">
         </div>
 
-        <div>
-            <label for="nextVisitDate">방문 예정일</label>
-            <input type="date" id="nextVisitDate" th:field="*{nextVisitDate}" class="form-control"
-                   placeholder="병원 방문일을 입력하세요">
+        <div class="form-group">
+
+            <label th:for="nextVisitDate">방문 예정일</label>
+
+            <input type="date" th:field="*{nextVisitDate}" class="form-control" placeholder="다음 방문예정일을 입력하세요"
+                   th:class="${#fields.hasErrors('nextVisitDate')}? 'form-control dateError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('nextVisitDate')}" th:errors="*{nextVisitDate}">Incorrect date</p>
         </div>
 
         <hr class="my-4">
@@ -77,6 +97,8 @@
             </div>
         </div>
     </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
 </html>

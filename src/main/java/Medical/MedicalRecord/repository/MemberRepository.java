@@ -2,12 +2,10 @@ package Medical.MedicalRecord.repository;
 
 import Medical.MedicalRecord.domain.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -50,12 +48,12 @@ public class MemberRepository{
         query.executeUpdate();
     }
 
-    public void edit(Member member) {
-        if(member.getMemberId() == null) {
-            em.persist(member);
-        } else {
-            em.merge(member);
-        }
-    }
+//    public void edit(Member member) {
+//        if(member.getMemberId() == null) {
+//            em.persist(member);
+//        } else {
+//            em.merge(member);
+//        }
+//    }
 
 }

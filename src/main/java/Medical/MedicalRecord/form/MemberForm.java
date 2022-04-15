@@ -1,16 +1,17 @@
-package Medical.MedicalRecord.controller;
+package Medical.MedicalRecord.form;
 
 import Medical.MedicalRecord.domain.Gender;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 //데이터를 전달받을 폼객체
 @Getter @Setter
+@NoArgsConstructor
 public class MemberForm {
 
     private Long id;
@@ -25,5 +26,6 @@ public class MemberForm {
     private Gender gender;
     private Integer height;
     private Integer weight;
+    private LocalDateTime updateDate;
 
 }

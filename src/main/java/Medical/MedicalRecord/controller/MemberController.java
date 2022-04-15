@@ -2,6 +2,7 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.Member;
+import Medical.MedicalRecord.form.MemberForm;
 import Medical.MedicalRecord.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,7 @@ public class MemberController {
         member.setUpdatedDate(LocalDateTime.now());
 
         memberService.join(member);
-        return "redirect:/";
+        return "redirect:/members/list";
     }
 
     /**
@@ -83,7 +84,7 @@ public class MemberController {
      */
     @GetMapping("/{memberId}/edit")
     public String editMemberForm(@PathVariable("memberId") Long memberId, Model model) {
-        Member member = (Member) memberService.findById(memberId);
+        Member member = memberService.findById(memberId);
 
         MemberForm form = new MemberForm();
         form.setId(member.getMemberId());
@@ -111,7 +112,7 @@ public class MemberController {
                 form.getAge(),form.getGender(),form.getHeight(),
                 form.getWeight());
 
-        return "redirect:/";
+        return "redirect:/members/list";
     }
 
     /**
@@ -120,7 +121,7 @@ public class MemberController {
     @GetMapping("/{memberId}/delete")
     public String deleteMember(@PathVariable("memberId") Long id){
         memberService.deleteMember(id);
-        return "redirect:/";
+        return "redirect:/members/list";
     }
 
 

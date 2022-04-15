@@ -1,14 +1,16 @@
 package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Hospital;
-import Medical.MedicalRecord.repository.HospitalRepository;
+import Medical.MedicalRecord.form.HospitalForm;
+import Medical.MedicalRecord.service.HospitalService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -16,35 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HospitalController {
 
-    private final HospitalRepository hospitalRepository;
-
-    /**
-     * 전체 리스트
-     */
-    @GetMapping("/list")
-    public String hospitals(Model model) {
-        List<Hospital> hospitals = hospitalRepository.findAll();
-        model.addAttribute("hospitals", hospitals);
-        return "hospitals/hospitalList";
-    }
-
-    /**
-     * 아이디로 가져오기
-     */
-    @GetMapping("/hospital/{hospitalId}")
-    public String hospital(@PathVariable long hospitalId, Model model){
-        Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 데이터입니다"));
-        model.addAttribute("hospital", hospital);
-        return "hospitals/hospital";
-    }
+    private final HospitalService hospitalService;
 
     /**
      * 병원 등록폼
      */
     @GetMapping("/new")
     public String addForm(Model model) {
-        model.addAttribute("hospital", new Hospital());
+        model.addAttribute("hospitalForm", new HospitalForm());
         return "hospitals/addForm";
     }
 
@@ -52,20 +33,55 @@ public class HospitalController {
      * 등록
      */
     @PostMapping("/new")
-    public String addHospital(Hospital hospital, RedirectAttributes redirectAttributes) {
-        Hospital saveHospital = hospitalRepository.save(hospital);
-        redirectAttributes.addAttribute("hospitalId", saveHospital.getHospitalId());
-        return "redirect:/hospitals/hospital/{hospitalId}";
+    public String addHospital(@Valid HospitalForm form, BindingResult result) {
+        if(result.hasErrors()) {
+            return "hospitals/addForm";
+        }
+        Hospital hospital = new Hospital();
+        hospital.setHospitalName(form.getHospitalName());
+        hospital.setHospitalContact(form.getHospitalContact());
+        hospital.setHospitalAddress(form.getHospitalAddress());
+
+        hospitalService.add(hospital);
+        return "redirect:/hospitals/list";
     }
+
+    /**
+     * 아이디로 가져오기
+     */
+    @GetMapping("/{hospitalId}")
+    public String hospital(@PathVariable long hospitalId, Model model){
+        Hospital hospital = hospitalService.findById(hospitalId);
+        model.addAttribute("hospital", hospital);
+        return "hospitals/hospital";
+    }
+
+    /**
+     * 전체 리스트
+     */
+    @GetMapping("/list")
+    public String hospitals(Model model) {
+        List<Hospital> hospitals = hospitalService.findAll();
+        model.addAttribute("hospitals", hospitals);
+        return "hospitals/hospitalList";
+    }
+
+
 
     /**
      * 수정폼
      */
-    @GetMapping("/hospital/{hospitalId}/edit")
-    public String editForm(@PathVariable Long hospitalId, Model model) {
-        Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() ->  new IllegalArgumentException("존재하지 않는 병원입니다"));
-        model.addAttribute("hospital", hospital);
+    @GetMapping("/{hospitalId}/edit")
+    public String editForm(@PathVariable("hospitalId") Long hospitalId, Model model) {
+        Hospital hospital = hospitalService.findById(hospitalId);
+
+        HospitalForm form = new HospitalForm();
+        form.setHospitalId(hospital.getHospitalId());
+        form.setHospitalName(hospital.getHospitalName());
+        form.setHospitalAddress(hospital.getHospitalAddress());
+        form.setHospitalContact(hospital.getHospitalContact());
+
+        model.addAttribute("form", form);
         return "hospitals/editForm";
     }
 
@@ -73,25 +89,28 @@ public class HospitalController {
      * 수정
      */
 
-    @PostMapping("/hospital/{hospitalId}/edit")
-    public String edit(@PathVariable Long hospitalId, @ModelAttribute Hospital newhospital) {
-        hospitalRepository.findById(hospitalId)
-                .map(hospital -> {
-                    hospital.setHospitalName(newhospital.getHospitalName());
-                    hospital.setHospitalAddress(newhospital.getHospitalAddress());
-                    hospital.setHospitalContact(newhospital.getHospitalContact());
-                    return hospitalRepository.save(hospital);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("조회하는 병원이 없습니다"));
-        return "redirect:/hospitals/hospital/{hospitalId}";
+    @PostMapping("/{hospitalId}/edit")
+    public String edit(@PathVariable Long hospitalId,
+                       @ModelAttribute("form") @Valid HospitalForm form,
+                       BindingResult result) {
+        if(result.hasErrors()) {
+            return "hospitals/editForm";
+        }
+
+        hospitalService.edit(hospitalId,
+                form.getHospitalName(),
+                form.getHospitalAddress(),
+                form.getHospitalContact());
+
+        return "redirect:/hospitals/list";
     }
 
     /**
      * 삭제
      */
-    @GetMapping("/hospital/{hospitalId}/delete")
+    @GetMapping("/{hospitalId}/delete")
     public String deleteHospital(@PathVariable("hospitalId") Long id){
-        hospitalRepository.deleteById(id);
+        hospitalService.delete(id);
         return "redirect:/hospitals/list";
     }
 }

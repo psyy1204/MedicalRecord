@@ -1,17 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 800px;
-        }
-    </style>
-</head>
+<head th:replace="fragments/header :: header" />
+
 <body>
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
         <h2>진료기록 조회(상세)</h2>
     </div>
@@ -23,10 +16,12 @@
         <label for="recordId"기록 No></label>
         <input type="text" id="recordId" name="recordId" class="form-control" value="1" th:value="${record.recordId}" readonly>
     </div>
+
     <div>
         <label for="visitedDate">방문일</label>
         <input type="text" id="visitedDate" name="visitedDate" class="form-control" value="A" th:value="${record.visitedDateString()}" readonly>
     </div>
+
     <div>
         <div>진료과</div>
         <select th:field="*{record.medicalDepartmentCode}" class="form-select" disabled>
@@ -65,7 +60,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/records/record/{recordId}/edit(recordId=${record.recordId})}'|"
+                    th:onclick="|location.href='@{/records/{recordId}/edit(recordId=${record.recordId})}'|"
                     type="button">수정/삭제</button>
         </div>
 
@@ -76,6 +71,10 @@
                     type="button">목록으로</button>
         </div>
     </div>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+
 </div> <!-- /container -->
 </body>
 </html>

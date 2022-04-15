@@ -1,36 +1,49 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
-</head>
+
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .fieldError {
+        border-color: #bd2121;
+    }
+</style>
+
+<style>
+    .numberError {
+        border-color: #3121bd;
+    }
+</style>
+
 <body>
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="py-5 text-center">
         <h2>병원 등록</h2>
     </div>
     <h4 class="mb-3">병원 정보 입력</h4>
-    <form action="member.html" th:action th:object="${hospital}" method="post">
-        <div>
-            <label for="hospitalName">이름</label>
-            <input type="text" id="hospitalName" th:field="*{hospitalName}" class="form-control"
-                   placeholder="병원명을 입력하세요">
+
+    <form role="form" action="/hospitals/new" th:object="${hospitalForm}" method="post">
+
+        <div class="form-group">
+            <label th:for="hospitalName">병원명</label>
+
+            <input type="text" th:field="*{hospitalName}" class="form-control" placeholder="병원명을 입력하세요"
+                   th:class="${#fields.hasErrors('hospitalName')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('hospitalName')}" th:errors="*{hospitalName}">Incorrect date</p>
         </div>
-        <div>
-            <label for="hospitalAddress">주소</label>
-            <input type="text" id="hospitalAddress" th:field="*{hospitalAddress}" class="form-control"
-                   placeholder="주소를 입력하세요">
+
+        <div class="form-group">
+            <label th:for="hospitalAddress">주소</label>
+            <input type="text" th:field="*{hospitalAddress}" class="form-control">
         </div>
-        <div>
-            <label for="hospitalContact">연락처</label>
-            <input type="text" id="hospitalContact" th:field="*{hospitalContact}" class="form-control"
-                   placeholder="연락처를 입력하세요">
+
+        <div class="form-group">
+            <label th:for="hospitalContact">연락처</label>
+
+            <input type="number" th:field="*{hospitalContact}" class="form-control" placeholder="숫자만 입력하세요(12자 이내)"
+                   th:class="${#fields.hasErrors('hospitalContact')}? 'form-control numberError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('hospitalContact')}" th:errors="*{hospitalContact}">Incorrect date</p>
         </div>
 
         <hr class="my-4">
@@ -45,6 +58,8 @@
             </div>
         </div>
     </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
 </html>

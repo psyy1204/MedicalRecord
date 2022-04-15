@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "medicalrecord")
 @NoArgsConstructor
 @Getter @Setter
 public class MedicalRecord {
@@ -22,7 +21,6 @@ public class MedicalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recordId;
 
-    @Column
     // 의사이름
     private String doctorName;
 
@@ -30,21 +28,17 @@ public class MedicalRecord {
     // 진단명
     private String diagnosis;
 
-    @Column
     //진료과
     private String medicalDepartmentCode;
 
-    @Column
     // 기타사항
     private String etc;
 
-    @Column
     // 진료비
-    private int price;
+    private Integer price;
 
-    @Column
     //진료일자
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date visitedDate;
 
     // 진료일자 포맷변경
@@ -52,9 +46,8 @@ public class MedicalRecord {
         return new SimpleDateFormat("yyyy-MM-dd").format(visitedDate);
     }
 
-    @Column
     //진료예정일자
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date nextVisitDate;
 
     // 진료예정일자 포맷변경
@@ -64,13 +57,11 @@ public class MedicalRecord {
 
     @Column(nullable = false)
     // 등록일
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     // 수정일
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedDate = LocalDateTime.now();
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(name = "memberId")
@@ -92,7 +83,6 @@ public class MedicalRecord {
     public MedicalRecord(String doctorName, String diagnosis, String etc, int price,
                          Member member, Hospital hospital, Symptom symptom,
                          Date visitedDate, Date nextVisitDate) {
-        this.recordId = recordId;
         this.doctorName = doctorName;
         this.diagnosis = diagnosis;
         this.etc = etc;

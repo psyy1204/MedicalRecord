@@ -13,6 +13,8 @@ import java.util.List;
 public class MedicalRecordRepository {
 
     private final EntityManager em;
+    //+
+    private final HospitalRepository hospitalRepository;
 
     public void save(MedicalRecord medicalRecord) {
         em.persist(medicalRecord);
@@ -30,7 +32,7 @@ public class MedicalRecordRepository {
     }
 
     public void deleteRecord(Long medicalRecordId) {
-        String jpql = "delete from MedicalRecord m where m.medicalRecordId =:medicalRecordId";
+        String jpql = "delete from MedicalRecord m where m.recordId =:medicalRecordId";
         Query query = em.createQuery(jpql).setParameter("medicalRecordId", medicalRecordId);
         query.executeUpdate();
     }

@@ -1,6 +1,5 @@
 package Medical.MedicalRecord.service;
 
-import Medical.MedicalRecord.domain.Drug;
 import Medical.MedicalRecord.domain.DrugComponent;
 import Medical.MedicalRecord.repository.DrugComponentRepository;
 import lombok.RequiredArgsConstructor;

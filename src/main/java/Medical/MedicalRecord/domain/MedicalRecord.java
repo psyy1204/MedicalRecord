@@ -81,12 +81,13 @@ public class MedicalRecord {
 
     @Builder
     public MedicalRecord(String doctorName, String diagnosis, String etc, int price,
-                         Member member, Hospital hospital, Symptom symptom,
+                         Member member, Hospital hospital, String medicalDepartmentCode, Symptom symptom,
                          Date visitedDate, Date nextVisitDate) {
         this.doctorName = doctorName;
         this.diagnosis = diagnosis;
         this.etc = etc;
         this.price = price;
+        this.medicalDepartmentCode = medicalDepartmentCode;
         this.member = member;
         this.hospital = hospital;
         this.symptom = symptom;

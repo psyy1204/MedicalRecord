@@ -23,7 +23,7 @@ public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
 
     @ModelAttribute("medicalDepartmentCodes")
-    public List<MedicalDepartmentCode> deliveryCodes() {
+    public List<MedicalDepartmentCode> medicalDepartmentCodes() {
         List<MedicalDepartmentCode> medicalDepartmentCodes = new ArrayList<>();
         medicalDepartmentCodes.add(new MedicalDepartmentCode("IM", "내과"));
         medicalDepartmentCodes.add(new MedicalDepartmentCode("GS", "일반외과"));

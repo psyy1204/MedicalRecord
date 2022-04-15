@@ -1,6 +1,5 @@
 package Medical.MedicalRecord.form;
 
-import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

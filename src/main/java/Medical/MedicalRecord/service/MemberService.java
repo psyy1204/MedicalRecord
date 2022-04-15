@@ -52,11 +52,6 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-//    @Transactional
-//    public void saveMember(Member member) {
-//        memberRepository.save(member);
-//    }
-
     /**
      * 회원정보 수정
      */

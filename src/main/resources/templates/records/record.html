@@ -30,11 +30,12 @@
                     th:text="${medicalDepartmentCode.displayName}">FAST</option>
         </select>
     </div>
-    <!--일단보류
+
     <div>
         <label for="hospitalName">병원명</label>
-        <input type="text" id="hospitalName" name="hospitalName" class="form-control"  value="012-345-789" th:value="${record.hospital.hospitalName}" readonly>
-    </div> -->
+        <input type="text" id="hospitalName" name="hospitalName" class="form-control" th:value="${record.hospital.hospitalName}" readonly>
+    </div>
+
     <div>
         <label for="doctorName">담당의</label>
         <input type="text" id="doctorName" name="doctorName" class="form-control"  value="012-345-789" th:value="${record.doctorName}" readonly>

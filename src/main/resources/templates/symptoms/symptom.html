@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2>증상 조회(상세)</h2>
+    </div>
+
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'저장완료'"></h2>
+
+    <div>
+        <label for="symptomId"증상 No></label>
+        <input type="text" id="symptomId" name="symptomId" class="form-control" value="1" th:value="${symptom.symptomId}" readonly>
+    </div>
+
+    <div>
+        <label for="simpleSymptom">간단 증상</label>
+        <input type="text" id="simpleSymptom" name="simpleSymptom" class="form-control" value="A" th:value="${symptom.simpleSymptom}" readonly>
+    </div>
+
+    <div>
+        <label for="detailSymptom">증상</label>
+        <input type="text" id="detailSymptom" name="detailSymptom" class="form-control"  th:value="${symptom.detailSymptom}" readonly>
+    </div>
+
+    <div>
+        <label for="startDate">증상 시작일</label>
+        <input type="text" id="startDate" name="startDate" class="form-control"  th:value="${symptom.startDate()}" readonly>
+    </div>
+
+    <div>
+        <label for="bodyTemperature">체온</label>
+        <input type="text" id="bodyTemperature" name="bodyTemperature" class="form-control" th:value="${symptom.bodyTemperature}" readonly>
+    </div>
+    <div>
+        <label for="pulse">맥박</label>
+        <input type="text" id="pulse" name="pulse" class="form-control" th:value="${symptom.pulse}" readonly>
+    </div>
+    <div>
+        <label for="bloodPressure">혈압</label>
+        <input type="text" id="bloodPressure" name="bloodPressure" class="form-control"  value="012-345-789" th:value="${symptom.bloodPressure}" readonly>
+    </div>
+    <div>
+        <label for="oxygenSaturation">산소 포화도</label>
+        <input type="text" id="oxygenSaturation" name="oxygenSaturation" class="form-control"  value="012-345-789" th:value="${symptom.oxygenSaturation}" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/symptoms/{symptomId}/edit(symptomId=${symptom.symptomId})}'|"
+                    type="button">수정/삭제</button>
+        </div>
+
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='symptomList.html'"
+                    th:onclick="|location.href='@{/symptoms/list}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+</body>
+</html>

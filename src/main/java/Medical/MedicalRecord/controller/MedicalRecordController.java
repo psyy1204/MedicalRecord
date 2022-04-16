@@ -53,8 +53,6 @@ public class MedicalRecordController {
     @GetMapping("/new")
     public String addForm(Model model) {
         model.addAttribute("medicalRecordForm", new MedicalRecordForm());
-        List<Hospital> hospitals = hospitalService.findAll();
-        model.addAttribute("hospitals", hospitals);
         return "records/addForm";
     }
 
@@ -62,8 +60,7 @@ public class MedicalRecordController {
      * 진료기록 등록
      */
     @PostMapping("/new")
-    public String addHospital(@Valid MedicalRecordForm form, BindingResult result,
-                              Model model) {
+    public String addHospital(@Valid MedicalRecordForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "records/addForm";
         }

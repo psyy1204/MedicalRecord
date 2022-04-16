@@ -48,12 +48,4 @@ public class MemberRepository{
         query.executeUpdate();
     }
 
-//    public void edit(Member member) {
-//        if(member.getMemberId() == null) {
-//            em.persist(member);
-//        } else {
-//            em.merge(member);
-//        }
-//    }
-
 }

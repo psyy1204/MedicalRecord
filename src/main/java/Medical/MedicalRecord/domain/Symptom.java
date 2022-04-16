@@ -3,14 +3,16 @@ package Medical.MedicalRecord.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class Symptom {
 
     @Column
@@ -20,7 +22,12 @@ public class Symptom {
 
     //증상기입
     @Column(nullable = false)
-    private String symptom;
+    private String simpleSymptom;
+
+    private String detailSymptom;
+
+    //증상 시작일
+    private Date startDate;
 
     //체온
     private Integer bodyTemperature;
@@ -34,9 +41,6 @@ public class Symptom {
 
     //산소포화도
     private Integer oxygenSaturation;
-
-    //호흡수
-    private Integer respirationRate;
 
     //생성날짜
     @Column(nullable = false)
@@ -55,15 +59,17 @@ public class Symptom {
     private MedicalRecord medicalRecord;
 
     @Builder
-    public Symptom(String symptom, Integer bodyTemperature, Integer pulse, Integer bloodPressure, Integer oxygenSaturation,
-                   int respirationRate, Member member, MedicalRecord medicalRecord) {
-        this.symptom = symptom;
+    public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Integer bodyTemperature, Integer pulse, Integer bloodPressure, Integer oxygenSaturation) {
+        this.simpleSymptom = simpleSymptom;
+        this.detailSymptom = detailSymptom;
+        this.startDate = startDate;
         this.bodyTemperature = bodyTemperature;
         this.pulse = pulse;
         this.bloodPressure = bloodPressure;
         this.oxygenSaturation = oxygenSaturation;
-        this.respirationRate = respirationRate;
-        this.member = member;
-        this.medicalRecord = medicalRecord;
+    }
+
+    public String startDate(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(startDate);
     }
 }

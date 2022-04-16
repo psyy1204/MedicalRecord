@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2>증상 목록</h2>
+    </div>
+    <h4 class="mb-3">증상 조회(간단)</h4>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>증상</th>
+                <th>증상 시작일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="symptom : ${symptoms}">
+                <td><a href="../../../../resources/templates/symptoms/symptom.html" th:href="@{/symptoms/{symptomId}(symptomId=${symptom.symptomId})}" th:text="${symptom.symptomId}">No</a></td>
+                <td th:text="${symptom.simpleSymptom}"></td>
+                <td th:text="${#dates.format(symptom.startDate, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <a href="#" th:href="@{/symptoms/{id}/edit (id=${symptom.symptomId})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/symptoms/new}'|"
+                    type="button">증상 입력</button>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+</body>
+</html>

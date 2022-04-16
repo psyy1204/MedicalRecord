@@ -1,6 +1,8 @@
 package Medical.MedicalRecord.service;
 
+import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
+import Medical.MedicalRecord.repository.HospitalRepository;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,10 @@ import java.util.List;
 public class MedicalRecordService {
 
     private final MedicalRecordRepository medicalRecordRepository;
+    private final HospitalService hospitalService;
 
     /**
-     * 가록 등록
+     * 기록 등록
      */
     @Transactional
     public Long add(MedicalRecord medicalRecord) {
@@ -45,11 +48,11 @@ public class MedicalRecordService {
      * 수정
      */
     @Transactional
-    public void editRecord(Long recordId, String doctorName,
-                           String diagnosis, String medicalDepartmentCode, String etc,
+    public void editRecord(Long recordId, String doctorName, String hospitalName
+                           ,String medicalDepartmentCode, String etc,
                            Integer price, Date visitedDate, Date nextVisitedDate){
         MedicalRecord newMedicalRecord =medicalRecordRepository.findById(recordId);
-        newMedicalRecord.setDiagnosis(diagnosis);
+        newMedicalRecord.setHospital(hospitalService.findHospital(hospitalName));
         newMedicalRecord.setDoctorName(doctorName);
         newMedicalRecord.setMedicalDepartmentCode(medicalDepartmentCode);
         newMedicalRecord.setEtc(etc);
@@ -68,7 +71,5 @@ public class MedicalRecordService {
     public void deleteRecord(Long recordId) {
         medicalRecordRepository.deleteRecord(recordId);
     }
-
-
 
 }

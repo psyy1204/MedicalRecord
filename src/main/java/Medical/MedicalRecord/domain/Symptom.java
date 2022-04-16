@@ -23,25 +23,20 @@ public class Symptom {
     private String symptom;
 
     //체온
-    @Column
-    private int bodyTemperature;
+    private Integer bodyTemperature;
 
     //맥박
-    @Column
-    private int pulse;
+    private Integer pulse;
 
     //혈압
-    @Column
-    private String bloodPressure;
-    //120/80 이런식으로 입력이 되어야하는데 String으로 하는게 맞는지 의문ㅜㅜ
+    private Integer bloodPressure;
+    //120/80
 
     //산소포화도
-    @Column
-    private int oxygenSaturation;
+    private Integer oxygenSaturation;
 
     //호흡수
-    @Column
-    private int respirationRate;
+    private Integer respirationRate;
 
     //생성날짜
     @Column(nullable = false)
@@ -60,7 +55,7 @@ public class Symptom {
     private MedicalRecord medicalRecord;
 
     @Builder
-    public Symptom(String symptom, int bodyTemperature, int pulse, String bloodPressure, int oxygenSaturation,
+    public Symptom(String symptom, Integer bodyTemperature, Integer pulse, Integer bloodPressure, Integer oxygenSaturation,
                    int respirationRate, Member member, MedicalRecord medicalRecord) {
         this.symptom = symptom;
         this.bodyTemperature = bodyTemperature;
@@ -68,8 +63,6 @@ public class Symptom {
         this.bloodPressure = bloodPressure;
         this.oxygenSaturation = oxygenSaturation;
         this.respirationRate = respirationRate;
-        this.createdDate = LocalDateTime.now();
-        this.updatedDate = LocalDateTime.now();
         this.member = member;
         this.medicalRecord = medicalRecord;
     }

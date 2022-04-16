@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.form;
 
+import Medical.MedicalRecord.domain.Hospital;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class MedicalRecordForm {
     private Date nextVisitDate;
     private LocalDateTime updateDate;
 
+    private String hospitalName;
 }
 
 

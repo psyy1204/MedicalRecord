@@ -1,8 +1,10 @@
 package Medical.MedicalRecord.controller;
 
+import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
+import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MedicalRecordController {
 
     private final MedicalRecordService medicalRecordService;
+    private final HospitalService hospitalService;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> medicalDepartmentCodes() {
@@ -50,6 +53,8 @@ public class MedicalRecordController {
     @GetMapping("/new")
     public String addForm(Model model) {
         model.addAttribute("medicalRecordForm", new MedicalRecordForm());
+        List<Hospital> hospitals = hospitalService.findAll();
+        model.addAttribute("hospitals", hospitals);
         return "records/addForm";
     }
 
@@ -57,7 +62,8 @@ public class MedicalRecordController {
      * 진료기록 등록
      */
     @PostMapping("/new")
-    public String addHospital(@Valid MedicalRecordForm form, BindingResult result) {
+    public String addHospital(@Valid MedicalRecordForm form, BindingResult result,
+                              Model model) {
         if (result.hasErrors()) {
             return "records/addForm";
         }
@@ -66,6 +72,7 @@ public class MedicalRecordController {
         medicalRecord.setDoctorName(form.getDoctorName());
         medicalRecord.setDiagnosis(form.getDiagnosis());
         medicalRecord.setMedicalDepartmentCode(form.getMedicalDepartmentCode());
+        medicalRecord.setHospital(hospitalService.findHospital(form.getHospitalName()));
         medicalRecord.setEtc(form.getEtc());
         medicalRecord.setPrice(form.getPrice());
         medicalRecord.setVisitedDate(form.getVisitedDate());
@@ -74,6 +81,7 @@ public class MedicalRecordController {
         medicalRecord.setUpdatedDate(LocalDateTime.now());
 
         medicalRecordService.add(medicalRecord);
+
         return "redirect:/records/list";
     }
 
@@ -108,6 +116,7 @@ public class MedicalRecordController {
         MedicalRecordForm form = new MedicalRecordForm();
         form.setId(medicalRecord.getRecordId());
         form.setDoctorName(medicalRecord.getDoctorName());
+        form.setHospitalName(medicalRecord.getHospital().getHospitalName());
         form.setDiagnosis(medicalRecord.getDiagnosis());
         form.setMedicalDepartmentCode(medicalRecord.getMedicalDepartmentCode());
         form.setEtc(medicalRecord.getEtc());
@@ -134,7 +143,7 @@ public class MedicalRecordController {
             return "members/editForm";
         }
         medicalRecordService.editRecord(recordId, form.getDoctorName(),
-                form.getDiagnosis(), form.getMedicalDepartmentCode(),
+                form.getHospitalName(), form.getMedicalDepartmentCode(),
                 form.getEtc(),form.getPrice(),form.getVisitedDate(),form.getNextVisitDate());
 
         return "redirect:/records/list";

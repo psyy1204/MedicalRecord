@@ -21,6 +21,7 @@ public class HospitalRepository {
     }
 
     public Hospital findById(Long id) {
+        System.out.println("repository id = " + id);
         return em.find(Hospital.class , id);
     }
 
@@ -40,5 +41,4 @@ public class HospitalRepository {
         Query query = em.createQuery(jpql).setParameter("hospitalId", hospitalId);
         query.executeUpdate();
     }
-
 }

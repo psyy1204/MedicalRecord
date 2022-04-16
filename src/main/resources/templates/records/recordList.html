@@ -17,18 +17,19 @@
                 <th>No</th>
                 <th>방문일</th>
                 <th>진료과</th>
-                <!--<th>병원명</th>-->
+                <th>병원명</th>
                 <th>진단명</th>
-                <th>방문예정일</th>
+                <th>다음 방문예정일</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="record : ${records}">
                 <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${record.recordId}">No</a></td>
-                <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${record.nextVisitDateString()}">방문일</a></td>
+                <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${#dates.format(record.visitedDate, 'yyyy-MM-dd')}">방문일</a></td>
                 <td th:text="${record.medicalDepartmentCode}"></td>
+                <td><a href="../../../../resources/templates/hospitals/hospital.html" th:href="@{/hospitals/{hospitalId}(hospitalId=${record.hospital.hospitalId})}" th:text="${record.hospital.hospitalName}">병원명</a></td>
                 <td th:text="${record.diagnosis}"></td>
-                <td th:text="${record.nextVisitDateString()}"></td>
+                <td th:text="${#dates.format(record.nextVisitDate, 'yyyy-MM-dd')}"></td>
                 <td>
                     <a href="#" th:href="@{/records/{id}/edit (id=${record.recordId})}" class="btn btn-primary" role="button">수정</a>
                 </td>

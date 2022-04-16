@@ -47,6 +47,7 @@ public class HospitalService {
      * 회원 아이디로 조회
      */
     public Hospital findById(Long id) {
+        System.out.println("id = " + id);
         return hospitalRepository.findById(id);
     }
 
@@ -70,6 +71,19 @@ public class HospitalService {
         hospitalRepository.delete(hospitalId);
     }
 
-
-
+    /**
+     *이름으로 검색 없으면 생성
+     */
+    @Transactional
+    public Hospital findHospital(String hospitalName) {
+        List<Hospital> hospitals = hospitalRepository.findByName(hospitalName);
+        if(hospitals.isEmpty()) {
+            Hospital hospital = new Hospital();
+            hospital.setHospitalName(hospitalName);
+            hospitalRepository.save(hospital);
+            return hospital;
+        } else {
+            return hospitals.get(0);
+        }
+    }
 }

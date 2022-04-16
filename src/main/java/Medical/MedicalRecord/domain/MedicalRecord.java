@@ -54,6 +54,9 @@ public class MedicalRecord {
         return new SimpleDateFormat("yyyy-MM-dd").format(nextVisitDate);
     }
 
+    //증상이 입력되어있는지 여부
+    private boolean hasSymptom;
+
     @Column(nullable = false)
     // 등록일
     private LocalDateTime createdDate;

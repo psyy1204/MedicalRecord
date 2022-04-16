@@ -1,8 +1,10 @@
 package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Gender;
+import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.domain.Symptom;
+import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.SymptomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.List;
 public class SymptomService {
 
     private final SymptomRepository symptomRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     /**
      * 기록입력
@@ -28,6 +31,14 @@ public class SymptomService {
         symptomRepository.save(symptom);
         return symptom.getSymptomId();
     }
+
+    @Transactional
+    public void addSymptomToRecord(Long recordId, Symptom symptom) {
+        MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
+        findRecord.setHasSymptom(true);
+        findRecord.setSymptom(symptom);
+    }
+
 
     /**
      * 전체 조회

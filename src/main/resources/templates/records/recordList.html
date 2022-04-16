@@ -19,6 +19,7 @@
                 <th>진료과</th>
                 <th>병원명</th>
                 <th>진단명</th>
+                <th>증상</th>
                 <th>다음 방문예정일</th>
             </tr>
             </thead>
@@ -29,7 +30,12 @@
                 <td th:text="${record.medicalDepartmentCode}"></td>
                 <td><a href="../../../../resources/templates/hospitals/hospital.html" th:href="@{/hospitals/{hospitalId}(hospitalId=${record.hospital.hospitalId})}" th:text="${record.hospital.hospitalName}">병원명</a></td>
                 <td th:text="${record.diagnosis}"></td>
-                <td th:text="${#dates.format(record.nextVisitDate, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <a th:onclick="${record.hasSymptom} ? 'javascript:hasSymptom('+*{record.symptom.symptomId}+')' : 'javascript:symptom('+*{record.recordId}+')'"
+                       class="btn btn-outline-info"
+                    >증상보기</a>
+                </td>
+                <td th:text="${#dates.format(record.visitedDate, 'yyyy-MM-dd')}"></td>
                 <td>
                     <a href="#" th:href="@{/records/{id}/edit (id=${record.recordId})}" class="btn btn-primary" role="button">수정</a>
                 </td>
@@ -48,4 +54,18 @@
 
 </div> <!-- /container -->
 </body>
+
+<script>
+    function symptom(recordId){
+        if(confirm("입력된 증상이 없습니다. 등록하시겠습니까?")) {
+            location.href = 'http://localhost:8080/symptoms/new?recordId=' + recordId ;
+        }
+    }
+</script>
+<script>
+    function hasSymptom(symptomId){
+        location.href = 'http://localhost:8080/symptoms/' + symptomId;
+    }
+</script>
+
 </html>

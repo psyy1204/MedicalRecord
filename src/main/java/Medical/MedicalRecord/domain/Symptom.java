@@ -59,7 +59,8 @@ public class Symptom {
     private MedicalRecord medicalRecord;
 
     @Builder
-    public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Integer bodyTemperature, Integer pulse, Integer bloodPressure, Integer oxygenSaturation) {
+    public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Integer bodyTemperature,
+                   Integer pulse, Integer bloodPressure, Integer oxygenSaturation) {
         this.simpleSymptom = simpleSymptom;
         this.detailSymptom = detailSymptom;
         this.startDate = startDate;

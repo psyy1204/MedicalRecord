@@ -1,6 +1,6 @@
 package Medical.MedicalRecord.form;
 
-import Medical.MedicalRecord.domain.Hospital;
+import Medical.MedicalRecord.domain.Symptom;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +32,10 @@ public class MedicalRecordForm {
     private LocalDateTime updateDate;
 
     private String hospitalName;
+
+    private Integer symptomId;
+    private Symptom symptom;
+    private boolean hasSymptom;
 }
 
 

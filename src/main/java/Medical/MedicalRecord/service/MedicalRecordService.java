@@ -72,4 +72,11 @@ public class MedicalRecordService {
         medicalRecordRepository.deleteRecord(recordId);
     }
 
+//    @Transactional
+//    public Long hasSymptom(Long recordId) {
+//        Long symptomId = medicalRecordRepository.findById(recordId).getSymptom().getSymptomId();
+//        if(symptomId == null) return (long)0;
+//        else return symptomId;
+//    }
+
 }

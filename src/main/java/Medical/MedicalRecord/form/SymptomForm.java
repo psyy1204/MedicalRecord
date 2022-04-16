@@ -31,4 +31,5 @@ public class SymptomForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
+    private Long medicalRecordId;
 }

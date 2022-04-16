@@ -24,8 +24,10 @@ public class SymptomController {
      * 기록 등록폼
      */
     @GetMapping("/new")
-    public String addForm(Model model) {
-        model.addAttribute("symptomForm", new SymptomForm());
+    public String addForm(@RequestParam(value = "recordId", required = false) Long recordId ,Model model) {
+        SymptomForm symptomForm = new SymptomForm();
+        symptomForm.setMedicalRecordId(recordId);
+        model.addAttribute("symptomForm", symptomForm);
         return "symptoms/addForm";
     }
 
@@ -50,6 +52,9 @@ public class SymptomController {
         symptom.setUpdatedDate(LocalDateTime.now());
 
         symptomService.add(symptom);
+        if(form.getMedicalRecordId() != null) {
+            symptomService.addSymptomToRecord(form.getMedicalRecordId(), symptom);
+        }
 
         return "redirect:/symptoms/list";
     }

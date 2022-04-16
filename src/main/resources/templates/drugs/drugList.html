@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" /
+<head th:replace="fragments/header :: header" />
 <body>
 
 <div class="container">
@@ -9,33 +9,34 @@
         <h2>약 목록(성분)</h2>
     </div>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>성분명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="drug : ${drugs}">
-        <td th:text="${drug.componentId}">Id</td>
-        <td th:text="${drug.componentName}">성분명</td>
-        <td>
-            <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.componentId})}" class="btn btn-primary" role="button">수정</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-    <div class="col">
-        <button class="btn btn-primary float-end"
-                onclick="location.href='addForm.html'"
-                th:onclick="|location.href='@{/drugs/new}'|"
-                type="button">성분 등록</button>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>성분명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="drug : ${drugs}">
+                <td th:text="${drug.componentId}">Id</td>
+                <td th:text="${drug.componentName}">성분명</td>
+                <td>
+                    <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.componentId})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/drugs/new}'|"
+                    type="button">성분 등록</button>
+        </div>
     </div>
-    </div>
-<br/>
-<div th:replace="fragments/footer :: footer"/>
+
+    <div th:replace="fragments/footer :: footer"/>
 
 </div> <!-- /container -->
 </body>
+
 </html>

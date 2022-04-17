@@ -53,10 +53,19 @@
                    placeholder="맥박을 입력하세요">
         </div>
 
-        <div class="form-group">
-            <label th:for="bloodPressure">혈압</label>
-            <input type="number" th:field="*{bloodPressure}" class="form-control"
-                   placeholder="혈압을 입력하세요">
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg">
+                <label th:for="bloodPressure">수축기혈압</label>
+                <input type="number" class="form-control" th:field="*{systolic}" placeholder="수축기혈압">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg">
+                <label th:for="bloodPressure">이완기혈압</label>
+                <input type="number" th:field="*{diastolic}" class="form-control" placeholder="이완기혈압">
+                </div>
+            </div>
         </div>
 
         <div class="form-group">

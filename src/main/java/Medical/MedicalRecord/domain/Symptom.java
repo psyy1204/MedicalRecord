@@ -35,9 +35,10 @@ public class Symptom {
     //맥박
     private Integer pulse;
 
-    //혈압
-    private Integer bloodPressure;
-    //120/80
+    //수축기압
+    private Integer systolic;
+    //이완기
+    private Integer diastolic;
 
     //산소포화도
     private Integer oxygenSaturation;
@@ -60,13 +61,14 @@ public class Symptom {
 
     @Builder
     public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Integer bodyTemperature,
-                   Integer pulse, Integer bloodPressure, Integer oxygenSaturation) {
+                   Integer pulse, Integer systolic,Integer diastolic, Integer oxygenSaturation) {
         this.simpleSymptom = simpleSymptom;
         this.detailSymptom = detailSymptom;
         this.startDate = startDate;
         this.bodyTemperature = bodyTemperature;
         this.pulse = pulse;
-        this.bloodPressure = bloodPressure;
+        this.systolic = systolic;
+        this.diastolic = diastolic;
         this.oxygenSaturation = oxygenSaturation;
     }
 

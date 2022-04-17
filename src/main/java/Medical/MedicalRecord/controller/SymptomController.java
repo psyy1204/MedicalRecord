@@ -47,7 +47,8 @@ public class SymptomController {
         symptom.setPulse(form.getPulse());
         symptom.setOxygenSaturation(form.getOxygenSaturation());
         symptom.setBodyTemperature(form.getBodyTemperature());
-        symptom.setBloodPressure(form.getBloodPressure());
+        symptom.setSystolic(form.getSystolic());
+        symptom.setDiastolic(form.getDiastolic());
         symptom.setCreatedDate(LocalDateTime.now());
         symptom.setUpdatedDate(LocalDateTime.now());
 
@@ -93,7 +94,8 @@ public class SymptomController {
         form.setSimpleSymptom(symptom.getSimpleSymptom());
         form.setDetailSymptom(symptom.getDetailSymptom());
         form.setStartDate(symptom.getStartDate());
-        form.setBloodPressure(symptom.getBloodPressure());
+        form.setSystolic(symptom.getSystolic());
+        form.setDiastolic(symptom.getDiastolic());
         form.setBodyTemperature(symptom.getBodyTemperature());
         form.setOxygenSaturation(symptom.getOxygenSaturation());
         form.setPulse(symptom.getPulse());
@@ -117,7 +119,7 @@ public class SymptomController {
         }
         symptomService.editSymptom(symptomId, form.getSimpleSymptom(),
                 form.getDetailSymptom(),form.getStartDate(), form.getBodyTemperature(),
-                form.getPulse(),form.getBloodPressure(),form.getOxygenSaturation());
+                form.getPulse(),form.getSystolic(),form.getDiastolic(),form.getOxygenSaturation());
 
         return "redirect:/symptoms/list";
     }

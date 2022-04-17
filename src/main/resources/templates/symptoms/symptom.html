@@ -40,10 +40,23 @@
         <label for="pulse">맥박</label>
         <input type="text" id="pulse" name="pulse" class="form-control" th:value="${symptom.pulse}" readonly>
     </div>
-    <div>
-        <label for="bloodPressure">혈압</label>
-        <input type="text" id="bloodPressure" name="bloodPressure" class="form-control"  value="012-345-789" th:value="${symptom.bloodPressure}" readonly>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="col-lg">
+                <label for="systolic">수축기혈압</label>
+                <input type="text" class="form-control" id="systolic" name="systolic"  th:value="${symptom.systolic}" placeholder="수축기혈압" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg">
+                <label for="diastolic">이완기혈압</label>
+                <input type="text" class="form-control" id="diastolic" name="diastolic"  th:value="${symptom.diastolic}" placeholder="이완기혈압" readonly>
+            </div>
+        </div>
     </div>
+
+
     <div>
         <label for="oxygenSaturation">산소 포화도</label>
         <input type="text" id="oxygenSaturation" name="oxygenSaturation" class="form-control"  value="012-345-789" th:value="${symptom.oxygenSaturation}" readonly>

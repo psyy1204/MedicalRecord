@@ -23,7 +23,9 @@ public class SymptomForm {
     //범위 지정
     private Integer pulse;
     //수축기압이랑 이완기압 따로 만들기, 범위 지정
-    private Integer bloodPressure;
+    private Integer systolic;
+    private Integer diastolic;
+
     //100 이내로 제한 95 밑으로 떨어지면 빨간색?
     private Integer oxygenSaturation;
     private LocalDateTime updateDate;
@@ -32,4 +34,5 @@ public class SymptomForm {
     private Date startDate;
 
     private Long medicalRecordId;
+
 }

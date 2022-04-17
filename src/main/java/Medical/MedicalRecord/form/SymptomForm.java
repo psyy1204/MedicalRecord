@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -16,11 +15,13 @@ public class SymptomForm {
 
     private Long id;
     @NotEmpty(message = "증상은 필수 입니다")
+    @Size(max = 20)
     private String simpleSymptom;
     private String detailSymptom;
     //소수점, 범위 지정해주기
-    private Integer bodyTemperature;
-    //범위 지정
+    @Digits(integer = 2,fraction = 1)
+    private Float bodyTemperature;
+    @Positive
     private Integer pulse;
     //수축기압이랑 이완기압 따로 만들기, 범위 지정
     private Integer systolic;

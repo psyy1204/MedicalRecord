@@ -30,7 +30,7 @@ public class Symptom {
     private Date startDate;
 
     //체온
-    private Integer bodyTemperature;
+    private Float bodyTemperature;
 
     //맥박
     private Integer pulse;
@@ -60,7 +60,7 @@ public class Symptom {
     private MedicalRecord medicalRecord;
 
     @Builder
-    public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Integer bodyTemperature,
+    public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Float bodyTemperature,
                    Integer pulse, Integer systolic,Integer diastolic, Integer oxygenSaturation) {
         this.simpleSymptom = simpleSymptom;
         this.detailSymptom = detailSymptom;

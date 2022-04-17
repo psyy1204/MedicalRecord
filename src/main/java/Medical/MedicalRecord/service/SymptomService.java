@@ -59,7 +59,7 @@ public class SymptomService {
      */
     @Transactional
     public void editSymptom(Long symptomId, String simpleSymptom, String detailSymptom, Date startDate,
-                            Integer bodyTemperature, Integer pulse, Integer systolic, Integer diastolic,
+                            Float bodyTemperature, Integer pulse, Integer systolic, Integer diastolic,
                             Integer oxygenSaturation){
         Symptom newSymptom = symptomRepository.findById(symptomId);
         newSymptom.setSimpleSymptom(simpleSymptom);

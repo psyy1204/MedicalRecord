@@ -23,7 +23,7 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
 
-        validateDuplicateMember(member); // 중복확인
+        validateDuplicateMember(member);// 중복확인
         memberRepository.save(member);
         return member.getMemberId();
     }
@@ -56,9 +56,10 @@ public class MemberService {
      * 회원정보 수정
      */
     @Transactional
-    public void editMember(Long memberId, Integer age, Gender gender, Integer height, Integer weight){
+    public void editMember(Long memberId, String userName ,Integer age, Gender gender, Integer height, Integer weight){
         Member newMember = memberRepository.findById(memberId);
         newMember.setAge(age);
+        newMember.setUserName(userName);
         newMember.setGender(gender);
         newMember.setHeight(height);
         newMember.setWeight(weight);

@@ -1,10 +1,8 @@
 package Medical.MedicalRecord.repository;
 
 import Medical.MedicalRecord.domain.Hospital;
-import Medical.MedicalRecord.service.HospitalSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

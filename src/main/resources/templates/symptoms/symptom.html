@@ -29,12 +29,14 @@
 
     <div>
         <label for="startDate">증상 시작일</label>
-        <input type="text" id="startDate" name="startDate" class="form-control"  th:value="${symptom.startDate}" readonly>
+        <input type="text" id="startDate" name="startDate" class="form-control"  th:value="${symptom.startDate()}" readonly>
     </div>
 
     <div>
         <label for="bodyTemperature">체온</label>
-        <input type="text" id="bodyTemperature" name="bodyTemperature" class="form-control" th:value="${symptom.bodyTemperature}" readonly>
+        <input type="text" id="bodyTemperature" name="bodyTemperature" class="form-control"
+
+               th:value="${symptom.bodyTemperature}" readonly>
     </div>
     <div>
         <label for="pulse">맥박</label>
@@ -83,4 +85,17 @@
 
 </div> <!-- /container -->
 </body>
+<script>
+    function symptom(recordId){
+        if(confirm("입력된 증상이 없습니다. 등록하시겠습니까?")) {
+            location.href = 'http://localhost:8080/symptoms/new?recordId=' + recordId ;
+        }
+    }
+</script>
+<style>
+    .alarm {
+        color: #bd2121;
+    }
+</style>
+
 </html>

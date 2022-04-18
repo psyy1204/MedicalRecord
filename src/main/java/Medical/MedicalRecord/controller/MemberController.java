@@ -108,7 +108,7 @@ public class MemberController {
             return "members/editForm";
         }
 
-        memberService.editMember(memberId,
+        memberService.editMember(memberId, form.getUsername(),
                 form.getAge(),form.getGender(),form.getHeight(),
                 form.getWeight());
 

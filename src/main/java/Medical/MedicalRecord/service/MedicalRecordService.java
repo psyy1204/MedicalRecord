@@ -2,6 +2,7 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
+import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.repository.HospitalRepository;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,11 +73,20 @@ public class MedicalRecordService {
         medicalRecordRepository.deleteRecord(recordId);
     }
 
-//    @Transactional
-//    public Long hasSymptom(Long recordId) {
-//        Long symptomId = medicalRecordRepository.findById(recordId).getSymptom().getSymptomId();
-//        if(symptomId == null) return (long)0;
-//        else return symptomId;
-//    }
+    /**
+     * api patch용(일부수정)
+     * @param id
+     */
+    @Transactional
+    public void updateRecord(MedicalRecordForm form, Long id) {
+        if(form == null) return;
+        MedicalRecord medicalRecord = medicalRecordRepository.findOneWithOthers(id);
+        if(form.getHospitalName() != null) {
+            Hospital hospital = hospitalService.findHospital(form.getHospitalName());
+            medicalRecord.setHospital(hospital);
+        }
+        medicalRecord.updateRecord(form);
+
+    }
 
 }

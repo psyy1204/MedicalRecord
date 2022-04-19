@@ -7,12 +7,8 @@ import Medical.MedicalRecord.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -22,39 +18,49 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/members")
 public class MemberApiController {
 
     private final MemberService memberService;
 
-    //1. DTO 클래스 생성해서 접근
-//    @GetMapping("/members")
-//    public List<MemberDto> members() {
+//    //1. DTO 클래스 생성해서 접근
+//    @GetMapping
+//    public Result members() {
 //        List<Member> members = memberService.findAll();
 //
-//        return members.stream()
+//        List<MemberDto> memberList = members.stream()
 //                .map(m -> new MemberDto(m))
 //                .collect(Collectors.toList());
+//
+//        return new Result(memberList);
 //    }
 //
-//    @GetMapping("/members/{memberId}")
-//    public MemberDto member(@PathVariable("memberId") Long id) {
+//    @GetMapping("/{memberId}")
+//    public Result member(@PathVariable("memberId") Long id) {
 //        Member member = memberService.findById(id);
-//        return new MemberDto(member);
+//        MemberDto memberDto = new MemberDto(member);
+//        return new Result(memberDto);
 //    }
 //
-//    @PutMapping("/members/{memberId}")
+//    @PutMapping("/{memberId}")
 //    public MemberResponse updateMember(
 //            @PathVariable("memberId") Long memberId,
 //            @RequestBody @Valid MemberRequest request) {
 //
+//        //커맨드와 쿼리를 분리..
 //        memberService.editMember(memberId, request.getUserName(), request.getAge(),
 //                request.getGender(), request.getHeight(),request.getWeight());
 //        Member findMember = memberService.findById(memberId);
 //        return new MemberResponse(findMember.getMemberId(), findMember.getUserName(), findMember.getEmail(),
 //                findMember.getAge(),findMember.getGender(),findMember.getHeight(),findMember.getWeight(), findMember.getUpdatedDate());
 //    }
-
+//
+//    @Data
+//    @AllArgsConstructor
+//    static class Result<T> {
+//        private T date;
+//    }
+//
 //    @Data
 //    @AllArgsConstructor
 //    static class MemberResponse {
@@ -85,23 +91,24 @@ public class MemberApiController {
 //        return ResponseEntity.status(HttpStatus.OK).body(members);
 //    }
 
-    @GetMapping("/members")
+    //Dto 없이
+    @GetMapping
     public List<Member> members() {
         return memberService.findAll();
     }
 
-    @GetMapping("/members/{memberId}")
+    @GetMapping("/{memberId}")
     public Member member(@PathVariable("memberId") Long id,
                          HttpServletResponse response) throws IOException {
         Member member = memberService.findById(id);
         if(member == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND,"찾는 회원이 없습니다");
             return null;
         }
         return member;
     }
 
-    @PostMapping("/members")
+    @PostMapping
     public void addMember(@RequestBody @Valid MemberForm form,
                           HttpServletResponse response) throws IOException{
         try{
@@ -113,24 +120,21 @@ public class MemberApiController {
             response.setHeader("Location","/api/members/"+memberId);
             response.setStatus(HttpServletResponse.SC_CREATED);
         }catch(IllegalArgumentException e){
-            response.sendError(HttpServletResponse.SC_CONFLICT );
+            response.sendError(HttpServletResponse.SC_CONFLICT);
         }
     }
 
-    @PutMapping("/members/{memberId}/edit")
-    public Member editMember(@PathVariable("memberId") Long id,
+    @PatchMapping("/{memberId}")
+    public void editMember(@PathVariable("memberId") Long id,
                              @RequestBody MemberForm form,
                              HttpServletResponse response) throws IOException{
         if(memberService.findById(id) == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return null;
         }
-
-        memberService.editMember(id, form.getUsername(),form.getAge(),form.getGender(),form.getHeight(),form.getWeight());
-        return memberService.findById(id);
+        memberService.updateMember(form, id);
     }
 
-    @DeleteMapping("/members/{memberId}")
+    @DeleteMapping("/{memberId}")
     public void deleteMember(@PathVariable("memberId") Long id,
                              HttpServletResponse response) throws IOException{
         if(memberService.findById(id) == null) {

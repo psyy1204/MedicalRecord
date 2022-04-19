@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.domain;
 
+import Medical.MedicalRecord.form.MedicalRecordForm;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -95,6 +96,23 @@ public class MedicalRecord {
         this.symptom = symptom;
         this.visitedDate = visitedDate;
         this.nextVisitDate = nextVisitDate;
+    }
+
+    public void updateRecord(MedicalRecordForm form) {
+        String doctorName = form.getDoctorName();
+        if(doctorName != null) this.doctorName = doctorName;
+
+        String diagnosis= form.getDiagnosis();
+        if (diagnosis != null) this.diagnosis = diagnosis;
+
+        String etc = form.getEtc();
+        if(etc != null) this.etc = etc;
+
+        Integer price = form.getPrice();
+        if (price!=null) this.price = price;
+
+        String medicalDepartmentCode = form.getMedicalDepartmentCode();
+        if (medicalDepartmentCode != null) this.medicalDepartmentCode = medicalDepartmentCode;
     }
 
 }

@@ -2,6 +2,7 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.Member;
+import Medical.MedicalRecord.form.MemberForm;
 import Medical.MedicalRecord.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,4 +75,14 @@ public class MemberService {
         memberRepository.deleteMember(memberId);
     }
 
+    /**
+     * 일부분 수정
+     */
+    @Transactional
+    public void updateMember(MemberForm form, Long id) {
+        if (form == null) return;
+        Member findMember = memberRepository.findById(id);
+        findMember.setUpdatedDate(LocalDateTime.now());
+        findMember.updateMember(form);
+    }
 }

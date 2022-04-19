@@ -1,6 +1,8 @@
 package Medical.MedicalRecord.domain;
 
+import Medical.MedicalRecord.form.MemberForm;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -45,12 +47,33 @@ public class Member {
     private LocalDateTime updatedDate; //수정날짜
 
     @Builder
-    public Member(String userName, int age, String email,Gender gender, int height, int weight) {
+    public Member(String userName, Integer age, String email,Gender gender, Integer height, Integer weight) {
         this.userName = userName;
         this.age = age;
         this.email = email;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
+    }
+
+    /**
+     * api patch용
+     * @param form
+     */
+    public void updateMember(MemberForm form) {
+        String name = form.getUsername();
+        if(name != null) this.userName = name;
+
+        Integer age = form.getAge();
+        if(age != null) this.age = age;
+
+        Gender gender = form.getGender();
+        if (gender != null) this.gender = gender;
+
+        Integer height = form.getHeight();
+        if (height != null) this.height = height;
+
+        Integer weight = form.getWeight();
+        if (weight != null) this.weight = weight;
     }
 }

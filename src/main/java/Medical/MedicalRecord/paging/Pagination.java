@@ -6,29 +6,53 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pagination {
-    /** 1. 페이지 당 보여지는 게시글의 최대 개수 **/
+    /**
+     * 1. 페이지 당 보여지는 게시글의 최대 개수
+     **/
     private int pageSize = 10;
-    /** 2. 페이징된 버튼의 블럭당 최대 개수 **/
+    /**
+     * 2. 페이징된 버튼의 블럭당 최대 개수
+     **/
     private int blockSize = 10;
-    /** 3. 현재 페이지 **/
+    /**
+     * 3. 현재 페이지
+     **/
     private int page = 1;
-    /** 4. 현재 블럭 **/
+    /**
+     * 4. 현재 블럭
+     **/
     private int block = 1;
-    /** 5. 총 게시글 수 **/
+    /**
+     * 5. 총 게시글 수
+     **/
     private int totalListCnt;
-    /** 6. 총 페이지 수 **/
+    /**
+     * 6. 총 페이지 수
+     **/
     private int totalPageCnt;
-    /** 7. 총 블럭 수 **/
+    /**
+     * 7. 총 블럭 수
+     **/
     private int totalBlockCnt;
-    /** 8. 블럭 시작 페이지 **/
+    /**
+     * 8. 블럭 시작 페이지
+     **/
     private int startPage = 1;
-    /** 9. 블럭 마지막 페이지 **/
+    /**
+     * 9. 블럭 마지막 페이지
+     **/
     private int endPage = 1;
-    /** 10. DB 접근 시작 index **/
+    /**
+     * 10. DB 접근 시작 index
+     **/
     private int startIndex = 0;
-    /** 11. 이전 블럭의 마지막 페이지 **/
+    /**
+     * 11. 이전 블럭의 마지막 페이지
+     **/
     private int prevBlock;
-    /** 12. 다음 블럭의 시작 페이지 **/
+    /**
+     * 12. 다음 블럭의 시작 페이지
+     **/
     private int nextBlock;
 
     public Pagination(int totalListCnt, int page) {
@@ -50,14 +74,21 @@ public class Pagination {
         /** 4. 현재 블럭 **/
         // 현재 페이지 * 1.0을 블록의 최대 개수로 나누어주고 올림한다.
         // 현재 블록을 구할 수 있다.
-        setBlock((int) Math.ceil((page * 1.0)/blockSize));
+        setBlock((int) Math.ceil((page * 1.0) / blockSize));
         /** 8. 블럭 시작 페이지 **/
         setStartPage((block - 1) * blockSize + 1);
         /** 9. 블럭 마지막 페이지 **/
         setEndPage(startPage + blockSize - 1);
 
         /* === 블럭 마지막 페이지에 대한 validation ===*/
-        if(endPage > totalPageCnt){this.endPage = totalPageCnt;}
+        if (endPage > totalPageCnt) {
+            this.endPage = totalPageCnt;
+        }
+
+        /** 데이터 없을 경우 **/
+        if (totalPageCnt == 0){
+            this.endPage = 1;
+        }
 
 
         /** 11. 이전 블럭(클릭 시, 이전 블럭 마지막 페이지) **/
@@ -65,7 +96,9 @@ public class Pagination {
 
 
         /* === 이전 블럭에 대한 validation === */
-        if(prevBlock < 1) {this.prevBlock = 1;}
+        if (prevBlock < 1) {
+            this.prevBlock = 1;
+        }
 
 
         /** 12. 다음 블럭(클릭 시, 다음 블럭 첫번째 페이지) **/
@@ -73,11 +106,13 @@ public class Pagination {
 
 
         /* === 다음 블럭에 대한 validation ===*/
-        if(nextBlock > totalPageCnt) {nextBlock = totalPageCnt;}
+        if (nextBlock > totalPageCnt) {
+            nextBlock = totalPageCnt;
+        }
 
 
         /** 10. DB 접근 시작 index **/
-        setStartIndex((page-1) * pageSize);
+        setStartIndex((page - 1) * pageSize);
     }
 }
 

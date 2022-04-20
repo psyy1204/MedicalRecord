@@ -3,12 +3,14 @@ package Medical.MedicalRecord.controller;
 import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.form.MemberForm;
+import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -39,7 +41,8 @@ public class MemberController {
      * 회원 등록
      */
     @PostMapping("/new")
-    public String addMember(@Valid MemberForm form, BindingResult result) {
+    public String addMember(@Valid MemberForm form, BindingResult result,
+                            RedirectAttributes redirectAttributes) {
 
         if(result.hasErrors()) {
             return "members/addForm";
@@ -56,6 +59,7 @@ public class MemberController {
         member.setUpdatedDate(LocalDateTime.now());
 
         memberService.join(member);
+        redirectAttributes.addFlashAttribute("success","save");
         return "redirect:/members/list";
     }
 
@@ -73,9 +77,22 @@ public class MemberController {
      * 전체리스트 보기
      */
     @GetMapping("/list")
-    public String members(Model model) {
-        List<Member> members = memberService.findAll();
+    public String members(Model model, @RequestParam(defaultValue = "1") int page) {
+        // 총 게시물 수
+        int totalListCount = memberService.findAllCount();
+
+        // 생성인자로  총 게시물 수, 현재 페이지를 전달
+        Pagination pagination = new Pagination(totalListCount, page);
+
+        // DB select start index
+        int startIndex = pagination.getStartIndex();
+        // 페이지 당 보여지는 게시글의 최대 개수
+        int pageSize = pagination.getPageSize();
+
+        List<Member> members = memberService.findListPaging(startIndex,pageSize);
         model.addAttribute("members", members);
+        model.addAttribute("pagination", pagination);
+
         return "members/memberList";
     }
 
@@ -123,17 +140,4 @@ public class MemberController {
         memberService.deleteMember(id);
         return "redirect:/members/list";
     }
-
-
-    /**
-     *
-     * @param memberId
-     * @return 아이디로 조회하기
-     */
-//    @GetMapping("/member/{memberId}")
-//    public String member(@PathVariable long memberId, Model model) {
-//        Member member = memberService.findById(memberId);
-//        model.addAttribute("member", member);
-//        return "members/member";
-//    }
 }

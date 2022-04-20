@@ -4,7 +4,6 @@ import Medical.MedicalRecord.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -46,6 +45,18 @@ public class MemberRepository{
         String jpql = "delete from Member m where m.memberId =:memberId";
         Query query = em.createQuery(jpql).setParameter("memberId", memberId);
         query.executeUpdate();
+    }
+
+    public int findAllCount() {
+        return ((Number) em.createQuery("select count(memberId) from Member ")
+                .getSingleResult()).intValue();
+    }
+
+    public List<Member> findListPaging(int startIndex, int pageSize) {
+        return em.createQuery("select m from Member m", Member.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
 }

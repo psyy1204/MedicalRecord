@@ -10,6 +10,12 @@
         <h2>회원 목록</h2>
     </div>
     <h4 class="mb-3">회원 조회(간단)</h4>
+    <div class="col">
+        <button class="btn btn-primary float-right"
+                onclick="location.href='addForm.html'"
+                th:onclick="|location.href='@{/members/new}'|"
+                type="button">회원 등록</button>
+    </div>
     <div>
         <table class="table table-striped">
             <thead>
@@ -32,12 +38,41 @@
             </tr>
             </tbody>
         </table>
-        <div class="col">
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/members/new}'|"
-                    type="button">회원 등록</button>
-        </div>
+
+        <nav aria-label="Page navigation example ">
+            <ul class="nav justify-content-center bg-light">
+            <ul class="pagination" >
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list?page=1}" aria-label="Previous">
+                        <span aria-hidden="true">처음</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+                        <span aria-hidden="true">이전</span>
+                    </a>
+                </li>
+                <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                    <li class="page-item"
+                        th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                        th:each="pageButton : ${#numbers.sequence(start, end)}">
+                        <a class="page-link" th:href="@{list?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+                    </li>
+                </th:block>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+                        <span aria-hidden="true">다음</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                        <span aria-hidden="true">끝</span>
+                    </a>
+                </li>
+            </ul>
+            </ul>
+        </nav>
+
     </div>
 
     <div th:replace="fragments/footer :: footer"/>

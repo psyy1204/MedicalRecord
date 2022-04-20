@@ -85,4 +85,12 @@ public class MemberService {
         findMember.setUpdatedDate(LocalDateTime.now());
         findMember.updateMember(form);
     }
+
+    public int findAllCount() {
+        return memberRepository.findAllCount();
+    }
+
+    public List<Member> findListPaging(int startIndex, int pageSize){
+        return memberRepository.findListPaging(startIndex, pageSize);
+    }
 }

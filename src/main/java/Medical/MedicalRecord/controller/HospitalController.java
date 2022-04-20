@@ -66,8 +66,6 @@ public class HospitalController {
         return "hospitals/hospitalList";
     }
 
-
-
     /**
      * 수정폼
      */

@@ -1,6 +1,5 @@
 package Medical.MedicalRecord.controller;
 
-import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;

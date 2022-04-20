@@ -4,6 +4,14 @@
 
 <body>
 
+<script th:inline="javascript">
+    let result = '[(${result})]' || '';
+
+    if (result != '') {
+        alert(result);
+    }
+</script>
+
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">

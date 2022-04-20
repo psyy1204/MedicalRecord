@@ -41,10 +41,11 @@ public class MemberController {
      * 회원 등록
      */
     @PostMapping("/new")
-    public String addMember(@Valid MemberForm form, BindingResult result,
+    public String addMember(@Valid MemberForm form,
+                            BindingResult result,
                             RedirectAttributes redirectAttributes) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "members/addForm";
         }
 
@@ -59,7 +60,7 @@ public class MemberController {
         member.setUpdatedDate(LocalDateTime.now());
 
         memberService.join(member);
-        redirectAttributes.addFlashAttribute("success","save");
+        redirectAttributes.addFlashAttribute("result", "회원 가입이 완료되었습니다");
         return "redirect:/members/list";
     }
 
@@ -89,7 +90,7 @@ public class MemberController {
         // 페이지 당 보여지는 게시글의 최대 개수
         int pageSize = pagination.getPageSize();
 
-        List<Member> members = memberService.findListPaging(startIndex,pageSize);
+        List<Member> members = memberService.findListPaging(startIndex, pageSize);
         model.addAttribute("members", members);
         model.addAttribute("pagination", pagination);
 
@@ -119,15 +120,18 @@ public class MemberController {
     @PostMapping("/{memberId}/edit")
     public String editMember(@PathVariable Long memberId,
                              @ModelAttribute("form") @Valid MemberForm form,
-                            BindingResult result) {
+                             BindingResult result,
+                             RedirectAttributes redirectAttributes) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "members/editForm";
         }
 
         memberService.editMember(memberId, form.getUsername(),
-                form.getAge(),form.getGender(),form.getHeight(),
+                form.getAge(), form.getGender(), form.getHeight(),
                 form.getWeight());
+
+        redirectAttributes.addFlashAttribute("result", "회원 수정이 완료되었습니다");
 
         return "redirect:/members/list";
     }
@@ -136,8 +140,12 @@ public class MemberController {
      * 삭제
      */
     @GetMapping("/{memberId}/delete")
-    public String deleteMember(@PathVariable("memberId") Long id){
+    public String deleteMember(@PathVariable("memberId") Long id,
+                               RedirectAttributes redirectAttributes) {
         memberService.deleteMember(id);
+
+        redirectAttributes.addFlashAttribute("result", "회원 삭제가 완료되었습니다");
+
         return "redirect:/members/list";
     }
 }

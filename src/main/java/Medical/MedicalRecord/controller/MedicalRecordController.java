@@ -5,7 +5,6 @@ import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
-import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,6 @@ public class MedicalRecordController {
 
     private final MedicalRecordService medicalRecordService;
     private final HospitalService hospitalService;
-    private final SymptomService symptomService;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> medicalDepartmentCodes() {
@@ -71,7 +69,6 @@ public class MedicalRecordController {
         medicalRecord.setDiagnosis(form.getDiagnosis());
         medicalRecord.setMedicalDepartmentCode(form.getMedicalDepartmentCode());
         medicalRecord.setHospital(hospitalService.findHospital(form.getHospitalName()));
-        //medicalRecord.setSymptom(symptomService.findById(form.getId())); //?
         medicalRecord.setEtc(form.getEtc());
         medicalRecord.setPrice(form.getPrice());
         medicalRecord.setVisitedDate(form.getVisitedDate());
@@ -123,7 +120,6 @@ public class MedicalRecordController {
         form.setVisitedDate(medicalRecord.getVisitedDate());
         form.setNextVisitDate(medicalRecord.getNextVisitDate());
         form.setUpdateDate(LocalDateTime.now());
-
 
         model.addAttribute("form", form);
         return "records/editForm";

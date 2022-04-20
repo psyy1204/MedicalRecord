@@ -29,7 +29,7 @@ public class DrugRepository {
     }
 
     public List<Drug> findAll() {
-        return em.createQuery("select m from Hospital m", Drug.class)
+        return em.createQuery("select m from Drug m", Drug.class)
                 .getResultList();
     }
 

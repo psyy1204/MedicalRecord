@@ -13,17 +13,17 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="py-5 text-center">
-        <h2>약 성분명 등록</h2>
+        <h2>약명 등록</h2>
     </div>
-    <h4 class="mb-3">약 성분명 입력</h4>
+    <h4 class="mb-3">약명 입력</h4>
     <form role="form" action="/drugs/new" th:object="${drugForm}" method="post">
 
         <div class="form-group">
-            <label th:for="hospitalName">성분명</label>
+            <label th:for="drugName">약명</label>
 
-            <input type="text" th:field="*{componentName}" class="form-control" placeholder="성분명을 입력하세요"
-                   th:class="${#fields.hasErrors('componentName')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('componentName')}" th:errors="*{componentName}">Incorrect date</p>
+            <input type="text" th:field="*{drugName}" class="form-control" placeholder="약 이름을 입력하세요"
+                   th:class="${#fields.hasErrors('drugName')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('drugName')}" th:errors="*{drugName}">Incorrect date</p>
         </div>
 
         <hr class="my-4">

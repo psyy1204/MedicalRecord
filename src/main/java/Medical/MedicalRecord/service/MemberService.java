@@ -4,6 +4,7 @@ import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.form.MemberForm;
 import Medical.MedicalRecord.repository.MemberRepository;
+import Medical.MedicalRecord.validation.MemberValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +84,8 @@ public class MemberService {
         if (form == null) return;
         Member findMember = memberRepository.findById(id);
         findMember.setUpdatedDate(LocalDateTime.now());
-        findMember.updateMember(form);
+        MemberValidation memberValidation = new MemberValidation();
+        memberValidation.updateMember(findMember, form);
     }
 
     public int findAllCount() {

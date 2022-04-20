@@ -18,10 +18,10 @@
             </thead>
             <tbody>
             <tr th:each="drug : ${drugs}">
-                <td th:text="${drug.componentId}">Id</td>
-                <td th:text="${drug.componentName}">성분명</td>
+                <td th:text="${drug.drugId}">Id</td>
+                <td th:text="${drug.drugName}">성분명</td>
                 <td>
-                    <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.componentId})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.drugId})}" class="btn btn-primary" role="button">수정</a>
                 </td>
             </tr>
             </tbody>

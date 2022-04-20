@@ -4,8 +4,10 @@ import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.domain.Symptom;
+import Medical.MedicalRecord.form.SymptomForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.SymptomRepository;
+import Medical.MedicalRecord.validation.SymptomValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,4 +83,11 @@ public class SymptomService {
         symptomRepository.deleteSymptom(symptomId);
     }
 
+    public void updateSymptom(SymptomForm form, Long id) {
+        if(form == null) return;
+        Symptom findSymptom = symptomRepository.findById(id);
+        findSymptom.setUpdatedDate(LocalDateTime.now());
+        SymptomValidation symptomValidation = new SymptomValidation();
+        symptomValidation.updateSymptom(findSymptom, form);
+    }
 }

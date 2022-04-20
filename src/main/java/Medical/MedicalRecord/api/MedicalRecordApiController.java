@@ -3,12 +3,14 @@ package Medical.MedicalRecord.api;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
+import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,13 +21,14 @@ public class MedicalRecordApiController {
 
     private final MedicalRecordService medicalRecordService;
     private final MedicalRecordRepository medicalRecordRepository;
+    private final HospitalService hospitalService;
 
     /**
      * @return 모든 기록
      */
     @GetMapping
     public List<MedicalRecord> medicalRecords() {
-        return medicalRecordRepository.findAllWithOthers();
+        return medicalRecordRepository.findAll();
     }
 
     /**
@@ -36,12 +39,37 @@ public class MedicalRecordApiController {
     public MedicalRecord medicalRecord(@PathVariable("recordId") Long id,
                                        HttpServletResponse response) throws IOException {
 
-        MedicalRecord medicalRecord = medicalRecordRepository.findOneWithOthers(id);
+        MedicalRecord medicalRecord = medicalRecordRepository.findById(id);
         if (medicalRecord == null){
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"기록이 존재하지 않습니다.");
             return null;
-        }
+        } else {
         return medicalRecord;
+        }
+    }
+
+    @PostMapping
+    public void addRecord(@RequestBody MedicalRecordForm form,
+                          HttpServletResponse response) throws IOException{
+
+        if(form.getDiagnosis() == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"기록이 존재하지 않습니다.");
+        } else {
+            MedicalRecord medicalRecord = new MedicalRecord();
+            medicalRecord.setDoctorName(form.getDoctorName());
+            medicalRecord.setDiagnosis(form.getDiagnosis());
+            medicalRecord.setMedicalDepartmentCode(form.getMedicalDepartmentCode());
+            medicalRecord.setHospital(hospitalService.findHospital(form.getHospitalName()));
+            medicalRecord.setEtc(form.getEtc());
+            medicalRecord.setPrice(form.getPrice());
+            medicalRecord.setVisitedDate(form.getVisitedDate());
+            medicalRecord.setNextVisitDate(form.getNextVisitDate());
+            medicalRecord.setCreatedDate(LocalDateTime.now());
+            medicalRecord.setUpdatedDate(LocalDateTime.now());
+
+            medicalRecordService.add(medicalRecord);
+        }
+
     }
 
     /**
@@ -54,10 +82,10 @@ public class MedicalRecordApiController {
                                     @RequestBody MedicalRecordForm form,
                                     HttpServletResponse response) throws IOException {
         if (medicalRecordService.findById(id) == null){
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"기록이 존재하지 않습니다");
+        } else {
+            medicalRecordService.updateRecord(form, id);
         }
-
-        medicalRecordService.updateRecord(form, id);
     }
 
     /**
@@ -68,9 +96,10 @@ public class MedicalRecordApiController {
     public void deleteRecord(@PathVariable("memberId") Long id,
                              HttpServletResponse response) throws IOException {
         if (medicalRecordService.findById(id) == null){
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"기록이 존재하지 않습니다");
+        } else {
+            medicalRecordService.deleteRecord(id);
         }
-        medicalRecordService.deleteRecord(id);
     }
 
 

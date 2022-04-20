@@ -1,9 +1,9 @@
 package Medical.MedicalRecord.controller;
 
-import Medical.MedicalRecord.domain.DrugComponent;
+import Medical.MedicalRecord.domain.Drug;
 
 import Medical.MedicalRecord.form.DrugForm;
-import Medical.MedicalRecord.service.DrugComponentService;
+import Medical.MedicalRecord.service.DrugService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +17,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/drugs")
 @RequiredArgsConstructor
-public class DrugComponentController {
+public class DrugController {
 
-    private final DrugComponentService drugComponentService;
+    private final DrugService drugService;
 
 
     /**
-     * 약 성분명 등록폼
+     * 약 등록폼
      */
     @GetMapping("/new")
     public String addForm(Model model) {
@@ -35,13 +35,13 @@ public class DrugComponentController {
      * 등록
      */
     @PostMapping("/new")
-    public String addHospital(@Valid DrugComponent form, BindingResult result) {
+    public String addDrug(@Valid DrugForm form, BindingResult result) {
         if(result.hasErrors()) {
             return "drugs/addForm";
         }
-        DrugComponent drugComponent = new DrugComponent();
-        drugComponent.setComponentName(form.getComponentName());
-        drugComponentService.add(drugComponent);
+        Drug drug = new Drug();
+        drug.setDrugName(form.getDrugName());
+        drugService.add(drug);
 
         return "redirect:/drugs/list";
     }
@@ -51,8 +51,8 @@ public class DrugComponentController {
      */
     @GetMapping("/{drugId}")
     public String drug(@PathVariable long drugId, Model model) {
-        DrugComponent drugComponent = drugComponentService.findById(drugId);
-        model.addAttribute("drug", drugComponent);
+        Drug drug = drugService.findById(drugId);
+        model.addAttribute("drug", drug);
         return "drugs/drug";
     }
 
@@ -61,8 +61,8 @@ public class DrugComponentController {
      */
     @GetMapping("/list")
     public String drugs(Model model) {
-        List<DrugComponent> drugComponents = drugComponentService.findAll();
-        model.addAttribute("drugs", drugComponents);
+        List<Drug> drugs = drugService.findAll();
+        model.addAttribute("drugs", drugs);
         return "drugs/drugList";
     }
 
@@ -71,10 +71,10 @@ public class DrugComponentController {
      */
     @GetMapping("/{drugId}/edit")
     public String editForm(@PathVariable("drugId") Long drugId, Model model) {
-        DrugComponent drugComponent = drugComponentService.findById(drugId);
+        Drug drug = drugService.findById(drugId);
 
         DrugForm form = new DrugForm();
-        form.setComponentName(drugComponent.getComponentName());
+        form.setDrugName(drug.getDrugName());
 
         model.addAttribute("form",form);
         return "drugs/editForm";
@@ -90,7 +90,7 @@ public class DrugComponentController {
         if(result.hasErrors()) {
             return "drugs/editForm";
         }
-        drugComponentService.edit(drugId, form.getComponentName());
+        drugService.edit(drugId, form.getDrugName());
 
         return "redirect:/drugs/list";
     }
@@ -100,7 +100,7 @@ public class DrugComponentController {
      */
     @GetMapping("/{drugId}/delete")
     public String deleteDrug(@PathVariable("drugId") Long id){
-        drugComponentService.delete(id);
+        drugService.delete(id);
         return "redirect:/drugs/list";
     }
 }

@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -19,10 +18,6 @@ public class Drug {
     @Column(nullable = false)
     // 약명
     private String drugName;
-
-    @OneToOne
-    @JoinColumn(name = "componentId")
-    private DrugComponent drugComponent;
 
     @ManyToOne
     @JoinColumn(name = "prescriptionDrugId")

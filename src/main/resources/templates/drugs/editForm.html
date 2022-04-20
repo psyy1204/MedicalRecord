@@ -12,9 +12,9 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/
     <div class="py-5 text-center">
-        <h2>약 성분명 수정/삭제</h2>
+        <h2>약명 수정/삭제</h2>
     </div>
-    <h4 class="mb-3">약 성분 수정</h4>
+    <h4 class="mb-3">약 수정</h4>
 
     <form th:object="${form}" method="post">
             <!-- id -->
@@ -23,9 +23,9 @@
             <div class="form-group">
                 <label th:for="componentName">성분명</label>
 
-                <input type="text" th:field="*{componentName}" class="form-control" placeholder="성분명을 입력하세요"
-                       th:class="${#fields.hasErrors('componentName')}? 'form-control fieldError' : 'form-control'">
-                <p th:if="${#fields.hasErrors('componentName')}" th:errors="*{componentName}">Incorrect date</p>
+                <input type="text" th:field="*{drugName}" class="form-control" placeholder="성분명을 입력하세요"
+                       th:class="${#fields.hasErrors('drugName')}? 'form-control fieldError' : 'form-control'">
+                <p th:if="${#fields.hasErrors('drugName')}" th:errors="*{drugName}">Incorrect date</p>
             </div>
 
             <hr class="my-4">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col">
                     <td>
-                        <a href="#" th:href="'javascript:deleteComponent('+*{id}+')'"
+                        <a href="#" th:href="'javascript:deleteDrug('+*{id}+')'"
                            class="w-100 btn btn-danger btn-lg">삭제</a>
                     </td>
                 </div>
@@ -48,7 +48,7 @@
 </div> <!-- /container -->
 </body>
 <script>
-    function deleteComponent(hospitalId){
+    function deleteDrug(drugName){
         if(confirm("정말 삭제하시겠습니까?")){
             location.replace('delete');
         }

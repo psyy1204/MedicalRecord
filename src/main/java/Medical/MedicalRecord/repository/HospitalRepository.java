@@ -2,6 +2,7 @@ package Medical.MedicalRecord.repository;
 
 import Medical.MedicalRecord.domain.Hospital;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.NestedCheckedException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

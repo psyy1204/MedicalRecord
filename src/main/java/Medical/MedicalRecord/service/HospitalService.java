@@ -1,7 +1,9 @@
 package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Hospital;
+import Medical.MedicalRecord.form.HospitalForm;
 import Medical.MedicalRecord.repository.HospitalRepository;
+import Medical.MedicalRecord.validation.HospitalValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,5 +87,13 @@ public class HospitalService {
         } else {
             return hospitals.get(0);
         }
+    }
+
+    @Transactional
+    public void updateHospital(HospitalForm form, Long id) {
+        if(form == null) return;
+        Hospital findHospital = hospitalRepository.findById(id);
+        HospitalValidation hospitalValidation = new HospitalValidation();
+        hospitalValidation.updateHospital(findHospital, form);
     }
 }

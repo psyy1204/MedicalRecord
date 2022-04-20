@@ -55,25 +55,4 @@ public class Member {
         this.height = height;
         this.weight = weight;
     }
-
-    /**
-     * api patch용
-     * @param form
-     */
-    public void updateMember(MemberForm form) {
-        String name = form.getUsername();
-        if(name != null) this.userName = name;
-
-        Integer age = form.getAge();
-        if(age != null) this.age = age;
-
-        Gender gender = form.getGender();
-        if (gender != null) this.gender = gender;
-
-        Integer height = form.getHeight();
-        if (height != null) this.height = height;
-
-        Integer weight = form.getWeight();
-        if (weight != null) this.weight = weight;
-    }
 }

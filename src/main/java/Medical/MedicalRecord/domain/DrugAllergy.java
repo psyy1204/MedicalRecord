@@ -21,7 +21,7 @@ public class DrugAllergy {
 
     @OneToMany
     // 일대다(약 알러지 1- 약 성분 여러개)
-    private List<DrugComponent> drugComponentList = new ArrayList<>();
+    private List<Drug> drugList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "memberId")
@@ -29,8 +29,8 @@ public class DrugAllergy {
 
     @Builder
 
-    public DrugAllergy(List<DrugComponent> drugComponentList, Member member) {
-        this.drugComponentList = drugComponentList;
+    public DrugAllergy(List<Drug> drugComponentList, Member member) {
+        this.drugList = drugComponentList;
         this.member = member;
     }
 }

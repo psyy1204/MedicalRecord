@@ -37,26 +37,4 @@ public class MedicalRecordRepository {
         query.executeUpdate();
     }
 
-    public List<MedicalRecord> findAllWithOthers() {
-
-        return em.createQuery(
-                "select m from MedicalRecord m" +
-                        " join fetch m.hospital h" +
-                        " join fetch m.symptom s", MedicalRecord.class
-        ).getResultList();
-    }
-
-
-    public MedicalRecord findOneWithOthers(Long recordId) {
-        String jpql = "select m from MedicalRecord m" +
-                " join fetch m.hospital h" +
-                " join fetch m.symptom s" +
-                " where m.recordId=:recordId";
-
-        List<MedicalRecord> records = em.createQuery(jpql).setParameter("recordId", recordId).getResultList();
-        if (records.size() == 0) {
-            return null;
-        }
-        return records.get(0);
-    }
 }

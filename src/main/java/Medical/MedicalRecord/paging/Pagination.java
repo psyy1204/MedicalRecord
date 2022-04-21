@@ -6,113 +6,75 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pagination {
-    /**
-     * 1. 페이지 당 보여지는 게시글의 최대 개수
-     **/
-    private int pageSize = 10;
-    /**
-     * 2. 페이징된 버튼의 블럭당 최대 개수
-     **/
-    private int blockSize = 10;
-    /**
-     * 3. 현재 페이지
-     **/
-    private int page = 1;
-    /**
-     * 4. 현재 블럭
-     **/
-    private int block = 1;
-    /**
-     * 5. 총 게시글 수
-     **/
-    private int totalListCnt;
-    /**
-     * 6. 총 페이지 수
-     **/
-    private int totalPageCnt;
-    /**
-     * 7. 총 블럭 수
-     **/
-    private int totalBlockCnt;
-    /**
-     * 8. 블럭 시작 페이지
-     **/
-    private int startPage = 1;
-    /**
-     * 9. 블럭 마지막 페이지
-     **/
-    private int endPage = 1;
-    /**
-     * 10. DB 접근 시작 index
-     **/
-    private int startIndex = 0;
-    /**
-     * 11. 이전 블럭의 마지막 페이지
-     **/
-    private int prevBlock;
-    /**
-     * 12. 다음 블럭의 시작 페이지
-     **/
-    private int nextBlock;
 
-    public Pagination(int totalListCnt, int page) {
+    private int dataPerPageSize = 10;
+    private int buttonPerPageSize = 10;
+
+    private int nowPage = 1;
+    private int nowButton = 1;
+
+    private int totalDataCount;
+    private int totalPageCount;
+    private int totalButtonCount;
+
+    private int startButton = 1;
+    private int endButton = 1;
+
+    private int startDbIndex = 0;
+    private int prevButton;
+    private int nextButton;
+
+
+    public Pagination(int totalDataCount, int nowPage) {
+
         // 총 게시물 수와 현재 페이지를 Controller로 부터 받아온다.
-        // 총 게시물 수	- totalListCnt
-        // 현재 페이지	- page
-        /** 3. 현재 페이지 **/
-        setPage(page);
-        /** 5. 총 게시글 수 **/
-        setTotalListCnt(totalListCnt);
-        /** 6. 총 페이지 수 **/
-        // 한 페이지의 최대 개수를 총 게시물 수 * 1.0로 나누어주고 올림 해준다.
-        // 총 페이지 수 를 구할 수 있다.
-        setTotalPageCnt((int) Math.ceil(totalListCnt * 1.0 / pageSize));
-        /** 7. 총 블럭 수 **/
-        // 한 블럭의 최대 개수를 총  페이지의 수 * 1.0로 나누어주고 올림 해준다.
-        // 총 블럭 수를 구할 수 있다.
-        setTotalBlockCnt((int) Math.ceil(totalPageCnt * 1.0 / blockSize));
-        /** 4. 현재 블럭 **/
+        setNowPage(nowPage);
+        setTotalDataCount(totalDataCount);
+
+        if(totalDataCount == 0) {
+            setTotalPageCount(1); setTotalButtonCount(1);
+        } else {
+            setTotalPageCount((int) Math.ceil(totalDataCount * 1.0 / dataPerPageSize));
+            setTotalButtonCount((int) Math.ceil(totalDataCount * 1.0 / buttonPerPageSize));
+        }
+        /** 4. 현재 버튼 **/
         // 현재 페이지 * 1.0을 블록의 최대 개수로 나누어주고 올림한다.
         // 현재 블록을 구할 수 있다.
-        setBlock((int) Math.ceil((page * 1.0) / blockSize));
-        /** 8. 블럭 시작 페이지 **/
-        setStartPage((block - 1) * blockSize + 1);
-        /** 9. 블럭 마지막 페이지 **/
-        setEndPage(startPage + blockSize - 1);
+        setNowButton((int) Math.ceil((nowPage * 1.0) / buttonPerPageSize));
+        /** 8. 버튼 시작 페이지 **/
+        setStartButton((nowButton - 1) * buttonPerPageSize + 1);
+        /** 9. 버튼 마지막 페이지 **/
+        setEndButton(startButton + buttonPerPageSize - 1);
 
         /* === 블럭 마지막 페이지에 대한 validation ===*/
-        if (endPage > totalPageCnt) {
-            this.endPage = totalPageCnt;
+        if (endButton > totalPageCount) {
+            this.endButton = totalPageCount;
         }
 
         /** 데이터 없을 경우 **/
-        if (totalPageCnt == 0){
-            this.endPage = 1;
+        if (totalPageCount == 0){
+            this.endButton = 1;
         }
-
 
         /** 11. 이전 블럭(클릭 시, 이전 블럭 마지막 페이지) **/
-        setPrevBlock((block * blockSize) - blockSize);
-
+        setPrevButton((nowButton * buttonPerPageSize) - buttonPerPageSize);
 
         /* === 이전 블럭에 대한 validation === */
-        if (prevBlock < 1) {
-            this.prevBlock = 1;
+        if (prevButton < 1) {
+            this.prevButton = 1;
         }
-
 
         /** 12. 다음 블럭(클릭 시, 다음 블럭 첫번째 페이지) **/
-        setNextBlock((block * blockSize) + 1);
-
+        setNextButton((nowButton * buttonPerPageSize) + 1);
 
         /* === 다음 블럭에 대한 validation ===*/
-        if (nextBlock > totalPageCnt) {
-            nextBlock = totalPageCnt;
+        if (nextButton > totalPageCount) {
+            nextButton = totalPageCount;
         }
 
-
         /** 10. DB 접근 시작 index **/
-        setStartIndex((page - 1) * pageSize);
+        if(nowPage == 0) setStartDbIndex(0);
+        else setStartDbIndex((nowPage - 1) * dataPerPageSize);
     }
 }
 

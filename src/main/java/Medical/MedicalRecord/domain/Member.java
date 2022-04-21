@@ -19,7 +19,12 @@ public class Member {
     private Long memberId;
 
     // 회원이름
+    @Column(nullable = false)
     private String userName;
+
+    //별칭
+    @Column(nullable = false)
+    private String nickName;
 
     // 이메일
     @Column(nullable = false)
@@ -47,8 +52,10 @@ public class Member {
     private LocalDateTime updatedDate; //수정날짜
 
     @Builder
-    public Member(String userName, Integer age, String email,Gender gender, Integer height, Integer weight) {
+    public Member(String userName, String nickName, Integer age,
+                  String email,Gender gender, Integer height, Integer weight) {
         this.userName = userName;
+        this.nickName = nickName;
         this.age = age;
         this.email = email;
         this.gender = gender;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -35,7 +36,8 @@ public class SymptomController {
      * 기록 등록
      */
     @PostMapping("/new")
-    public String addSymptom(@Valid SymptomForm form, BindingResult result) {
+    public String addSymptom(@Valid SymptomForm form, BindingResult result,
+                             RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "symptoms/addForm";
         }
@@ -53,6 +55,7 @@ public class SymptomController {
         symptom.setUpdatedDate(LocalDateTime.now());
 
         symptomService.add(symptom);
+        redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");
         if(form.getMedicalRecordId() != null) {
             symptomService.addSymptomToRecord(form.getMedicalRecordId(), symptom);
         }
@@ -112,7 +115,8 @@ public class SymptomController {
     @PostMapping("/{symptomId}/edit")
     public String edit(@PathVariable Long symptomId,
                        @ModelAttribute("form") @Valid SymptomForm form,
-                       BindingResult result) {
+                       BindingResult result,
+                       RedirectAttributes redirectAttributes) {
 
         if(result.hasErrors()) {
             return "symptoms/editForm";
@@ -121,6 +125,8 @@ public class SymptomController {
                 form.getDetailSymptom(),form.getStartDate(), form.getBodyTemperature(),
                 form.getPulse(),form.getSystolic(),form.getDiastolic(),form.getOxygenSaturation());
 
+        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+
         return "redirect:/symptoms/list";
     }
 
@@ -128,8 +134,12 @@ public class SymptomController {
      * 삭제
      */
     @GetMapping("/{symptomId}/delete")
-    public String deleteSymptom(@PathVariable("symptomId") Long id){
+    public String deleteSymptom(@PathVariable("symptomId") Long id,
+                                RedirectAttributes redirectAttributes){
         symptomService.deleteSymptom(id);
+
+        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+
         return "redirect:/symptoms/list";
     }
 

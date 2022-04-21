@@ -32,10 +32,7 @@ public class MedicalRecordForm {
     private LocalDateTime updateDate;
 
     private String hospitalName;
-
-    private Integer symptomId;
-    private Symptom symptom;
-    private boolean hasSymptom;
+    private Long memberId= Long.valueOf(1);
 }
 
 

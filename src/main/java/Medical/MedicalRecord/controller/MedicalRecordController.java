@@ -5,11 +5,13 @@ import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
+import Medical.MedicalRecord.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ import java.util.List;
 public class MedicalRecordController {
 
     private final MedicalRecordService medicalRecordService;
+    private final MemberService memberService;
     private final HospitalService hospitalService;
 
     @ModelAttribute("medicalDepartmentCodes")
@@ -59,7 +62,8 @@ public class MedicalRecordController {
      * 진료기록 등록
      */
     @PostMapping("/new")
-    public String addHospital(@Valid MedicalRecordForm form, BindingResult result) {
+    public String addHospital(@Valid MedicalRecordForm form, BindingResult result,
+                              RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "records/addForm";
         }
@@ -76,8 +80,8 @@ public class MedicalRecordController {
         medicalRecord.setCreatedDate(LocalDateTime.now());
         medicalRecord.setUpdatedDate(LocalDateTime.now());
 
-        medicalRecordService.add(medicalRecord);
-
+        medicalRecordService.add(medicalRecord, form.getMemberId());
+        redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");
         return "redirect:/records/list";
     }
 
@@ -119,6 +123,7 @@ public class MedicalRecordController {
         form.setPrice(medicalRecord.getPrice());
         form.setVisitedDate(medicalRecord.getVisitedDate());
         form.setNextVisitDate(medicalRecord.getNextVisitDate());
+        form.setMemberId(form.getMemberId());
         form.setUpdateDate(LocalDateTime.now());
 
         model.addAttribute("form", form);
@@ -132,15 +137,17 @@ public class MedicalRecordController {
     @PostMapping("/{recordId}/edit")
     public String edit(@PathVariable Long recordId,
                        @ModelAttribute("form") @Valid MedicalRecordForm form,
-                       BindingResult result) {
+                       BindingResult result,
+                       RedirectAttributes redirectAttributes) {
 
         if(result.hasErrors()) {
             return "members/editForm";
         }
         medicalRecordService.editRecord(recordId, form.getDoctorName(),
                 form.getHospitalName(), form.getMedicalDepartmentCode(),
-                form.getEtc(),form.getPrice(),form.getVisitedDate(),form.getNextVisitDate());
+                form.getEtc(),form.getPrice(),form.getMemberId(), form.getVisitedDate(),form.getNextVisitDate());
 
+        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
         return "redirect:/records/list";
     }
 
@@ -148,8 +155,12 @@ public class MedicalRecordController {
      * 삭제
      */
     @GetMapping("/{recordId}/delete")
-    public String deleteRecord(@PathVariable("recordId") Long id){
+    public String deleteRecord(@PathVariable("recordId") Long id,
+                               RedirectAttributes redirectAttributes){
         medicalRecordService.deleteRecord(id);
+
+        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+
         return "redirect:/records/list";
     }
 

@@ -26,8 +26,20 @@ public class MemberService {
     public Long join(Member member) {
 
         validateDuplicateMember(member);// 중복확인
+        validateDuplicateNickName(member);
+
         memberRepository.save(member);
         return member.getMemberId();
+    }
+
+    /**
+     * 중복닉네임 검사
+     */
+    private void validateDuplicateNickName(Member member) {
+        List<Member> findMembers = memberRepository.findByNickName(member.getNickName());
+        if(!findMembers.isEmpty()){
+            throw new IllegalStateException("중복된 닉네임은 사용이 불가합니다.");
+        }
     }
 
     /**
@@ -38,6 +50,7 @@ public class MemberService {
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
+
     }
 
     /**
@@ -58,10 +71,12 @@ public class MemberService {
      * 회원정보 수정
      */
     @Transactional
-    public void editMember(Long memberId, String userName ,Integer age, Gender gender, Integer height, Integer weight){
+    public void editMember(Long memberId, String userName ,String nickName
+            ,Integer age, Gender gender, Integer height, Integer weight){
         Member newMember = memberRepository.findById(memberId);
         newMember.setAge(age);
         newMember.setUserName(userName);
+        newMember.setNickName(nickName);
         newMember.setGender(gender);
         newMember.setHeight(height);
         newMember.setWeight(weight);

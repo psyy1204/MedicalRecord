@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.validation.Valid;
@@ -33,7 +34,8 @@ public class HospitalController {
      * 등록
      */
     @PostMapping("/new")
-    public String addHospital(@Valid HospitalForm form, BindingResult result) {
+    public String addHospital(@Valid HospitalForm form, BindingResult result,
+                              RedirectAttributes redirectAttributes) {
         if(result.hasErrors()) {
             return "hospitals/addForm";
         }
@@ -43,6 +45,7 @@ public class HospitalController {
         hospital.setHospitalAddress(form.getHospitalAddress());
 
         hospitalService.add(hospital);
+            redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");
         return "redirect:/hospitals/list";
     }
 
@@ -90,7 +93,8 @@ public class HospitalController {
     @PostMapping("/{hospitalId}/edit")
     public String edit(@PathVariable Long hospitalId,
                        @ModelAttribute("form") @Valid HospitalForm form,
-                       BindingResult result) {
+                       BindingResult result,
+                       RedirectAttributes redirectAttributes) {
         if(result.hasErrors()) {
             return "hospitals/editForm";
         }
@@ -99,6 +103,7 @@ public class HospitalController {
                 form.getHospitalName(),
                 form.getHospitalAddress(),
                 form.getHospitalContact());
+        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
 
         return "redirect:/hospitals/list";
     }
@@ -107,8 +112,12 @@ public class HospitalController {
      * 삭제
      */
     @GetMapping("/{hospitalId}/delete")
-    public String deleteHospital(@PathVariable("hospitalId") Long id){
+    public String deleteHospital(@PathVariable("hospitalId") Long id,
+                                 RedirectAttributes redirectAttributes){
         hospitalService.delete(id);
+
+        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+
         return "redirect:/hospitals/list";
     }
 }

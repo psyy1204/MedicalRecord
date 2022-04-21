@@ -22,6 +22,9 @@ public class MemberForm {
     @Email
     private String email;
 
+    @NotEmpty(message = "닉네임은 필수 입니다")
+    private String nickName;
+
     private Integer age;
     private Gender gender;
     private Integer height;

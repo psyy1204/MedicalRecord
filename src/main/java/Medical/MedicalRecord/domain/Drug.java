@@ -19,6 +19,8 @@ public class Drug {
     // 약명
     private String drugName;
 
+    private String drugComponent;
+
     @ManyToOne
     @JoinColumn(name = "prescriptionDrugId")
     private PrescriptionDrug prescriptionDrug;

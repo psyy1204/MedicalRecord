@@ -2,6 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 
+<script th:inline="javascript">
+    let result = '[(${result})]' || '';
+
+    if (result != '') {
+        alert(result);
+    }
+</script>
+
 <body>
 
 <div class="container">
@@ -9,45 +17,54 @@
     <div class="py-5 text-center">
         <h2>진료 기록 목록</h2>
     </div>
-    <h4 class="mb-3">기록 조회(간단)</h4>
+    <h4 class="mb-3 text-center">기록 조회(간단)</h4>
     <div>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>No</th>
                 <th>방문일</th>
-                <th>진료과</th>
                 <th>병원명</th>
                 <th>진단명</th>
                 <th>증상</th>
+                <th>처방약</th>
                 <th>다음 방문예정일</th>
+                <th>닉네임</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="record : ${records}">
                 <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${record.recordId}">No</a></td>
                 <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${record.recordId})}" th:text="${#dates.format(record.visitedDate, 'yyyy-MM-dd')}">방문일</a></td>
-                <td th:text="${record.medicalDepartmentCode}"></td>
                 <td><a href="../../../../resources/templates/hospitals/hospital.html" th:href="@{/hospitals/{hospitalId}(hospitalId=${record.hospital.hospitalId})}" th:text="${record.hospital.hospitalName}">병원명</a></td>
                 <td th:text="${record.diagnosis}"></td>
                 <td>
                     <a th:onclick="${record.hasSymptom} ? 'javascript:hasSymptom('+*{record.symptom.symptomId}+')' : 'javascript:symptom('+*{record.recordId}+')'"
                        class="btn btn-outline-info"
-                    >증상보기</a>
+                    >증상</a>
+                </td>
+                <td>
+                    <a th:onclick="${record.hasSymptom} ? 'javascript:hasSymptom('+*{record.symptom.symptomId}+')' : 'javascript:symptom('+*{record.recordId}+')'"
+                       class="btn btn-outline-success"
+                    >처방약</a>
                 </td>
                 <td th:text="${#dates.format(record.visitedDate, 'yyyy-MM-dd')}"></td>
+                <td><a href="../../../../resources/templates/members/member.html" th:href="@{/members/{memberId}(memberId=${record.member.memberId})}" th:text="${record.member.nickName}">닉네임</a></td>
                 <td>
-                    <a href="#" th:href="@{/records/{id}/edit (id=${record.recordId})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/records/{id}/edit (id=${record.recordId})}" class="btn btn-outline-info" role="button">수정</a>
                 </td>
             </tr>
             </tbody>
         </table>
+
         <div class="col">
-            <button class="btn btn-primary float-end"
+            <button class="btn btn-primary float-lg-right"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/records/new}'|"
                     type="button">기록 입력</button>
         </div>
+
     </div>
 
     <div th:replace="fragments/footer :: footer"/>

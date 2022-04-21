@@ -1,37 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
+
+<script th:inline="javascript">
+    let result = '[(${result})]' || '';
+
+    if (result != '') {
+        alert(result);
+    }
+</script>
+
 <body>
 
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="py-5 text-center">
-        <h2>약 목록(성분)</h2>
+        <h2>약 목록</h2>
     </div>
-
+    <h4 class="mb-3 text-center">약 조회</h4>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
+                <th>약명</th>
                 <th>성분명</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="drug : ${drugs}">
-                <td th:text="${drug.drugId}">Id</td>
-                <td th:text="${drug.drugName}">성분명</td>
+                <td><a href="../../../../resources/templates/drugs/drug.html" th:href="@{/drugs/{drugId}(drugId=${drug.drugId})}" th:text="${drug.drugId}">id</a></td>
+                <td th:text="${drug.drugName}">약명</td>
+                <td th:text="${drug.drugComponent}">성분명</td>
+                <td></td>
                 <td>
-                    <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.drugId})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.drugId})}" class="btn btn-outline-info" role="button">수정</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div class="col">
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/drugs/new}'|"
-                    type="button">성분 등록</button>
-        </div>
+
+    <div class="col">
+        <button class="btn btn-primary float-lg-right"
+                onclick="location.href='addForm.html'"
+                th:onclick="|location.href='@{/drugs/new}'|"
+                type="button">약 등록</button>
     </div>
 
     <div th:replace="fragments/footer :: footer"/>

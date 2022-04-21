@@ -67,7 +67,7 @@ public class MedicalRecordApiController {
             medicalRecord.setCreatedDate(LocalDateTime.now());
             medicalRecord.setUpdatedDate(LocalDateTime.now());
 
-            medicalRecordService.add(medicalRecord);
+            medicalRecordService.add(medicalRecord, form.getMemberId());
         }
 
     }

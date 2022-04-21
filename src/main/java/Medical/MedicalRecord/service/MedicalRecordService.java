@@ -4,6 +4,7 @@ import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
+import Medical.MedicalRecord.repository.MemberRepository;
 import Medical.MedicalRecord.validation.MedicalRecordValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,14 @@ public class MedicalRecordService {
 
     private final MedicalRecordRepository medicalRecordRepository;
     private final HospitalService hospitalService;
+    private final MemberRepository memberRepository;
 
     /**
      * 기록 등록
      */
     @Transactional
-    public Long add(MedicalRecord medicalRecord) {
-
+    public Long add(MedicalRecord medicalRecord, Long memberId) {
+        medicalRecord.setMember(memberRepository.findById(memberId));
         medicalRecordRepository.save(medicalRecord);
         return medicalRecord.getRecordId();
     }
@@ -51,16 +53,15 @@ public class MedicalRecordService {
     @Transactional
     public void editRecord(Long recordId, String doctorName, String hospitalName
                            ,String medicalDepartmentCode, String etc,
-                           Integer price, Date visitedDate, Date nextVisitedDate){
+                           Integer price, Long memberId,Date visitedDate, Date nextVisitedDate){
         MedicalRecord newMedicalRecord =medicalRecordRepository.findById(recordId);
         newMedicalRecord.setHospital(hospitalService.findHospital(hospitalName));
         newMedicalRecord.setDoctorName(doctorName);
         newMedicalRecord.setMedicalDepartmentCode(medicalDepartmentCode);
         newMedicalRecord.setEtc(etc);
         newMedicalRecord.setPrice(price);
-        newMedicalRecord.setPrice(price);
-        newMedicalRecord.setPrice(price);
         newMedicalRecord.setVisitedDate(visitedDate);
+        newMedicalRecord.setMember(memberRepository.findById(memberId));
         newMedicalRecord.setNextVisitDate(nextVisitedDate);
         newMedicalRecord.setUpdatedDate(LocalDateTime.now());
     }

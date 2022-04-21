@@ -43,6 +43,7 @@ public class DrugApiController {
         }else{
             Drug drug = new Drug();
             drug.setDrugName(form.getDrugName());
+            drug.setDrugComponent(form.getDrugComponent());
             drugService.add(drug);
         }
     }
@@ -54,7 +55,7 @@ public class DrugApiController {
         if (form.getDrugName() == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "찾는 약이 없습니다");
         }else{
-            drugService.edit(id, form.getDrugName());
+            drugService.edit(id, form.getDrugName(), form.getDrugComponent());
         }
     }
 

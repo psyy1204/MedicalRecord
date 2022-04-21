@@ -55,9 +55,10 @@ public class DrugService {
      * 정보 수정
      */
     @Transactional
-    public void edit(Long drugId, String drugName){
+    public void edit(Long drugId, String drugName, String drugComponent){
         Drug newDrug = drugRepository.findById(drugId);
         newDrug.setDrugName(drugName);
+        newDrug.setDrugComponent(drugComponent);
     }
 
     /**

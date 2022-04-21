@@ -15,4 +15,6 @@ public class DrugForm {
 
     @NotEmpty(message = "약름은 필수 입니다")
     private String drugName;
+
+    private String drugComponent;
 }

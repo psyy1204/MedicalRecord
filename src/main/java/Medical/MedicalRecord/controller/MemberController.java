@@ -53,6 +53,7 @@ public class MemberController {
         member.setAge(form.getAge());
         member.setEmail(form.getEmail());
         member.setUserName(form.getUsername());
+        member.setNickName(form.getNickName());
         member.setHeight(form.getHeight());
         member.setWeight(form.getWeight());
         member.setGender(form.getGender());
@@ -60,7 +61,7 @@ public class MemberController {
         member.setUpdatedDate(LocalDateTime.now());
 
         memberService.join(member);
-        redirectAttributes.addFlashAttribute("result", "회원 가입이 완료되었습니다");
+        redirectAttributes.addFlashAttribute("result", "가입이 완료되었습니다");
         return "redirect:/members/list";
     }
 
@@ -86,9 +87,9 @@ public class MemberController {
         Pagination pagination = new Pagination(totalListCount, page);
 
         // DB select start index
-        int startIndex = pagination.getStartIndex();
+        int startIndex = pagination.getStartDbIndex();
         // 페이지 당 보여지는 게시글의 최대 개수
-        int pageSize = pagination.getPageSize();
+        int pageSize = pagination.getDataPerPageSize();
 
         List<Member> members = memberService.findListPaging(startIndex, pageSize);
         model.addAttribute("members", members);
@@ -109,11 +110,12 @@ public class MemberController {
         form.setAge(member.getAge());
         form.setEmail(member.getEmail());
         form.setUsername(member.getUserName());
+        form.setNickName(member.getNickName());
         form.setHeight(member.getHeight());
         form.setWeight(member.getWeight());
         form.setGender(member.getGender());
 
-        model.addAttribute("form", form);
+        model.addAttribute("memberForm", form);
         return "members/editForm";
     }
 
@@ -127,11 +129,10 @@ public class MemberController {
             return "members/editForm";
         }
 
-        memberService.editMember(memberId, form.getUsername(),
+        memberService.editMember(memberId, form.getUsername(), form.getNickName(),
                 form.getAge(), form.getGender(), form.getHeight(),
                 form.getWeight());
-
-        redirectAttributes.addFlashAttribute("result", "회원 수정이 완료되었습니다");
+        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
 
         return "redirect:/members/list";
     }
@@ -144,7 +145,7 @@ public class MemberController {
                                RedirectAttributes redirectAttributes) {
         memberService.deleteMember(id);
 
-        redirectAttributes.addFlashAttribute("result", "회원 삭제가 완료되었습니다");
+        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
 
         return "redirect:/members/list";
     }

@@ -71,4 +71,8 @@ public class PrescriptionService {
 
 
     }
+
+    public List<PrescriptionDrug> findRecordPrescription(Long recordId) {
+        return prescriptionRepository.findRecordPrescription(recordId);
+    }
 }

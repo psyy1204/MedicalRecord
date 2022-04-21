@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -68,12 +65,19 @@ public class PrescriptionDrugController {
      * @return 등록된 약목록
      */
     @GetMapping("/search")
-    private String searchDrug(Model model){
+    public String searchDrug(Model model){
         List<Drug> drugs = drugService.findAll();
         model.addAttribute("drugs",drugs);
 
         return "prescriptions/searchDrug";
     }
 
+    @GetMapping("/list/{recordId}")
+    public String prescriptionList(@PathVariable("recordId")Long id,
+                                   Model model) {
+        List<PrescriptionDrug> recordPrescription = prescriptionService.findRecordPrescription(id);
+        model.addAttribute("prescriptions", recordPrescription);
+        return "prescriptions/prescriptionList";
+    }
 
 }

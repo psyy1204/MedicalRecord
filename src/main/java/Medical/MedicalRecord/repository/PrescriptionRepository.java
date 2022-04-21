@@ -32,4 +32,11 @@ public class PrescriptionRepository {
         Query query = em.createQuery(jpql).setParameter("prescriptionId", prescriptionId);
         query.executeUpdate();
     }
+
+    public List<PrescriptionDrug> findRecordPrescription(Long recordId) {
+        return em.createQuery("select m from PrescriptionDrug m where m.medicalRecord.recordId =: recordId")
+                .setParameter("recordId", recordId)
+                .getResultList();
+
+    }
 }

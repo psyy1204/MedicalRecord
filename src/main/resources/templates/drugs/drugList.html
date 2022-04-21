@@ -32,7 +32,6 @@
                 <td><a href="../../../../resources/templates/drugs/drug.html" th:href="@{/drugs/{drugId}(drugId=${drug.drugId})}" th:text="${drug.drugId}">id</a></td>
                 <td th:text="${drug.drugName}">약명</td>
                 <td th:text="${drug.drugComponent}">성분명</td>
-                <td></td>
                 <td>
                     <a href="#" th:href="@{/drugs/{id}/edit (id=${drug.drugId})}" class="btn btn-outline-info" role="button">수정</a>
                 </td>

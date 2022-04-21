@@ -21,4 +21,15 @@ public class PrescriptionDrug {
     private Date durationStart;
     private Date durationEnd;
 
+    //하루 복용횟수
+    private Integer dosesCount;
+
+    @ManyToOne
+    @JoinColumn(name = "drugId")
+    private Drug drug;
+
+    @ManyToOne
+    @JoinColumn(name = "recordId")
+    private MedicalRecord medicalRecord;
+
 }

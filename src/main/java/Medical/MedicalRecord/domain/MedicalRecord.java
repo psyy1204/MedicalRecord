@@ -58,6 +58,9 @@ public class MedicalRecord {
     //증상이 입력되어있는지 여부
     private boolean hasSymptom;
 
+    //처방이 입력되어있는지 여부
+    private boolean hasDrug;
+
     @Column(nullable = false)
     // 등록일
     private LocalDateTime createdDate;

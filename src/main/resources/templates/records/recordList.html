@@ -45,7 +45,7 @@
                     >증상</a>
                 </td>
                 <td>
-                    <a th:onclick="${record.hasSymptom} ? 'javascript:hasSymptom('+*{record.symptom.symptomId}+')' : 'javascript:symptom('+*{record.recordId}+')'"
+                    <a th:onclick="${record.hasDrug} ? 'javascript:hasSymptom('+*{record.recordId}+')' : 'javascript:symptom('+*{record.recordId}+')'"
                        class="btn btn-outline-success"
                     >처방약</a>
                 </td>
@@ -82,6 +82,19 @@
 <script>
     function hasSymptom(symptomId){
         location.href = 'http://localhost:8080/symptoms/' + symptomId;
+    }
+</script>
+
+<script>
+    function symptom(recordId){
+        if(confirm("입력된 증상이 없습니다. 등록하시겠습니까?")) {
+            location.href = 'http://localhost:8080/prescriptions/new?recordId=' + recordId ;
+        }
+    }
+</script>
+<script>
+    function hasSymptom(recordId){
+        location.href = 'http://localhost:8080/prescriptions/list' + recordId;
     }
 </script>
 

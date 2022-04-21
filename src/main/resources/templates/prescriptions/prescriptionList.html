@@ -20,8 +20,9 @@
             </thead>
             <tbody>
             <tr th:each="prescription : ${prescriptions}">
-                <td th:text="${prescription.prescriptionDrugId}"></td>
-                <td><a href="../../../../resources/templates/drugs/drug.html" th:href="@{/drug/{drugId}(drugId=${prescription.drug.drugId})}"
+                <td><a href="../../../../resources/templates/prescriptions/prescription.html" th:href="@{/prescriptions/{prescriptionId}(prescriptionId=${prescription.prescriptionDrugId})}"
+                       th:text="${prescription.prescriptionDrugId}">No</a></td>
+                <td><a href="../../../../resources/templates/drugs/drug.html" th:href="@{/drugs/{drugId}(drugId=${prescription.drug.drugId})}"
                        th:text="${prescription.drug.drugName}">약명</a></td>
                 <td th:text="${prescription.durationStart}"></td>
                 <td th:text="${prescription.durationEnd}"></td>

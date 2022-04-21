@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header" />
+
+<style>
+    .dateError {
+        border-color: #21bd93;
+    }
+</style>
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="py-5 text-center">
+        <h2>처방약 수정/삭제</h2>
+    </div>
+    <h4 class="mb-3">약 수정</h4>
+
+    <form th:object="${form}" method="post">
+        <!-- id -->
+        <input type="hidden" th:field="*{recordId}" />
+
+        <div class="form-group">
+            <label th:for="simpleSymptom">약명</label>
+            <input type="text" th:field="*{drugName}" class="form-control" readonly>
+        </div>
+
+        <div class="form-group">
+            <label th:for="drugStart">복용 시작일</label>
+            <input type="date" th:field="*{drugStart}" class="form-control"
+                   placeholder="자세한 증상을 입력해주세요">
+        </div>
+
+        <div class="form-group">
+            <label th:for="drugEnd">복용 종료일</label>
+            <input type="date" th:field="*{drugEnd}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label th:for="dosesCount">복용횟수</label>
+            <input type="number" th:field="*{dosesCount}" class="form-control"
+                   placeholder="하루 복용 횟수를 입력하세요">
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <td><button type="submit" class=" w-100 btn btn-primary btn-lg" >수정</button></td>
+            </div>
+            <div class="col">
+                <td><button onclick="location.href='/'" class=" w-100 btn btn-secondary btn-lg" type="button">취소</button></td>
+            </div>
+            <div class="col">
+                <td>
+                    <a href="#" th:onclick="'javascript:deletePrescription('+*{prescriptionId}+')'"
+                       class="w-100 btn btn-danger btn-lg">삭제</a>
+                </td>
+            </div>
+        </div>
+    </form>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+<script>
+    function deletePrescription(memberId){
+        if(confirm("정말 삭제하시겠습니까?")){
+            location.replace('delete');
+        }
+    }
+</script>
+</html>

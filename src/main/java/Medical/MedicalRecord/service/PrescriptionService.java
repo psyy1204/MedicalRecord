@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,26 +43,12 @@ public class PrescriptionService {
         return prescriptionRepository.findById(id);
     }
 
-    /**
-     * 정보 수정
-     */
-//    @Transactional
-//    public void editPrescription(){
-//        Member newMember = memberRepository.findById(memberId);
-//        newMember.setAge(age);
-//        newMember.setUserName(userName);
-//        newMember.setNickName(nickName);
-//        newMember.setGender(gender);
-//        newMember.setHeight(height);
-//        newMember.setWeight(weight);
-//        newMember.setUpdatedDate(LocalDateTime.now());
-//    }
 
     /**
      * 삭제
      */
     @Transactional
-    public void deleteMember(Long prescriptionId) {
+    public void deletePrescription(Long prescriptionId) {
         prescriptionRepository.delete(prescriptionId);
     }
 
@@ -72,7 +59,26 @@ public class PrescriptionService {
 
     }
 
+    /**
+     *
+     * @param recordId
+     * @return 레코드 아이디에 해당하는 처방약 리스트
+     */
     public List<PrescriptionDrug> findRecordPrescription(Long recordId) {
         return prescriptionRepository.findRecordPrescription(recordId);
+    }
+
+    /**
+     * 수정
+     */
+    @Transactional
+    public void editPrescription(Long prescriptionId, Date drugStart,
+                                 Date drugEnd, Integer dosesCount) {
+        PrescriptionDrug newPrescription
+                = prescriptionRepository.findById(prescriptionId);
+
+        newPrescription.setDurationStart(drugStart);
+        newPrescription.setDurationEnd(drugEnd);
+        newPrescription.setDosesCount(dosesCount);
     }
 }

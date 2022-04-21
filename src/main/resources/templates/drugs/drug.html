@@ -31,7 +31,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/drugs/{drugId}/edit(drugId=${drug.componentId})}'|"
+                    th:onclick="|location.href='@{/drugs/{drugId}/edit(drugId=${drug.drugId})}'|"
                     type="button">수정/삭제</button>
         </div>
 

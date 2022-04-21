@@ -57,7 +57,7 @@ public class PrescriptionDrugController {
         prescriptionService.add(prescriptionDrug);
         redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");
 
-        return "redirect:/prescriptions/list";
+        return "redirect:/prescriptions/list/"+ prescriptionDrug.getMedicalRecord().getRecordId();
     }
 
     /**
@@ -72,6 +72,11 @@ public class PrescriptionDrugController {
         return "prescriptions/searchDrug";
     }
 
+    /**
+     *
+     * @param id
+     * @return 진료기록에 해당하는 처방약 리스트
+     */
     @GetMapping("/list/{recordId}")
     public String prescriptionList(@PathVariable("recordId")Long id,
                                    Model model) {
@@ -79,5 +84,69 @@ public class PrescriptionDrugController {
         model.addAttribute("prescriptions", recordPrescription);
         return "prescriptions/prescriptionList";
     }
+
+    /**
+     *
+     * @param prescriptionId
+     * @return id에 해당하는 기록
+     */
+    @GetMapping("/{prescriptionId}")
+    public String prescription(@PathVariable long prescriptionId,
+                               Model model){
+        PrescriptionDrug prescriptionDrug = prescriptionService.findById(prescriptionId);
+        model.addAttribute("prescripiton", prescriptionDrug);
+        return "prescriptions/prescription";
+    }
+
+    /**
+     * @param prescriptionId
+     * @return 수정폼
+     */
+    @GetMapping("/{prescriptionId}/edit")
+    public String editForm(@PathVariable("prescriptionId") Long prescriptionId,
+                           Model model){
+        PrescriptionDrug prescriptionDrug = prescriptionService.findById(prescriptionId);
+
+        PrescriptionForm form = new PrescriptionForm();
+
+        form.setDosesCount(prescriptionDrug.getDosesCount());
+        form.setDrugStart(prescriptionDrug.getDurationStart());
+        form.setDrugEnd(prescriptionDrug.getDurationEnd());
+
+        model.addAttribute("form",form);
+        return "prescriptions/editForm";
+    }
+
+    @PostMapping("/{prescriptionId}/edit")
+    public String edit(@PathVariable Long prescriptionId,
+                       @ModelAttribute("form") @Valid PrescriptionForm form,
+                       BindingResult result,
+                       RedirectAttributes redirectAttributes) {
+//        if(result.hasErrors()) {
+//            return "prescriptions/editForm";
+//        }
+        prescriptionService.editPrescription(prescriptionId,form.getDrugStart(),
+                form.getDrugEnd(),form.getDosesCount());
+        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+        Long recordId = prescriptionService.findById(prescriptionId).getMedicalRecord().getRecordId();
+        return "redirect:/prescriptions/list/" + recordId;
+    }
+
+
+    /**
+     * 삭제
+     */
+    @GetMapping("/{prescriptionId}/delete")
+    public String deletePrescription(@PathVariable("prescriptionId") Long id,
+                                RedirectAttributes redirectAttributes){
+        Long recordId = prescriptionService.findById(id).getMedicalRecord().getRecordId();
+        prescriptionService.deletePrescription(id);
+
+        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+
+        return "redirect:/prescriptions/list/" + recordId;
+    }
+
+
 
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<body>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>약 목록 조회</h2>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>약명</th>
+            <th>성분명</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="drug : ${drugs}">
+            <td><a href="../../../../resources/templates/drugs/drug.html" th:href="@{/drugs/{drugId}(drugId=${drug.drugId})}" th:text="${drug.drugId}">id</a></td>
+            <td th:text="${drug.drugName}">약명</td>
+            <td th:text="${drug.drugComponent}">성분명</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="col">
+        <td><button onclick=window.close() class=" w-100 btn btn-secondary btn-sm" type="button">닫기</button></td>
+    </div>
+
+
+</div> <!-- /container -->
+</body>
+
+</html>

@@ -91,4 +91,10 @@ public class MedicalRecordService {
         validation.updateRecord(medicalRecord,form);
     }
 
+    @Transactional
+    public MedicalRecord addRecordToPrescription(Long recordId) {
+        MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
+        findRecord.setHasDrug(true);
+        return findRecord;
+    }
 }

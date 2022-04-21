@@ -1,6 +1,8 @@
 package Medical.MedicalRecord.service;
 
+import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.PrescriptionDrug;
+import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class PrescriptionService {
 
     private final PrescriptionRepository prescriptionRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     /**
      * 약추가
@@ -62,4 +65,10 @@ public class PrescriptionService {
         prescriptionRepository.delete(prescriptionId);
     }
 
+    public void addRecordToPrescription(Long recordId, PrescriptionDrug prescriptionDrug) {
+        MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
+        prescriptionDrug.setMedicalRecord(findRecord);
+
+
+    }
 }

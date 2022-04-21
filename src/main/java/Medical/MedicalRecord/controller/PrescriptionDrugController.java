@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.controller;
 
+import Medical.MedicalRecord.domain.Drug;
 import Medical.MedicalRecord.domain.PrescriptionDrug;
 import Medical.MedicalRecord.form.PrescriptionForm;
 import Medical.MedicalRecord.service.DrugService;
@@ -16,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/prescriptions")
 @RequiredArgsConstructor
-public class prescriptionDrugController {
+public class PrescriptionDrugController {
 
     private final PrescriptionService prescriptionService;
     private final DrugService drugService;
     private final MedicalRecordService medicalRecordService;
-
 
     /**
      * 기록 등록폼
@@ -42,23 +43,36 @@ public class prescriptionDrugController {
      * 기록 등록
      */
     @PostMapping("/new")
-    public String addSymptom(@Valid PrescriptionForm form, BindingResult result,
+    public String addPrescription(@Valid PrescriptionForm form, BindingResult result,
                              RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            return "prescriptions/addForm";
-        }
+//        if (result.hasErrors()) {
+//            return "prescriptions/addForm";
+//        }
 
         PrescriptionDrug prescriptionDrug = new PrescriptionDrug();
         prescriptionDrug.setDurationStart(form.getDrugStart());
         prescriptionDrug.setDurationEnd(form.getDrugEnd());
-
-        prescriptionDrug.setDrug(drugService.findByName(form.getDrugName()));
-        prescriptionDrug.setMedicalRecord(medicalRecordService.findById(form.getRecordId()));
+        prescriptionDrug.setDosesCount(form.getDosesCount());
+        Drug findDrug = drugService.findByName(form.getDrugName());
+        prescriptionDrug.setDrug(findDrug);
+        prescriptionDrug.setMedicalRecord(medicalRecordService.addRecordToPrescription(form.getRecordId()));
 
         prescriptionService.add(prescriptionDrug);
         redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");
 
         return "redirect:/prescriptions/list";
+    }
+
+    /**
+     *
+     * @return 등록된 약목록
+     */
+    @GetMapping("/search")
+    private String searchDrug(Model model){
+        List<Drug> drugs = drugService.findAll();
+        model.addAttribute("drugs",drugs);
+
+        return "prescriptions/searchDrug";
     }
 
 

@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class PrescriptionForm {
-    private Long id;
+    private Long prescriptionId;
 
     @NotEmpty(message = "약명은 필수 입니다")
     private String drugName;

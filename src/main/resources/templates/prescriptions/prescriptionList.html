@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+
+<script th:inline="javascript">
+    let result = '[(${result})]' || '';
+
+    if (result != '') {
+        alert(result);
+    }
+</script>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="py-5 text-center">
+        <h2>회원 목록</h2>
+    </div>
+    <h4 class="mb-3 text-center">회원 조회(간단)</h4>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>이름</th>
+                <th>메일</th>
+                <th>나이</th>
+                <th>닉네임</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td><a href="../../../../resources/templates/members/member.html" th:href="@{/members/{memberId}(memberId=${member.memberId})}" th:text="${member.memberId}">회원id</a></td>
+                <td><a href="../../../../resources/templates/members/member.html" th:href="@{/members/{memberId}(memberId=${member.memberId})}" th:text="${member.userName}">이름</a></td>
+                <td th:text="${member.email}"></td>
+                <td th:text="${member.age}"></td>
+                <td th:text="${member.nickName}"></td>
+                <td>
+                    <a href="#" th:href="@{/members/{id}/edit (id=${member.memberId})}" class="btn btn-outline-info" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example ">
+            <ul class="nav justify-content-center">
+                <ul class="pagination" >
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{list?page=1}" aria-label="Previous">
+                            <span aria-hidden="true">처음</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{list(page = ${pagination.prevButton})}" aria-label="Previous">
+                            <span aria-hidden="true">이전</span>
+                     ㅁㅁ   </a>
+                    </li>
+                    <th:block  th:with="start = ${pagination.startButton}, end = ${pagination.endButton}">
+                        <li class="page-item"
+                            th:with="start = ${pagination.startButton}, end = ${pagination.endButton}"
+                            th:each="pageButton : ${#numbers.sequence(start, end)}">
+                            <a class="page-link" th:href="@{list(page = ${pageButton})}" th:text="${pageButton}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{list(page = ${pagination.nextButton})}" aria-label="Next">
+                            <span aria-hidden="true">다음</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{list(page = ${pagination.totalButtonCount})}" aria-label="Previous">
+                            <span aria-hidden="true">끝</span>
+                        </a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="col">
+            <button class="btn btn-primary float-lg-right"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/members/new}'|"
+                    type="button">회원 등록</button>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+</html>

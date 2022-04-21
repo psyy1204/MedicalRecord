@@ -18,17 +18,19 @@
 
     <form role="form" action="/prescriptions/new" th:object="${prescriptionForm}" method="post">
 
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{recordId}" />
 
         <div class="form-group">
-
             <label th:for="simpleSymptom">약명</label>
-
             <input type="text" th:field="*{drugName}" class="form-control"
                    placeholder="정확한 약명을 등록하세요 없으면 자동 등록됩니다."
                    th:class="${#fields.hasErrors('drugName')}? 'form-control fieldError' : 'form-control'">
             <p th:if="${#fields.hasErrors('drugName')}" th:errors="*{drugName}">Incorrect date</p>
+            <a href="#" class="btn btn-outline-success btn-sm" onclick="popUp()"
+               tabindex="-1" role="button">등록된 약 보기</a>
         </div>
+
+
 
         <div class="form-group">
             <label th:for="drugStart">복용 시작일</label>
@@ -63,5 +65,10 @@
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
-
+<script>
+    function popUp() {
+        window.open('http://localhost:8080/prescriptions/search'
+        ,'','top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no');
+    }
+</script>
 </html>

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -20,7 +21,15 @@ public class PrescriptionDrug {
 
     //처방기간
     private Date durationStart;
+
+    public String durationStartString(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(durationStart);
+    }
     private Date durationEnd;
+
+    public String durationEndString(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(durationEnd);
+    }
 
     //하루 복용횟수
     private Integer dosesCount;

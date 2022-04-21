@@ -4,8 +4,10 @@ import Medical.MedicalRecord.domain.Drug;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Getter
@@ -16,8 +18,10 @@ public class PrescriptionForm {
 
     @NotEmpty(message = "약명은 필수 입니다")
     private String drugName;
-
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date drugStart;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date drugEnd;
 
     //복용횟수

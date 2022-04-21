@@ -38,7 +38,6 @@ public class MedicalRecord {
     private Integer price;
 
     //진료일자
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date visitedDate;
 
     // 진료일자 포맷변경
@@ -47,7 +46,6 @@ public class MedicalRecord {
     }
 
     //진료예정일자
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date nextVisitDate;
 
     // 진료예정일자 포맷변경
@@ -81,9 +79,6 @@ public class MedicalRecord {
     @JoinColumn(name = "symptomId")
     private Symptom symptom;
 
-    @ManyToOne
-    @JoinColumn(name = "prescriptionDrugId")
-    private PrescriptionDrug prescriptionDrug;
 
     @Builder
     public MedicalRecord(String doctorName, String diagnosis, String etc, int price,

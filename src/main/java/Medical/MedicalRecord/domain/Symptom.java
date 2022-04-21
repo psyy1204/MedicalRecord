@@ -55,10 +55,6 @@ public class Symptom {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @OneToOne
-    @JoinColumn(name = "recordId")
-    private MedicalRecord medicalRecord;
-
     @Builder
     public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Float bodyTemperature,
                    Integer pulse, Integer systolic,Integer diastolic, Integer oxygenSaturation) {

@@ -37,6 +37,9 @@
                     th:onclick="|location.href='@{/symptoms/new}'|"
                     type="button">증상 입력</button>
         </div>
+        <td>
+            <a href="#" th:href="@{/records/list}" class="btn btn-warning float-lg-right" role="button">진료기록</a>
+        </td>
     </div>
 
     <div th:replace="fragments/footer :: footer"/>

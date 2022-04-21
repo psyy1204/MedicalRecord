@@ -94,7 +94,7 @@ public class PrescriptionDrugController {
     public String prescription(@PathVariable long prescriptionId,
                                Model model){
         PrescriptionDrug prescriptionDrug = prescriptionService.findById(prescriptionId);
-        model.addAttribute("prescripiton", prescriptionDrug);
+        model.addAttribute("prescription", prescriptionDrug);
         return "prescriptions/prescription";
     }
 
@@ -108,10 +108,11 @@ public class PrescriptionDrugController {
         PrescriptionDrug prescriptionDrug = prescriptionService.findById(prescriptionId);
 
         PrescriptionForm form = new PrescriptionForm();
-
+        form.setDrugName(prescriptionDrug.getDrug().getDrugName());
         form.setDosesCount(prescriptionDrug.getDosesCount());
         form.setDrugStart(prescriptionDrug.getDurationStart());
         form.setDrugEnd(prescriptionDrug.getDurationEnd());
+        form.setRecordId(prescriptionDrug.getMedicalRecord().getRecordId());
 
         model.addAttribute("form",form);
         return "prescriptions/editForm";

@@ -16,6 +16,9 @@ public class MemberValidation {
         Gender gender = form.getGender();
         if (gender != null) oldMember.setGender(gender);
 
+        String nickName  = form.getNickName();
+        if (nickName != null) oldMember.setNickName(nickName);
+
         Integer height = form.getHeight();
         if (height != null) oldMember.setHeight(height);
 

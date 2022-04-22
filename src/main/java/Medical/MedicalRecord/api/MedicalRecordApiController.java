@@ -48,12 +48,16 @@ public class MedicalRecordApiController {
         }
     }
 
+    /**
+     * @param form
+     * 진료기록 생성
+     */
     @PostMapping
     public void addRecord(@RequestBody MedicalRecordForm form,
                           HttpServletResponse response) throws IOException{
 
         if(form.getDiagnosis() == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"기록이 존재하지 않습니다.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"진단명은 필수입니다");
         } else {
             MedicalRecord medicalRecord = new MedicalRecord();
             medicalRecord.setDoctorName(form.getDoctorName());

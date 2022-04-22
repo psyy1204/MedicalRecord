@@ -56,6 +56,7 @@ public class MemberApiController {
             member.setAge(form.getAge());
             member.setEmail(form.getEmail());
             member.setUserName(form.getUsername());
+            member.setNickName(form.getNickName());
             member.setHeight(form.getHeight());
             member.setWeight(form.getWeight());
             member.setGender(form.getGender());

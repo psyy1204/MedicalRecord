@@ -14,19 +14,19 @@
 
     <div>
         <label for="drugName">약명</label>
-        <input type="text" id="drugName" name="drugName" class="form-control" th:value="${prescripiton.drug.drugName}" readonly>
+        <input type="text" id="drugName" name="drugName" class="form-control" th:value="${prescription.drug.drugName}" readonly>
     </div>
     <div>
         <label for="durationStart">복용 시작일</label>
-        <input type="text" id="durationStart" name="durationStart" class="form-control"th:value="${prescripiton.durationStart}" readonly>
+        <input type="text" id="durationStart" name="durationStart" class="form-control"th:value="${prescription.durationStart}" readonly>
     </div>
     <div>
         <label for="durationEnd">복용 종료일</label>
-        <input type="text" id="durationEnd" name="durationEnd" class="form-control"  th:value="${prescripiton.durationEnd}" readonly>
+        <input type="text" id="durationEnd" name="durationEnd" class="form-control"  th:value="${prescription.durationEnd}" readonly>
     </div>
     <div>
         <label for="dosesCount">복용 횟수</label>
-        <input type="text" id="dosesCount" name="dosesCount" class="form-control"   th:value="${prescripiton.dosesCount}" readonly>
+        <input type="text" id="dosesCount" name="dosesCount" class="form-control"   th:value="${prescription.dosesCount}" readonly>
     </div>
 
     <hr class="my-4">
@@ -34,14 +34,14 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/prescriptions/{presciptionId}/edit(presciptionId=${prescripiton.prescriptionDrugId})}'|"
+                    th:onclick="|location.href='@{/prescriptions/{prescriptionDrugId}/edit(prescriptionDrugId=${prescription.prescriptionDrugId})}'|"
                     type="button">수정/삭제</button>
         </div>
 
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
-                    onclick="location.href='hospitalList.html'"
-                    th:onclick="|location.href='@{/prescriptions/list/{recordId}(recordId=${prescripiton.medicalRecord.recordId})}'|"
+                    onclick="location.href='prescriptionList.html'"
+                    th:onclick="|location.href='@{/prescriptions/list/{recordId}(recordId=${prescription.medicalRecord.recordId})}'|"
                     type="button">목록으로</button>
         </div>
     </div>

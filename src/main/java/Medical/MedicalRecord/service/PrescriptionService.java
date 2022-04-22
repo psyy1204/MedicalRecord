@@ -2,8 +2,10 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.PrescriptionDrug;
+import Medical.MedicalRecord.form.PrescriptionForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.PrescriptionRepository;
+import Medical.MedicalRecord.validation.PrescriptionValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +82,19 @@ public class PrescriptionService {
         newPrescription.setDurationStart(drugStart);
         newPrescription.setDurationEnd(drugEnd);
         newPrescription.setDosesCount(dosesCount);
+    }
+
+    /**
+     *
+     * @param id
+     * 수정(api용)
+     */
+    @Transactional
+    public void updatePrescription(PrescriptionForm form, Long id) {
+        if(form == null) return;
+        PrescriptionDrug findPrescription = prescriptionRepository.findById(id);
+        PrescriptionValidation prescriptionValidation = new PrescriptionValidation();
+        prescriptionValidation.updatePrescription(findPrescription, form);
+
     }
 }

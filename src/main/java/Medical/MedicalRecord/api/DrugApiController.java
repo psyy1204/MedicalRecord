@@ -2,7 +2,6 @@ package Medical.MedicalRecord.api;
 
 import Medical.MedicalRecord.domain.Drug;
 import Medical.MedicalRecord.form.DrugForm;
-import Medical.MedicalRecord.form.MemberForm;
 import Medical.MedicalRecord.service.DrugService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

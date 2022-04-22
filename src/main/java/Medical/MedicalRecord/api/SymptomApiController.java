@@ -1,7 +1,6 @@
 package Medical.MedicalRecord.api;
 
 import Medical.MedicalRecord.domain.Symptom;
-import Medical.MedicalRecord.form.HospitalForm;
 import Medical.MedicalRecord.form.SymptomForm;
 import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;

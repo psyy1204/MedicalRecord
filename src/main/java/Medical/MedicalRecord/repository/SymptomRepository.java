@@ -33,4 +33,15 @@ public class SymptomRepository {
         query.executeUpdate();
     }
 
+    public int findAllCount() {
+        return ((Number) em.createQuery("select count(symptomId) from Symptom ")
+                .getSingleResult()).intValue();
+    }
+
+    public List<Symptom> findListPaging(int startIndex, int pageSize) {
+        return em.createQuery("select m from Symptom m order by m.symptomId desc", Symptom.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
 }

@@ -2,6 +2,7 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.form.HospitalForm;
+import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -63,9 +64,18 @@ public class HospitalController {
      * 전체 리스트
      */
     @GetMapping("/list")
-    public String hospitals(Model model) {
-        List<Hospital> hospitals = hospitalService.findAll();
+    public String hospitals(Model model, @RequestParam(defaultValue = "1") int page) {
+
+        int totalListCount = hospitalService.findAllCount();
+
+        Pagination pagination = new Pagination(totalListCount, page);
+        int startIndex = pagination.getStartDbIndex();
+        int pageSize = pagination.getDataPerPageSize();
+
+        List<Hospital> hospitals = hospitalService.findListPaging(startIndex, pageSize);
         model.addAttribute("hospitals", hospitals);
+        model.addAttribute("pagination", pagination);
+
         return "hospitals/hospitalList";
     }
 

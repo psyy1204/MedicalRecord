@@ -1,7 +1,9 @@
 package Medical.MedicalRecord.controller;
 
+import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;
+import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;
@@ -84,9 +86,16 @@ public class SymptomController {
      * 전체 리스트
      */
     @GetMapping("/list")
-    public String symptoms(Model model){
-        List<Symptom> symptoms = symptomService.findAll();
-        model.addAttribute("symptoms",symptoms);
+    public String symptoms(Model model,@RequestParam(defaultValue = "1") int page){
+        int totalListCount = symptomService.findAllCount();
+
+        Pagination pagination = new Pagination(totalListCount, page);
+        int startIndex = pagination.getStartDbIndex();
+        int pageSize = pagination.getDataPerPageSize();
+
+        List<Symptom> symptoms = symptomService.findListPaging(startIndex, pageSize);
+        model.addAttribute("symptoms", symptoms);
+        model.addAttribute("pagination", pagination);
         return "symptoms/symptomList";
     }
 

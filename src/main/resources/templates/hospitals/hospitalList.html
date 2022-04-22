@@ -38,6 +38,39 @@
             </tr>
             </tbody>
         </table>
+    <nav aria-label="Page navigation example ">
+        <ul class="nav justify-content-center">
+            <ul class="pagination" >
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list?page=1}" aria-label="Previous">
+                        <span aria-hidden="true">처음</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list(page = ${pagination.prevButton})}" aria-label="Previous">
+                        <span aria-hidden="true">이전</span>
+                    </a>
+                </li>
+                <th:block  th:with="start = ${pagination.startButton}, end = ${pagination.endButton}">
+                    <li class="page-item"
+                        th:with="start = ${pagination.startButton}, end = ${pagination.endButton}"
+                        th:each="pageButton : ${#numbers.sequence(start, end)}">
+                        <a class="page-link" th:href="@{list(page = ${pageButton})}" th:text="${pageButton}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list(page = ${pagination.nextButton})}" aria-label="Next">
+                        <span aria-hidden="true">다음</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{list(page = ${pagination.totalButtonCount})}" aria-label="Previous">
+                        <span aria-hidden="true">끝</span>
+                    </a>
+                </li>
+            </ul>
+        </ul>
+    </nav>
 
     <div class="col">
         <button class="btn btn-primary float-lg-right"

@@ -3,6 +3,7 @@ package Medical.MedicalRecord.controller;
 import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
+import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import Medical.MedicalRecord.service.MemberService;
@@ -100,8 +101,16 @@ public class MedicalRecordController {
      * 전체 리스트
      */
     @GetMapping("/list")
-    public String records(Model model){
-        List<MedicalRecord> records = medicalRecordService.findAll();
+    public String records(Model model, @RequestParam(defaultValue = "1") int page){
+
+        int totalListCount = medicalRecordService.findAllCount();
+
+        Pagination pagination = new Pagination(totalListCount, page);
+        int startIndex = pagination.getStartDbIndex();
+        int pageSize = pagination.getDataPerPageSize();
+
+        List<MedicalRecord> records = medicalRecordService.findListPaging(startIndex, pageSize);
+        model.addAttribute("pagination", pagination);
         model.addAttribute("records",records);
         return "records/recordList";
     }

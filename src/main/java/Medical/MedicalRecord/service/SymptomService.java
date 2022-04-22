@@ -1,5 +1,6 @@
 package Medical.MedicalRecord.service;
 
+import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;
@@ -87,5 +88,13 @@ public class SymptomService {
         findSymptom.setUpdatedDate(LocalDateTime.now());
         SymptomValidation symptomValidation = new SymptomValidation();
         symptomValidation.updateSymptom(findSymptom, form);
+    }
+
+    public int findAllCount() {
+        return symptomRepository.findAllCount();
+    }
+
+    public List<Symptom> findListPaging(int startIndex, int pageSize){
+        return symptomRepository.findListPaging(startIndex,pageSize);
     }
 }

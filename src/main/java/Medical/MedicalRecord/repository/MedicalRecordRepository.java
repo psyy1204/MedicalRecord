@@ -37,4 +37,15 @@ public class MedicalRecordRepository {
         query.executeUpdate();
     }
 
+    public int findAllCount() {
+        return ((Number) em.createQuery("select count(recordId) from MedicalRecord ")
+                .getSingleResult()).intValue();
+    }
+
+    public List<MedicalRecord> findListPaging(int startIndex, int pageSize) {
+        return em.createQuery("select m from MedicalRecord m order by m.recordId desc", MedicalRecord.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
 }

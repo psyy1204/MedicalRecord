@@ -81,6 +81,7 @@ public class PrescriptionDrugController {
     public String prescriptionList(@PathVariable("recordId")Long id,
                                    Model model) {
         List<PrescriptionDrug> recordPrescription = prescriptionService.findRecordPrescription(id);
+        model.addAttribute("recordId",id);
         model.addAttribute("prescriptions", recordPrescription);
         return "prescriptions/prescriptionList";
     }

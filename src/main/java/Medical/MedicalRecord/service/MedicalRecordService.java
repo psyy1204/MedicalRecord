@@ -2,6 +2,7 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
+import Medical.MedicalRecord.domain.PrescriptionDrug;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.MemberRepository;
@@ -96,5 +97,13 @@ public class MedicalRecordService {
         MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
         findRecord.setHasDrug(true);
         return findRecord;
+    }
+
+    public int findAllCount() {
+        return medicalRecordRepository.findAllCount();
+    }
+
+    public List<MedicalRecord> findListPaging(int startIndex, int pageSize) {
+        return medicalRecordRepository.findListPaging(startIndex, pageSize);
     }
 }

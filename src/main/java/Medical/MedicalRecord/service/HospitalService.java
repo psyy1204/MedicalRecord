@@ -29,7 +29,7 @@ public class HospitalService {
     }
 
     /**
-     * 중복회원 검사
+     * 중복병원 검사
      */
     private void validateDuplicateMember(Hospital hospital) {
         List<Hospital> findMembers = hospitalRepository.findByName(hospital.getHospitalName());
@@ -95,5 +95,13 @@ public class HospitalService {
         Hospital findHospital = hospitalRepository.findById(id);
         HospitalValidation hospitalValidation = new HospitalValidation();
         hospitalValidation.updateHospital(findHospital, form);
+    }
+
+    public int findAllCount() {
+        return hospitalRepository.findAllCount();
+    }
+
+    public List<Hospital> findListPaging(int startIndex,int pageSize){
+        return hospitalRepository.findListPaging(startIndex,pageSize);
     }
 }

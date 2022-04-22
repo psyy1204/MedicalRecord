@@ -2,7 +2,6 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Drug;
 import Medical.MedicalRecord.repository.DrugRepository;
-import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import java.util.List;
 public class DrugService {
 
     private final DrugRepository drugRepository;
-    private final MedicalRecordRepository medicalRecordRepository;
 
     /**
      * 약등록
@@ -89,4 +87,11 @@ public class DrugService {
         }
     }
 
+    public int findAllCount() {
+        return drugRepository.findAllCount();
+    }
+
+    public List<Drug> findListPaging(int startIndex, int pageSize){
+        return drugRepository.findListPaging(startIndex,pageSize);
+    }
 }

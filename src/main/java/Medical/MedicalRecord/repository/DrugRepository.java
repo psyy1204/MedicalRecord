@@ -1,6 +1,7 @@
 package Medical.MedicalRecord.repository;
 
 import Medical.MedicalRecord.domain.Drug;
+import Medical.MedicalRecord.domain.Hospital;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +38,17 @@ public class DrugRepository {
         String jpql = "delete from Drug m where m.drugId =:drugId";
         Query query = em.createQuery(jpql).setParameter("drugId", drugId);
         query.executeUpdate();
+    }
+
+    public int findAllCount() {
+        return ((Number) em.createQuery("select count(drugId) from Drug ")
+                .getSingleResult()).intValue();
+    }
+
+    public List<Drug> findListPaging(int startIndex, int pageSize) {
+        return em.createQuery("select m from Drug m order by m.drugId desc", Drug.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 }

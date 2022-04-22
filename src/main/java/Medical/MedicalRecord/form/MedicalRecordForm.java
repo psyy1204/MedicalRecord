@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -22,9 +23,9 @@ public class MedicalRecordForm {
     private String medicalDepartmentCode;
     private String etc;
     private Integer price;
+    @NotNull(message = "방문일은 필수입니다.")
     @Past(message = "이전날짜만 입력 가능합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message = "방문일은 필수 입니다")
     private Date visitedDate;
     @Future(message = "이후날짜만 입력 가능합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

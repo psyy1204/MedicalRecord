@@ -39,4 +39,16 @@ public class HospitalRepository {
         Query query = em.createQuery(jpql).setParameter("hospitalId", hospitalId);
         query.executeUpdate();
     }
+
+    public int findAllCount() {
+        return ((Number) em.createQuery("select count(hospitalId) from Hospital ")
+                .getSingleResult()).intValue();
+    }
+
+    public List<Hospital> findListPaging(int startIndex, int pageSize) {
+        return em.createQuery("select m from Hospital m order by m.hospitalId desc", Hospital.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
 }

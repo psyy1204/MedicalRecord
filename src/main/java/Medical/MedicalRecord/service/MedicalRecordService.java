@@ -31,6 +31,7 @@ public class MedicalRecordService {
     public Long add(MedicalRecord medicalRecord, Long memberId) {
         medicalRecord.setMember(memberRepository.findById(memberId));
         medicalRecordRepository.save(medicalRecord);
+
         return medicalRecord.getRecordId();
     }
 
@@ -52,10 +53,16 @@ public class MedicalRecordService {
      * 수정
      */
     @Transactional
-    public void editRecord(Long recordId, String doctorName, String hospitalName
-                           ,String medicalDepartmentCode, String etc,
-                           Integer price, Long memberId,Date visitedDate, Date nextVisitedDate){
-        MedicalRecord newMedicalRecord =medicalRecordRepository.findById(recordId);
+    public void editRecord(Long recordId,
+                           String doctorName,
+                           String hospitalName,
+                           String medicalDepartmentCode,
+                           String etc,
+                           Integer price,
+                           Long memberId,
+                           Date visitedDate,
+                           Date nextVisitedDate) {
+        MedicalRecord newMedicalRecord = medicalRecordRepository.findById(recordId);
         newMedicalRecord.setHospital(hospitalService.findHospital(hospitalName));
         newMedicalRecord.setDoctorName(doctorName);
         newMedicalRecord.setMedicalDepartmentCode(medicalDepartmentCode);
@@ -77,25 +84,29 @@ public class MedicalRecordService {
 
     /**
      * api patch용(일부수정)
+     *
      * @param id
      */
     @Transactional
     public void updateRecord(MedicalRecordForm form, Long id) {
-        if(form == null) return;
-        MedicalRecord medicalRecord = medicalRecordRepository.findById(id);
+        if (form != null) {
+            MedicalRecord medicalRecord = medicalRecordRepository.findById(id);
 
-        if(form.getHospitalName() != null) {
-            Hospital hospital = hospitalService.findHospital(form.getHospitalName());
-            medicalRecord.setHospital(hospital);
+            if (form.getHospitalName() != null) {
+                Hospital hospital = hospitalService.findHospital(form.getHospitalName());
+                medicalRecord.setHospital(hospital);
+            } else {
+                MedicalRecordValidation validation = new MedicalRecordValidation();
+                validation.updateRecord(medicalRecord, form);
+            }
         }
-        MedicalRecordValidation validation = new MedicalRecordValidation();
-        validation.updateRecord(medicalRecord,form);
     }
 
     @Transactional
     public MedicalRecord addRecordToPrescription(Long recordId) {
         MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
         findRecord.setHasDrug(true);
+
         return findRecord;
     }
 

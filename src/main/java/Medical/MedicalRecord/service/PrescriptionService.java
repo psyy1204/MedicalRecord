@@ -26,7 +26,6 @@ public class PrescriptionService {
      */
     @Transactional
     public Long add(PrescriptionDrug prescriptionDrug) {
-
         prescriptionRepository.save(prescriptionDrug);
         return prescriptionDrug.getPrescriptionDrugId();
     }
@@ -45,7 +44,6 @@ public class PrescriptionService {
         return prescriptionRepository.findById(id);
     }
 
-
     /**
      * 삭제
      */
@@ -57,12 +55,9 @@ public class PrescriptionService {
     public void addRecordToPrescription(Long recordId, PrescriptionDrug prescriptionDrug) {
         MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
         prescriptionDrug.setMedicalRecord(findRecord);
-
-
     }
 
     /**
-     *
      * @param recordId
      * @return 레코드 아이디에 해당하는 처방약 리스트
      */
@@ -74,10 +69,11 @@ public class PrescriptionService {
      * 수정
      */
     @Transactional
-    public void editPrescription(Long prescriptionId, Date drugStart,
-                                 Date drugEnd, Integer dosesCount) {
-        PrescriptionDrug newPrescription
-                = prescriptionRepository.findById(prescriptionId);
+    public void editPrescription(Long prescriptionId,
+                                 Date drugStart,
+                                 Date drugEnd,
+                                 Integer dosesCount) {
+        PrescriptionDrug newPrescription = prescriptionRepository.findById(prescriptionId);
 
         newPrescription.setDurationStart(drugStart);
         newPrescription.setDurationEnd(drugEnd);
@@ -85,16 +81,14 @@ public class PrescriptionService {
     }
 
     /**
-     *
-     * @param id
-     * 수정(api용)
+     * @param id 수정(api용)
      */
     @Transactional
     public void updatePrescription(PrescriptionForm form, Long id) {
-        if(form == null) return;
-        PrescriptionDrug findPrescription = prescriptionRepository.findById(id);
-        PrescriptionValidation prescriptionValidation = new PrescriptionValidation();
-        prescriptionValidation.updatePrescription(findPrescription, form);
-
+        if (form != null) {
+            PrescriptionDrug findPrescription = prescriptionRepository.findById(id);
+            PrescriptionValidation prescriptionValidation = new PrescriptionValidation();
+            prescriptionValidation.updatePrescription(findPrescription, form);
+        }
     }
 }

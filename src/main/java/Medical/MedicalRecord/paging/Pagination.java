@@ -5,6 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Paging Control
+ */
 public class Pagination {
 
     private int dataPerPageSize = 10;
@@ -24,15 +27,14 @@ public class Pagination {
     private int prevButton;
     private int nextButton;
 
-
     public Pagination(int totalDataCount, int nowPage) {
-
         // 총 게시물 수와 현재 페이지를 Controller로 부터 받아온다.
         setNowPage(nowPage);
         setTotalDataCount(totalDataCount);
 
-        if(totalDataCount == 0) {
-            setTotalPageCount(1); setTotalButtonCount(1);
+        if (totalDataCount == 0) {
+            setTotalPageCount(1);
+            setTotalButtonCount(1);
         } else {
             setTotalPageCount((int) Math.ceil(totalDataCount * 1.0 / dataPerPageSize));
             setTotalButtonCount((int) Math.ceil(totalDataCount * 1.0 / buttonPerPageSize));
@@ -52,7 +54,7 @@ public class Pagination {
         }
 
         /** 데이터 없을 경우 **/
-        if (totalPageCount == 0){
+        if (totalPageCount == 0) {
             this.endButton = 1;
         }
 
@@ -73,8 +75,10 @@ public class Pagination {
         }
 
         /** 10. DB 접근 시작 index **/
-        if(nowPage == 0) setStartDbIndex(0);
-        else setStartDbIndex((nowPage - 1) * dataPerPageSize);
+        if (nowPage == 0)
+            setStartDbIndex(0);
+        else
+            setStartDbIndex((nowPage - 1) * dataPerPageSize);
     }
 }
 

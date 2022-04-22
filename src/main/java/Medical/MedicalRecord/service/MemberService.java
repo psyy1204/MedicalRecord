@@ -24,7 +24,6 @@ public class MemberService {
      */
     @Transactional
     public Long join(Member member) {
-
         validateDuplicateMember(member);// 중복확인
         validateDuplicateNickName(member);
 
@@ -37,7 +36,8 @@ public class MemberService {
      */
     private void validateDuplicateNickName(Member member) {
         List<Member> findMembers = memberRepository.findByNickName(member.getNickName());
-        if(!findMembers.isEmpty()){
+
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("중복된 닉네임은 사용이 불가합니다.");
         }
     }
@@ -47,7 +47,8 @@ public class MemberService {
      */
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
-        if(!findMembers.isEmpty()){
+
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 
@@ -71,8 +72,13 @@ public class MemberService {
      * 회원정보 수정
      */
     @Transactional
-    public void editMember(Long memberId, String userName ,String nickName
-            ,Integer age, Gender gender, Integer height, Integer weight){
+    public void editMember(Long memberId,
+                           String userName,
+                           String nickName,
+                           Integer age,
+                           Gender gender,
+                           Integer height,
+                           Integer weight) {
         Member newMember = memberRepository.findById(memberId);
         newMember.setAge(age);
         newMember.setUserName(userName);
@@ -96,18 +102,19 @@ public class MemberService {
      */
     @Transactional
     public void updateMember(MemberForm form, Long id) {
-        if (form == null) return;
-        Member findMember = memberRepository.findById(id);
-        findMember.setUpdatedDate(LocalDateTime.now());
-        MemberValidation memberValidation = new MemberValidation();
-        memberValidation.updateMember(findMember, form);
+        if (form != null) {
+            Member findMember = memberRepository.findById(id);
+            findMember.setUpdatedDate(LocalDateTime.now());
+            MemberValidation memberValidation = new MemberValidation();
+            memberValidation.updateMember(findMember, form);
+        }
     }
 
     public int findAllCount() {
         return memberRepository.findAllCount();
     }
 
-    public List<Member> findListPaging(int startIndex, int pageSize){
+    public List<Member> findListPaging(int startIndex, int pageSize) {
         return memberRepository.findListPaging(startIndex, pageSize);
     }
 }

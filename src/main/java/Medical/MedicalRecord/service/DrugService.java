@@ -20,7 +20,6 @@ public class DrugService {
      */
     @Transactional
     public Long add(Drug drug) {
-
         validateDuplicateMember(drug); // 중복확인
         drugRepository.save(drug);
         return drug.getDrugId();
@@ -31,7 +30,8 @@ public class DrugService {
      */
     private void validateDuplicateMember(Drug drug) {
         List<Drug> findDrugs = drugRepository.findByName(drug.getDrugName());
-        if(!findDrugs.isEmpty()){
+
+        if (!findDrugs.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 약 입니다.");
         }
     }
@@ -55,7 +55,7 @@ public class DrugService {
      * 정보 수정
      */
     @Transactional
-    public void edit(Long drugId, String drugName, String drugComponent){
+    public void edit(Long drugId, String drugName, String drugComponent) {
         Drug newDrug = drugRepository.findById(drugId);
         newDrug.setDrugName(drugName);
         newDrug.setDrugComponent(drugComponent);
@@ -70,17 +70,18 @@ public class DrugService {
     }
 
     /**
-     *
      * @param drugName
      * @return 리파지토리에 있으면 꺼내고 없으면 이름으로 생성
      */
     @Transactional
     public Drug findByName(String drugName) {
         List<Drug> findDrug = drugRepository.findByName(drugName);
+
         if (findDrug.isEmpty()) {
             Drug drug = new Drug();
             drug.setDrugName(drugName);
             drugRepository.save(drug);
+
             return drug;
         } else {
             return findDrug.get(0);
@@ -91,7 +92,7 @@ public class DrugService {
         return drugRepository.findAllCount();
     }
 
-    public List<Drug> findListPaging(int startIndex, int pageSize){
-        return drugRepository.findListPaging(startIndex,pageSize);
+    public List<Drug> findListPaging(int startIndex, int pageSize) {
+        return drugRepository.findListPaging(startIndex, pageSize);
     }
 }

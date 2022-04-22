@@ -20,7 +20,7 @@ public class DrugRepository {
     }
 
     public Drug findById(Long id) {
-        return em.find(Drug.class , id);
+        return em.find(Drug.class, id);
     }
 
     public List<Drug> findByName(String drugName) {

@@ -28,7 +28,6 @@ public class SymptomService {
      */
     @Transactional
     public Long add(Symptom symptom) {
-
         symptomRepository.save(symptom);
         return symptom.getSymptomId();
     }
@@ -36,6 +35,7 @@ public class SymptomService {
     @Transactional
     public void addSymptomToRecord(Long recordId, Symptom symptom) {
         MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
+
         findRecord.setHasSymptom(true);
         findRecord.setSymptom(symptom);
     }
@@ -59,9 +59,15 @@ public class SymptomService {
      * 정보 수정
      */
     @Transactional
-    public void editSymptom(Long symptomId, String simpleSymptom, String detailSymptom, Date startDate,
-                            Float bodyTemperature, Integer pulse, Integer systolic, Integer diastolic,
-                            Integer oxygenSaturation){
+    public void editSymptom(Long symptomId,
+                            String simpleSymptom,
+                            String detailSymptom,
+                            Date startDate,
+                            Float bodyTemperature,
+                            Integer pulse,
+                            Integer systolic,
+                            Integer diastolic,
+                            Integer oxygenSaturation) {
         Symptom newSymptom = symptomRepository.findById(symptomId);
         newSymptom.setSimpleSymptom(simpleSymptom);
         newSymptom.setDetailSymptom(detailSymptom);
@@ -83,18 +89,19 @@ public class SymptomService {
     }
 
     public void updateSymptom(SymptomForm form, Long id) {
-        if(form == null) return;
-        Symptom findSymptom = symptomRepository.findById(id);
-        findSymptom.setUpdatedDate(LocalDateTime.now());
-        SymptomValidation symptomValidation = new SymptomValidation();
-        symptomValidation.updateSymptom(findSymptom, form);
+        if (form != null) {
+            Symptom findSymptom = symptomRepository.findById(id);
+            findSymptom.setUpdatedDate(LocalDateTime.now());
+            SymptomValidation symptomValidation = new SymptomValidation();
+            symptomValidation.updateSymptom(findSymptom, form);
+        }
     }
 
     public int findAllCount() {
         return symptomRepository.findAllCount();
     }
 
-    public List<Symptom> findListPaging(int startIndex, int pageSize){
-        return symptomRepository.findListPaging(startIndex,pageSize);
+    public List<Symptom> findListPaging(int startIndex, int pageSize) {
+        return symptomRepository.findListPaging(startIndex, pageSize);
     }
 }

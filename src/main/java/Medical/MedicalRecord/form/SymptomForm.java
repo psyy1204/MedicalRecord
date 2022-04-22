@@ -35,5 +35,6 @@ public class SymptomForm {
     private Date startDate;
 
     private Long medicalRecordId;
+    private Date visitedDate;
 
 }

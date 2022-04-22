@@ -51,9 +51,9 @@ public class Symptom {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Member member;
+    private Date visitedDate;
+    //조회용
+    private Long recordId;
 
     @Builder
     public Symptom(String simpleSymptom, String detailSymptom, Date startDate, Float bodyTemperature,

@@ -19,7 +19,7 @@
 
     <div>
         <label for="visitedDate">방문일</label>
-        <input type="text" id="visitedDate" name="visitedDate" class="form-control" value="A" th:value="${record.visitedDateString()}" readonly>
+        <input type="text" id="visitedDate" name="visitedDate" class="form-control" value="A" th:value="${#dates.format(record.visitedDate,'yyyy-MM-dd')}" readonly>
     </div>
 
     <div>
@@ -54,7 +54,7 @@
             </div>
             <div>
                 <label for="nextVisitDate">진료 예정일</label>
-                <input type="text" id="nextVisitDate" name="nextVisitDate" class="form-control"  value="012-345-789" th:value="${record.nextVisitDateString()}" readonly>
+                <input type="text" id="nextVisitDate" name="nextVisitDate" class="form-control"  value="012-345-789" th:value="${#dates.format(record.nextVisitDate,'yyyy-MM-dd')}" readonly>
             </div>
     <hr class="my-4">
     <div class="row">

@@ -1,8 +1,6 @@
 package Medical.MedicalRecord.service;
 
-import Medical.MedicalRecord.domain.Gender;
 import Medical.MedicalRecord.domain.MedicalRecord;
-import Medical.MedicalRecord.domain.Member;
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;

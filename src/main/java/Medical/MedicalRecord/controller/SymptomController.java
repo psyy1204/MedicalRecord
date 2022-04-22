@@ -2,6 +2,7 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;
+import Medical.MedicalRecord.service.MedicalRecordService;
 import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,7 @@ import java.util.List;
 public class SymptomController {
 
     private final SymptomService symptomService;
+    private final MedicalRecordService medicalRecordService;
 
     /**
      * 기록 등록폼
@@ -51,8 +54,11 @@ public class SymptomController {
         symptom.setBodyTemperature(form.getBodyTemperature());
         symptom.setSystolic(form.getSystolic());
         symptom.setDiastolic(form.getDiastolic());
+        symptom.setRecordId(form.getMedicalRecordId());
         symptom.setCreatedDate(LocalDateTime.now());
         symptom.setUpdatedDate(LocalDateTime.now());
+        Date visitedDate = medicalRecordService.findById(form.getMedicalRecordId()).getVisitedDate();
+        symptom.setVisitedDate(visitedDate);
 
         symptomService.add(symptom);
         redirectAttributes.addFlashAttribute("result", "등록이 완료되었습니다");

@@ -25,6 +25,7 @@ public class MedicalRecordForm {
     private Integer price;
     @Past(message = "이전날짜만 입력 가능합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotEmpty(message = "방문일은 필수 입니다")
     private Date visitedDate;
     @Future(message = "이후날짜만 입력 가능합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

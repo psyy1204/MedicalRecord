@@ -59,7 +59,7 @@ public class MemberRepository{
     }
 
     public List<Member> findListPaging(int startIndex, int pageSize) {
-        return em.createQuery("select m from Member m order by m.memberId desc ", Member.class)
+        return em.createQuery("select m from Member m", Member.class)
                 .setFirstResult(startIndex)
                 .setMaxResults(pageSize)
                 .getResultList();

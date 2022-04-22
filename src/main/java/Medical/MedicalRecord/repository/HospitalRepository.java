@@ -46,7 +46,7 @@ public class HospitalRepository {
     }
 
     public List<Hospital> findListPaging(int startIndex, int pageSize) {
-        return em.createQuery("select m from Hospital m order by m.hospitalId desc", Hospital.class)
+        return em.createQuery("select m from Hospital m", Hospital.class)
                 .setFirstResult(startIndex)
                 .setMaxResults(pageSize)
                 .getResultList();

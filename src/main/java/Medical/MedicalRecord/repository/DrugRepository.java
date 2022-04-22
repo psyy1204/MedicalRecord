@@ -46,7 +46,7 @@ public class DrugRepository {
     }
 
     public List<Drug> findListPaging(int startIndex, int pageSize) {
-        return em.createQuery("select m from Drug m order by m.drugId desc", Drug.class)
+        return em.createQuery("select m from Drug m", Drug.class)
                 .setFirstResult(startIndex)
                 .setMaxResults(pageSize)
                 .getResultList();

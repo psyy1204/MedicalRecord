@@ -112,6 +112,7 @@ public class MedicalRecordController {
         List<MedicalRecord> records = medicalRecordService.findListPaging(startIndex, pageSize);
         model.addAttribute("pagination", pagination);
         model.addAttribute("records",records);
+
         return "records/recordList";
     }
 

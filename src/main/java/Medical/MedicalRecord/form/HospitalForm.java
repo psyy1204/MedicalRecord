@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 
 @Getter @Setter

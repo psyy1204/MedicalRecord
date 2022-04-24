@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter @Setter
@@ -12,7 +13,7 @@ public class HospitalForm {
 
     private Long hospitalId;
 
-    @NotEmpty(message = "병원 이름은 필수 입니다")
+    @NotBlank(message = "병원 이름은 필수 입니다")
     private String hospitalName;
 
     private String hospitalAddress;

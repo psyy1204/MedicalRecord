@@ -86,7 +86,7 @@ public class PrescriptionDrugController {
         return "prescriptions/prescriptionList";
     }
 
-    /**
+    /**ㅌ
      *
      * @param prescriptionId
      * @return id에 해당하는 기록

@@ -8,7 +8,7 @@
     <div class="py-5 text-center">
         <h2>처방약 목록</h2>
         <div>
-            <a href="#" th:href="@{/records/{recordId}
+            <a href="#" th:href="@{/templates/unuse/{recordId}
                     (recordId=${recordId})}" class="btn btn-outline-info float-lg-left" role="button">진료기록 보기</a>
         </div>
         <table class="table table-striped">
@@ -45,7 +45,7 @@
                    class="btn btn-primary float-lg-right">처방약 등록</a>
             </td>
             <td>
-                <a href="#" th:href="@{/records/list}" class="btn btn-warning float-lg-right" role="button">진료기록 목록</a>
+                <a href="#" th:href="@{/templates/unuse/list}" class="btn btn-warning float-lg-right" role="button">진료기록 목록</a>
             </td>
         </div>
 

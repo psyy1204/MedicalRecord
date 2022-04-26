@@ -71,8 +71,12 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public String member(@PathVariable long memberId, Model model) {
         Member member = memberService.findById(memberId);
-        model.addAttribute("member", member);
-        return "members/member";
+        if(member == null) {
+            return "error-page/404";
+        } else {
+            model.addAttribute("member", member);
+            return "members/member";
+        }
     }
 
     /**
@@ -82,7 +86,6 @@ public class MemberController {
     public String members(Model model, @RequestParam(defaultValue = "1") int page) {
         // 총 게시물 수
         int totalListCount = memberService.findAllCount();
-
         // 생성인자로  총 게시물 수, 현재 페이지를 전달
         Pagination pagination = new Pagination(totalListCount, page);
 
@@ -104,19 +107,23 @@ public class MemberController {
     @GetMapping("/{memberId}/edit")
     public String editMemberForm(@PathVariable("memberId") Long memberId, Model model) {
         Member member = memberService.findById(memberId);
+        if (member == null) {
+            return "error-page/404";
+        } else {
 
-        MemberForm form = new MemberForm();
-        form.setId(member.getMemberId());
-        form.setAge(member.getAge());
-        form.setEmail(member.getEmail());
-        form.setUsername(member.getUserName());
-        form.setNickName(member.getNickName());
-        form.setHeight(member.getHeight());
-        form.setWeight(member.getWeight());
-        form.setGender(member.getGender());
+            MemberForm form = new MemberForm();
+            form.setId(member.getMemberId());
+            form.setAge(member.getAge());
+            form.setEmail(member.getEmail());
+            form.setUsername(member.getUserName());
+            form.setNickName(member.getNickName());
+            form.setHeight(member.getHeight());
+            form.setWeight(member.getWeight());
+            form.setGender(member.getGender());
 
-        model.addAttribute("memberForm", form);
-        return "members/editForm";
+            model.addAttribute("memberForm", form);
+            return "members/editForm";
+        }
     }
 
     @PostMapping("/{memberId}/edit")
@@ -124,17 +131,19 @@ public class MemberController {
                              @ModelAttribute("form") @Valid MemberForm form,
                              BindingResult result,
                              RedirectAttributes redirectAttributes) {
-
-        if (result.hasErrors()) {
+        if (memberService.findById(memberId)==null) {
+            return "error-page/404";
+        } else if (result.hasErrors()) {
             return "members/editForm";
+        } else {
+
+            memberService.editMember(memberId, form.getUsername(), form.getNickName(),
+                    form.getAge(), form.getGender(), form.getHeight(),
+                    form.getWeight());
+            redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+
+            return "redirect:/members/list";
         }
-
-        memberService.editMember(memberId, form.getUsername(), form.getNickName(),
-                form.getAge(), form.getGender(), form.getHeight(),
-                form.getWeight());
-        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
-
-        return "redirect:/members/list";
     }
 
     /**
@@ -143,10 +152,12 @@ public class MemberController {
     @GetMapping("/{memberId}/delete")
     public String deleteMember(@PathVariable("memberId") Long id,
                                RedirectAttributes redirectAttributes) {
-        memberService.deleteMember(id);
-
-        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-
-        return "redirect:/members/list";
+        if(memberService.findById(id) == null) {
+            return "error-page/404";
+        } else {
+            memberService.deleteMember(id);
+            redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+            return "redirect:/members/list";
+        }
     }
 }

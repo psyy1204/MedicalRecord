@@ -22,7 +22,3 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
-  data:
-    rest:
-      basePath: /api

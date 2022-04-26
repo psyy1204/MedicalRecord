@@ -7,6 +7,7 @@ import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import Medical.MedicalRecord.service.MemberService;
+import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +26,8 @@ import java.util.List;
 public class MedicalRecordController {
 
     private final MedicalRecordService medicalRecordService;
-    private final MemberService memberService;
     private final HospitalService hospitalService;
+    private final SymptomService symptomService;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> medicalDepartmentCodes() {
@@ -92,8 +93,12 @@ public class MedicalRecordController {
     @GetMapping("/{recordId}")
     public String record(@PathVariable long recordId, Model model){
         MedicalRecord medicalRecord = medicalRecordService.findById(recordId);
-        model.addAttribute("record", medicalRecord);
-        return "records/record";
+        if(medicalRecord == null) {
+            return "error-page/404";
+        } else {
+            model.addAttribute("record", medicalRecord);
+            return "records/record";
+        }
     }
 
 
@@ -121,22 +126,25 @@ public class MedicalRecordController {
     @GetMapping("/{recordId}/edit")
     public String editForm(@PathVariable("recordId") Long recordId, Model model) {
         MedicalRecord medicalRecord = medicalRecordService.findById(recordId);
+        if (medicalRecord == null) {
+            return "error-page/404";
+        } else {
+            MedicalRecordForm form = new MedicalRecordForm();
+            form.setId(medicalRecord.getRecordId());
+            form.setDoctorName(medicalRecord.getDoctorName());
+            form.setHospitalName(medicalRecord.getHospital().getHospitalName());
+            form.setDiagnosis(medicalRecord.getDiagnosis());
+            form.setMedicalDepartmentCode(medicalRecord.getMedicalDepartmentCode());
+            form.setEtc(medicalRecord.getEtc());
+            form.setPrice(medicalRecord.getPrice());
+            form.setVisitedDate(medicalRecord.getVisitedDate());
+            form.setNextVisitDate(medicalRecord.getNextVisitDate());
+            form.setMemberId(form.getMemberId());
+            form.setUpdateDate(LocalDateTime.now());
 
-        MedicalRecordForm form = new MedicalRecordForm();
-        form.setId(medicalRecord.getRecordId());
-        form.setDoctorName(medicalRecord.getDoctorName());
-        form.setHospitalName(medicalRecord.getHospital().getHospitalName());
-        form.setDiagnosis(medicalRecord.getDiagnosis());
-        form.setMedicalDepartmentCode(medicalRecord.getMedicalDepartmentCode());
-        form.setEtc(medicalRecord.getEtc());
-        form.setPrice(medicalRecord.getPrice());
-        form.setVisitedDate(medicalRecord.getVisitedDate());
-        form.setNextVisitDate(medicalRecord.getNextVisitDate());
-        form.setMemberId(form.getMemberId());
-        form.setUpdateDate(LocalDateTime.now());
-
-        model.addAttribute("form", form);
-        return "records/editForm";
+            model.addAttribute("form", form);
+            return "records/editForm";
+        }
     }
 
     /**
@@ -149,15 +157,18 @@ public class MedicalRecordController {
                        BindingResult result,
                        RedirectAttributes redirectAttributes) {
 
-        if(result.hasErrors()) {
+        if (medicalRecordService.findById(recordId)== null) {
+            return "error-page/404";
+        } else if(result.hasErrors()) {
             return "members/editForm";
-        }
-        medicalRecordService.editRecord(recordId, form.getDoctorName(),
-                form.getHospitalName(), form.getMedicalDepartmentCode(),
-                form.getEtc(),form.getPrice(),form.getMemberId(), form.getVisitedDate(),form.getNextVisitDate());
+        } else {
+            medicalRecordService.editRecord(recordId, form.getDoctorName(),
+                    form.getHospitalName(), form.getMedicalDepartmentCode(),
+                    form.getEtc(), form.getPrice(), form.getMemberId(), form.getVisitedDate(), form.getNextVisitDate());
 
-        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
-        return "redirect:/records/list";
+            redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+            return "redirect:/records/list";
+        }
     }
 
     /**
@@ -166,11 +177,19 @@ public class MedicalRecordController {
     @GetMapping("/{recordId}/delete")
     public String deleteRecord(@PathVariable("recordId") Long id,
                                RedirectAttributes redirectAttributes){
-        medicalRecordService.deleteRecord(id);
-
-        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-
-        return "redirect:/records/list";
+        MedicalRecord findRecord = medicalRecordService.findById(id);
+        Long symptomId = findRecord.getSymptom().getSymptomId();
+        if (findRecord == null) {
+            return "error-page/404";
+        } else if (findRecord.isHasDrug()){
+            redirectAttributes.addFlashAttribute
+                    ("result","처방약이 등록되어있어 삭제가 불가능합니다.(삭제 후 다시 시도해주세요)");
+            return "redirect:/records/list";
+        } else {
+            medicalRecordService.deleteRecord(id);
+            symptomService.deleteSymptom(symptomId);
+            redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+            return "redirect:/records/list";
+        }
     }
-
 }

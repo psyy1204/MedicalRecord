@@ -348,7 +348,9 @@
                 </div>
 
                 <form role="form" action="/drugs/new" th:object="${drugForm}" method="post">
-
+                    <div class="card-header py-3">
+                        <h6 class="m-0 text-warning">등록한 병원은 삭제가 불가능합니다(수정만 가능합니다)</h6>
+                    </div>
                     <div class="form-group">
                         <label th:for="drugName">약명</label>
 

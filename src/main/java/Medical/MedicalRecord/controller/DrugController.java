@@ -59,8 +59,12 @@ public class DrugController {
     @GetMapping("/{drugId}")
     public String drug(@PathVariable long drugId, Model model) {
         Drug drug = drugService.findById(drugId);
-        model.addAttribute("drug", drug);
-        return "drugs/drug";
+        if (drug == null) {
+            return "error-page/404";
+        } else {
+            model.addAttribute("drug", drug);
+            return "drugs/drug";
+        }
     }
 
     /**
@@ -86,12 +90,15 @@ public class DrugController {
     @GetMapping("/{drugId}/edit")
     public String editForm(@PathVariable("drugId") Long drugId, Model model) {
         Drug drug = drugService.findById(drugId);
-
-        DrugForm form = new DrugForm();
-        form.setDrugName(drug.getDrugName());
-        form.setDrugComponent(drug.getDrugComponent());
-        model.addAttribute("form",form);
-        return "drugs/editForm";
+        if (drug == null) {
+            return "error-page/404";
+        } else {
+            DrugForm form = new DrugForm();
+            form.setDrugName(drug.getDrugName());
+            form.setDrugComponent(drug.getDrugComponent());
+            model.addAttribute("form", form);
+            return "drugs/editForm";
+        }
     }
 
     /**
@@ -102,13 +109,17 @@ public class DrugController {
                        @ModelAttribute("form") @Valid DrugForm form,
                        BindingResult result,
                        RedirectAttributes redirectAttributes){
-        if(result.hasErrors()) {
-            return "drugs/editForm";
-        }
-        drugService.edit(drugId, form.getDrugName(), form.getDrugComponent());
+        if(drugService.findById(drugId) == null) {
+            return "error-page/404";
+        } else {
+            if (result.hasErrors()) {
+                return "drugs/editForm";
+            }
+            drugService.edit(drugId, form.getDrugName(), form.getDrugComponent());
 
-        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
-        return "redirect:/drugs/list";
+            redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+            return "redirect:/drugs/list";
+        }
     }
 
     /**
@@ -117,10 +128,14 @@ public class DrugController {
     @GetMapping("/{drugId}/delete")
     public String deleteDrug(@PathVariable("drugId") Long id,
                              RedirectAttributes redirectAttributes){
-        drugService.delete(id);
+        if(drugService.findById(id) == null) {
+            return "error-page/404";
+        } else {
+            drugService.delete(id);
 
-        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-        return "redirect:/drugs/list";
+            redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+            return "redirect:/drugs/list";
+        }
     }
 }
 

@@ -342,7 +342,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Edit Prescription</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Edit/Delete Prescription</h1>
                     <!--                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
                     <!--                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
                 </div>
@@ -384,6 +384,13 @@
                                th:href="@{/prescriptions/list/{id}(id=${form.recordId})}"
                                type="button">취소</a>
                         </div>
+                        <div class="col">
+                            <td>
+                                <a href="#" th:onclick="'javascript:deletePrescription('+*{prescriptionId}+')'"
+                                   class="w-100 btn btn-danger btn-lg">삭제</a>
+                            </td>
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -449,7 +456,7 @@
 
 </body>
 <script>
-    function deleteSymptom(symptomId){
+    function deletePrescription(symptomId){
         if(confirm("정말 삭제하시겠습니까?")){
             location.replace('delete');
         }

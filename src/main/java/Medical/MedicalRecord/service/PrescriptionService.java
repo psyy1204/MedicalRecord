@@ -50,8 +50,11 @@ public class PrescriptionService {
      * 삭제
      */
     @Transactional
-    public void deletePrescription(Long prescriptionId) {
+    public void deletePrescription(Long prescriptionId, Long recordId) {
         prescriptionRepository.delete(prescriptionId);
+        if (prescriptionRepository.findRecordPrescription(recordId).isEmpty()){
+            medicalRecordRepository.findById(recordId).setHasDrug(false);
+        }
     }
 
     public void addRecordToPrescription(Long recordId, PrescriptionDrug prescriptionDrug) {

@@ -95,17 +95,17 @@ public class PrescriptionApiController {
         }
     }
 
-    /**
-     * @param id
-     * 처방삭제
-     */
-    @DeleteMapping("/{prescriptionId}")
-    public void deletePrescription(@PathVariable("prescriptionId") Long id,
-                                   HttpServletResponse response) throws IOException{
-        if(prescriptionService.findById(id)==null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"찾는 처방이 없습니다.");
-        } else {
-            prescriptionService.deletePrescription(id);
-        }
-    }
+//    /**
+//     * @param id
+//     * 처방삭제
+//     */
+//    @DeleteMapping("/{prescriptionId}")
+//    public void deletePrescription(@PathVariable("prescriptionId") Long id,
+//                                   HttpServletResponse response) throws IOException{
+//        if(prescriptionService.findById(id)==null) {
+//            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"찾는 처방이 없습니다.");
+//        } else {
+//            prescriptionService.deletePrescription(id);
+//        }
+//    }
 }

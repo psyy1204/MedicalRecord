@@ -145,17 +145,4 @@ public class SymptomController {
         return "redirect:/symptoms/list";
     }
 
-    /**
-     * 삭제
-     */
-    @GetMapping("/{symptomId}/delete")
-    public String deleteSymptom(@PathVariable("symptomId") Long id,
-                                RedirectAttributes redirectAttributes){
-        symptomService.deleteSymptom(id);
-
-        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-
-        return "redirect:/symptoms/list";
-    }
-
 }

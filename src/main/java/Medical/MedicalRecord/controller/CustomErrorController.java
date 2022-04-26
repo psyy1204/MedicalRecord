@@ -4,12 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+public class CustomErrorController {
 
-    @RequestMapping("/")
-    public String home() {
-        return "index";
+    @RequestMapping("/errors")
+    public String basicError() {
+        return "error-page/404";
     }
-
 }
-

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -13,8 +16,6 @@ import java.util.List;
 public class MedicalRecordRepository {
 
     private final EntityManager em;
-    //+
-    private final HospitalRepository hospitalRepository;
 
     public void save(MedicalRecord medicalRecord) {
         em.persist(medicalRecord);
@@ -47,5 +48,11 @@ public class MedicalRecordRepository {
                 .setFirstResult(startIndex)
                 .setMaxResults(pageSize)
                 .getResultList();
+    }
+
+    public List<MedicalRecord> findNextVisited() {
+        LocalDate now = LocalDate.now();
+        return em.createQuery("select m from MedicalRecord m where m.nextVisitDate >=: now")
+                .setParameter("now", now).getResultList();
     }
 }

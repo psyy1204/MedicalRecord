@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +94,12 @@ public class MedicalRecordService {
         validation.updateRecord(medicalRecord,form);
     }
 
+    /**
+     *
+     * @param recordId
+     * @return id에 해당하는 record
+     * drug와 연관관계 확인
+     */
     @Transactional
     public MedicalRecord addRecordToPrescription(Long recordId) {
         MedicalRecord findRecord = medicalRecordRepository.findById(recordId);
@@ -99,11 +107,26 @@ public class MedicalRecordService {
         return findRecord;
     }
 
+    /**
+     * @return 총개수
+     */
     public int findAllCount() {
         return medicalRecordRepository.findAllCount();
     }
 
+    /**
+     * @param startIndex
+     * @param pageSize
+     * @return 페이징할 개수만큼 꺼내기기     */
     public List<MedicalRecord> findListPaging(int startIndex, int pageSize) {
         return medicalRecordRepository.findListPaging(startIndex, pageSize);
+    }
+
+    /**
+     *
+     * @return 다음 방문예정일꺼내기
+     */
+    public List<MedicalRecord> findNextVisited() {
+        return medicalRecordRepository.findNextVisited();
     }
 }

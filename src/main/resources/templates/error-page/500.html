@@ -2,32 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Medical Record</title>
+    <title>Medical Record - 500</title>
 
     <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
-    <style>
-        .fieldError {
-            border-color: #bd2121;
-        }
-
-        .dateError {
-            border-color: #21bd93;
-        }
-    </style>
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -245,7 +236,7 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/img/undraw_profile_1.svg"
+                                    <img class="rounded-circle" src="../img/undraw_profile_1.svg"
                                          alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
@@ -258,7 +249,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/img/undraw_profile_2.svg"
+                                    <img class="rounded-circle" src="../img/undraw_profile_2.svg"
                                          alt="...">
                                     <div class="status-indicator"></div>
                                 </div>
@@ -271,7 +262,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/img/undraw_profile_3.svg"
+                                    <img class="rounded-circle" src="../img/undraw_profile_3.svg"
                                          alt="...">
                                     <div class="status-indicator bg-warning"></div>
                                 </div>
@@ -307,7 +298,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                             <img class="img-profile rounded-circle"
-                                 src="/img/undraw_profile.svg">
+                                 src="../img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -340,109 +331,34 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Edit/Delete Diagnosis</h1>
-                    <!--                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
-                    <!--                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+                <!-- 500 Error Text -->
+                <div class="text-center">
+                    <div class="error mx-auto" data-text="500">500</div>
+                    <p class="lead text-gray-800 mb-5">Internal Server error</p>
+                    <p class="text-gray-500 mb-0">죄송합니다. 확인 후 다시 요청해주세요</p>
+                    <a href="/">&larr; Back to Dashboard</a>
                 </div>
-
-                <form th:object="${form}" method="post">
-                <!-- id -->
-                <input type="hidden" th:field="*{id}" />
-
-                <div class="form-group">
-
-                    <label th:for="visitedDate">방문일</label>
-
-                    <input type="date" th:field="*{visitedDate}" class="form-control" placeholder="방문일을 입력하세요"
-                           th:class="${#fields.hasErrors('visitedDate')}? 'form-control dateError' : 'form-control'">
-                    <p th:if="${#fields.hasErrors('visitedDate')}" th:errors="*{visitedDate}">Incorrect date</p>
-                </div>
-
-                <div>
-                    <div>진료과</div>
-                    <select th:field="*{medicalDepartmentCode}" class="form-select">
-                        <option value="">==진료과 선택==</option>
-                        <option th:each="medicalDepartmentCode : ${medicalDepartmentCodes}" th:value="${medicalDepartmentCode.code}"
-                                th:text="${medicalDepartmentCode.displayName}">FAST</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label th:for="doctorName">병원명</label>
-                    <input type="text" th:field="*{hospitalName}" class="form-control"
-                           placeholder="병원 이름을 입력하세요(등록되지 않은 병원은 자동 등록됩니다)">
-                </div>
-
-                <div class="form-group">
-                    <label th:for="doctorName">담당의</label>
-                    <input type="text" th:field="*{doctorName}" class="form-control"
-                           placeholder="진료받은 의사 이름을 입력하세요">
-                </div>
-
-                <div class="form-group">
-                    <label th:for="diagnosis">진단명</label>
-                    <input type="text" th:field="*{diagnosis}" class="form-control"
-                           placeholder="진단을 입력하세요">
-                </div>
-
-                <div class="form-group">
-                    <label th:for="etc">기타</label>
-                    <input type="text" th:field="*{etc}" class="form-control"
-                           placeholder="예)주사처치, 드레싱 등 추가 입력 필요한 사항을 입력하세요">
-                </div>
-
-                <div class="form-group">
-                    <label th:for="price">진료비</label>
-                    <input type="number" th:field="*{price}" class="form-control"
-                           placeholder="청구된 진료비를 입력하세요">
-                </div>
-
-                <div class="form-group">
-
-                    <label th:for="nextVisitDate">방문 예정일</label>
-
-                    <input type="date" th:field="*{nextVisitDate}" class="form-control" placeholder="다음 방문예정일을 입력하세요"
-                           th:class="${#fields.hasErrors('nextVisitDate')}? 'form-control dateError' : 'form-control'">
-                    <p th:if="${#fields.hasErrors('nextVisitDate')}" th:errors="*{nextVisitDate}">Incorrect date</p>
-                </div>
-
-                    <hr class="my-4">
-                    <div class="row">
-                        <div class="col">
-                            <td><button type="submit" class=" w-100 btn btn-primary btn-lg" >수정</button></td>
-                        </div>
-                        <div class="col">
-                            <td><button onclick="location.href='/'" class=" w-100 btn btn-secondary btn-lg" type="button">취소</button></td>
-                        </div>
-                        <div class="col">
-                            <td>
-                                <a href="#" th:onclick="'javascript:deleteRecord('+*{id}+')'"
-                                   class="w-100 btn btn-danger btn-lg">삭제</a>
-                            </td>
-                        </div>
-                    </div>
-                </form>
 
             </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>&copy; Medical Record V1</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
+</div>
+
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>&copy; Medical Record V1</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
 
 </div>
 <!-- End of Page Wrapper -->
@@ -473,25 +389,22 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="/js/sb-admin-2.min.js"></script>
+<script src="../js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<!--<script src="../js/demo/datatables-demo.js"></script>-->
 
 </body>
-<script>
-    function deleteRecord(recordId){
-        if(confirm("정말 삭제하시겠습니까?(증상도 함께 삭제됩니다.)")){
-            location.replace('delete');
-        }
-    }
-</script>
+
 </html>

@@ -56,8 +56,12 @@ public class HospitalController {
     @GetMapping("/{hospitalId}")
     public String hospital(@PathVariable long hospitalId, Model model){
         Hospital hospital = hospitalService.findById(hospitalId);
-        model.addAttribute("hospital", hospital);
-        return "hospitals/hospital";
+        if(hospital == null) {
+            return "error-page/404";
+        } else {
+            model.addAttribute("hospital", hospital);
+            return "hospitals/hospital";
+        }
     }
 
     /**
@@ -85,15 +89,18 @@ public class HospitalController {
     @GetMapping("/{hospitalId}/edit")
     public String editForm(@PathVariable("hospitalId") Long hospitalId, Model model) {
         Hospital hospital = hospitalService.findById(hospitalId);
+        if(hospital == null) {
+            return "error-page/404";
+        } else {
+            HospitalForm form = new HospitalForm();
+            form.setHospitalId(hospital.getHospitalId());
+            form.setHospitalName(hospital.getHospitalName());
+            form.setHospitalAddress(hospital.getHospitalAddress());
+            form.setHospitalContact(hospital.getHospitalContact());
 
-        HospitalForm form = new HospitalForm();
-        form.setHospitalId(hospital.getHospitalId());
-        form.setHospitalName(hospital.getHospitalName());
-        form.setHospitalAddress(hospital.getHospitalAddress());
-        form.setHospitalContact(hospital.getHospitalContact());
-
-        model.addAttribute("form", form);
-        return "hospitals/editForm";
+            model.addAttribute("form", form);
+            return "hospitals/editForm";
+        }
     }
 
     /**
@@ -105,17 +112,20 @@ public class HospitalController {
                        @ModelAttribute("form") @Valid HospitalForm form,
                        BindingResult result,
                        RedirectAttributes redirectAttributes) {
-        if(result.hasErrors()) {
+        if (hospitalService.findById(hospitalId) == null) {
+            return "error-page/404";
+        } else if(result.hasErrors()) {
             return "hospitals/editForm";
+        } else {
+
+            hospitalService.edit(hospitalId,
+                    form.getHospitalName(),
+                    form.getHospitalAddress(),
+                    form.getHospitalContact());
+            redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
+
+            return "redirect:/hospitals/list";
         }
-
-        hospitalService.edit(hospitalId,
-                form.getHospitalName(),
-                form.getHospitalAddress(),
-                form.getHospitalContact());
-        redirectAttributes.addFlashAttribute("result", "수정이 완료되었습니다");
-
-        return "redirect:/hospitals/list";
     }
 
     /**
@@ -124,10 +134,12 @@ public class HospitalController {
     @GetMapping("/{hospitalId}/delete")
     public String deleteHospital(@PathVariable("hospitalId") Long id,
                                  RedirectAttributes redirectAttributes){
-        hospitalService.delete(id);
-
-        redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-
-        return "redirect:/hospitals/list";
+        if (hospitalService.findById(id) == null) {
+            return "error-page/404";
+        } else {
+            hospitalService.delete(id);
+            redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
+            return "redirect:/hospitals/list";
+        }
     }
 }

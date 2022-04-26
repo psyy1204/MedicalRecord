@@ -343,8 +343,12 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">New Hospital</h1>
+
                     <!--                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
                     <!--                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+                </div>
+                <div class="card-header py-3">
+                    <h6 class="m-0 text-warning">등록한 병원은 삭제가 불가능합니다(수정만 가능합니다)</h6>
                 </div>
                 <form role="form" action="/hospitals/new" th:object="${hospitalForm}" method="post">
 

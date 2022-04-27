@@ -21,50 +21,76 @@ public class MedicalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recordId;
 
-    // 의사이름
+    /**
+     *진료의사 성명
+     */
     private String doctorName;
 
+    /**
+     *진단명
+     */
     @Column(nullable = false)
-    // 진단명
     private String diagnosis;
 
-    //진료과
+    /**
+     *진료과
+     */
     private String medicalDepartmentCode;
 
-    // 기타사항
+    /**
+     * 기타 특이사항
+     */
     private String etc;
 
-    // 진료비
+    /**
+     * 진료비
+     */
     private Integer price;
 
-    //진료일자
+    /**
+     * 진료일자
+     */
     private Date visitedDate;
 
-    // 진료일자 포맷변경
+    /**
+     * 진료일 포맷
+     */
     public String visitedDateString(){
         return new SimpleDateFormat("yyyy-MM-dd").format(visitedDate);
     }
 
-    //진료예정일자
+    /**
+     * 다음 진료예정일자
+     */
     private Date nextVisitDate;
 
-    // 진료예정일자 포맷변경
+    /**
+     * 다음 진료예정일자 포맷
+     */
     public String nextVisitDateString(){
         return new SimpleDateFormat("yyyy-MM-dd").format(nextVisitDate);
     }
 
-    //증상이 입력되어있는지 여부
+    /**
+     * 증상 입력 여부
+     */
     private boolean hasSymptom;
 
-    //처방이 입력되어있는지 여부
+    /**
+     * 처방 입력 여부
+     */
     private boolean hasDrug;
 
+    /**
+     * 기록 등록일
+     */
     @Column(nullable = false)
-    // 등록일
     private LocalDateTime createdDate;
 
+    /**
+     * 기록 수정일
+     */
     @Column(nullable = false)
-    // 수정일
     private LocalDateTime updatedDate;
 
     @ManyToOne

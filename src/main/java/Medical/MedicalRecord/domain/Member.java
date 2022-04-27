@@ -18,38 +18,56 @@ public class Member {
     @Column
     private Long memberId;
 
-    // 회원이름
+    /**
+     * 회원이름
+     */
     @Column(nullable = false)
     private String userName;
 
-    //별칭
+    /**
+     * 별칭
+     */
     @Column(nullable = false)
     private String nickName;
 
-    // 이메일
+    /**
+     * 이메일
+     */
     @Column(nullable = false)
     private String email;
 
-    // 회원나이
+    /**
+     * 회원나이
+     */
     private Integer age;
 
+    /**
+     * 성별
+     */
     @Enumerated(EnumType.STRING)
-    // 회원성별
     private Gender gender;
 
-    // 키
+    /**
+     * 키
+     */
     private Integer height;
 
-    // 몸무게
+    /**
+     * 몸무게
+     */
     private Integer weight;
 
+    /**
+     * 생성 날짜
+     */
     @Column(nullable = false)
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdDate; //생성날짜
+    private LocalDateTime createdDate;
 
+    /**
+     * 수정 날짜
+     */
     @Column(nullable = false)
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedDate; //수정날짜
+    private LocalDateTime updatedDate;
 
     @Builder
     public Member(String userName, String nickName, Integer age,

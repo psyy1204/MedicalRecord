@@ -20,39 +20,65 @@ public class Symptom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long symptomId;
 
-    //증상기입
+    /**
+     * 간단한 증상 기입(목록에서 보여주기 위함)
+     */
     @Column(nullable = false)
     private String simpleSymptom;
 
+    /**
+     * 자세한 증상 기입
+     */
     private String detailSymptom;
 
-    //증상 시작일
+    /**
+     * 증상 시작일
+     */
     private Date startDate;
 
-    //체온
+    /**
+     * 체온
+     */
     private Float bodyTemperature;
 
-    //맥박
+    /**
+     * 맥박
+     */
     private Integer pulse;
 
-    //수축기압
+    /**
+     * 수축기압(혈압)
+     */
     private Integer systolic;
-    //이완기
+    /**
+     * 이완기압(혈압)
+     */
     private Integer diastolic;
 
-    //산소포화도
+    /**
+     * 산소포화도
+     */
     private Integer oxygenSaturation;
 
-    //생성날짜
+    /**
+     * 생성일
+     */
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
-    //수정날짜
+    /**
+     * 수정일
+     */
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
+    /**
+     * 기록과 연동을 위한 병원 방문일
+     */
     private Date visitedDate;
-    //조회용
+    /**
+     * 기록 조회용
+     */
     private Long recordId;
 
     @Builder

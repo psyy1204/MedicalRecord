@@ -19,19 +19,25 @@ public class PrescriptionDrug {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prescriptionDrugId;
 
-    //처방기간
+    /**
+     * 약 복용 시작일
+     */
     private Date durationStart;
-
     public String durationStartString(){
         return new SimpleDateFormat("yyyy-MM-dd").format(durationStart);
     }
-    private Date durationEnd;
 
+    /**
+     * 약 복용 종료일
+     */
+    private Date durationEnd;
     public String durationEndString(){
         return new SimpleDateFormat("yyyy-MM-dd").format(durationEnd);
     }
 
-    //하루 복용횟수
+    /**
+     * 하루 복용횟수
+     */
     private Integer dosesCount;
 
     @ManyToOne
@@ -41,5 +47,4 @@ public class PrescriptionDrug {
     @ManyToOne
     @JoinColumn(name = "recordId")
     private MedicalRecord medicalRecord;
-
 }

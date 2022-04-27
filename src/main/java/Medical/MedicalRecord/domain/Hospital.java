@@ -17,13 +17,20 @@ public class Hospital {
     @Column
     private Long hospitalId;
 
-    // 병원명
+
+    /**
+     *  병원명
+     */
     private String hospitalName;
 
-    // 병원주소
+    /**
+     *  병원주소
+     */
     private String hospitalAddress;
 
-    // 연락처
+    /**
+     *  병원 연락처
+     */
     private Integer hospitalContact;
 
     @Builder

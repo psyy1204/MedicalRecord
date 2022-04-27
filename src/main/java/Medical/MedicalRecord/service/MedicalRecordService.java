@@ -11,8 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -121,4 +124,50 @@ public class MedicalRecordService {
         return medicalRecordRepository.findListPaging(startIndex, pageSize);
     }
 
+    public List<Integer> countRecord() throws ParseException {
+        //현재 년도
+        List<Integer> countRecord = new ArrayList<>();
+        //그 전년도까지의 데이터(20220101 이전까지 데이터)
+        int lastCount = medicalRecordRepository.CountRecord(makeDate(1));
+
+        for (int i = 2; i < 14; i++){
+            int monthCount = medicalRecordRepository.CountRecord(makeDate(i));
+            int count = monthCount - lastCount;
+            if(count < 0) count = 0;
+            countRecord.add(count);
+            lastCount = monthCount;
+        }
+        return countRecord;
+    }
+
+    //월을 넣으면 20220101 날짜로 돌려줌
+    private Date makeDate(int month) throws ParseException {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        //13 들어오면 다음해의 첫월로 처리
+        if (month == 13){
+            year += 1;
+            month = 1;
+        }
+        String day = "01";
+        String mon;
+
+        if(month < 10) {
+            mon = "0" + Integer.toString(month);
+        } else mon = Integer.toString(month);
+
+        String date = Integer.toString(year)+ mon + day;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        return simpleDateFormat.parse(date);
+    }
+
+    public int totalPrice() {
+        List<MedicalRecord> recordList = medicalRecordRepository.findAll();
+        Integer price = 0;
+        for (int i = 0; i < recordList.size(); i++) {
+            if(recordList.get(i).getPrice()==null) price+=0;
+            else price += recordList.get(i).getPrice();
+        }
+        return price;
+    }
 }

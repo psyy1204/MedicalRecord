@@ -15,10 +15,15 @@ public class Drug {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long drugId;
 
+    /**
+     * 약 제품명
+     */
     @Column(nullable = false)
-    // 약명
     private String drugName;
 
+    /**
+     * 약 성분명
+     */
     private String drugComponent;
 
     @ManyToOne
@@ -26,7 +31,8 @@ public class Drug {
     private PrescriptionDrug prescriptionDrug;
 
     @Builder
-    public Drug(String drugName) {
+    public Drug(String drugName, String drugComponent) {
         this.drugName = drugName;
+        this.drugComponent = drugComponent;
     }
 }

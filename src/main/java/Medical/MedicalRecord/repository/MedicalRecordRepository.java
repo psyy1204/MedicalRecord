@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -46,5 +47,12 @@ public class MedicalRecordRepository {
                 .setFirstResult(startIndex)
                 .setMaxResults(pageSize)
                 .getResultList();
+    }
+
+    public int CountRecord(Date end) {
+        List<MedicalRecord> findRecord = em.createQuery("select m from MedicalRecord m where m.visitedDate <: end", MedicalRecord.class)
+                .setParameter("end", end)
+                .getResultList();
+        return findRecord.size();
     }
 }

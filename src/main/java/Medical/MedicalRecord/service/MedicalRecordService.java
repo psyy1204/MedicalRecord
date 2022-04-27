@@ -2,7 +2,7 @@ package Medical.MedicalRecord.service;
 
 import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
-import Medical.MedicalRecord.domain.PrescriptionDrug;
+import Medical.MedicalRecord.unuse.CalenderDTO;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.repository.MedicalRecordRepository;
 import Medical.MedicalRecord.repository.MemberRepository;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -122,11 +121,4 @@ public class MedicalRecordService {
         return medicalRecordRepository.findListPaging(startIndex, pageSize);
     }
 
-    /**
-     *
-     * @return 다음 방문예정일꺼내기
-     */
-    public List<MedicalRecord> findNextVisited() {
-        return medicalRecordRepository.findNextVisited();
-    }
 }

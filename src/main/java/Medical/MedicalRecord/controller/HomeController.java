@@ -24,16 +24,12 @@ public class HomeController {
     public List<Integer> home() throws ParseException {
 
         List<Integer> countRecord = medicalRecordService.countRecord();
-        for (int i = 0; i<12; i++) {
-            System.out.println("출력 = " + countRecord.get(i));
-        }
         return countRecord;
     }
 
     @GetMapping("/")
     public String index(Model model) {
         int price = medicalRecordService.totalPrice();
-        System.out.println("price = " + price);
         model.addAttribute("totalPrice", price);
         return "index";
     }

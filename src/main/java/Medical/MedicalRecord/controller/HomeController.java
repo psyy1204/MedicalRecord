@@ -19,14 +19,6 @@ public class HomeController {
 
     private final MedicalRecordService medicalRecordService;
 
-    @RequestMapping(value = "/",method = RequestMethod.POST)
-    @ResponseBody
-    public List<Integer> home() throws ParseException {
-
-        List<Integer> countRecord = medicalRecordService.countRecord();
-        return countRecord;
-    }
-
     @GetMapping("/")
     public String index(Model model) {
         int price = medicalRecordService.totalPrice();

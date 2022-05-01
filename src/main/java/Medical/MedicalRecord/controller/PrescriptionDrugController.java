@@ -158,7 +158,7 @@ public class PrescriptionDrugController {
             Long recordId = prescriptionService.findById(id).getMedicalRecord().getRecordId();
             prescriptionService.deletePrescription(id, recordId);
             redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
-            return "redirect:/prescriptions/list";
+            return "redirect:/records/list";
         }
     }
 }

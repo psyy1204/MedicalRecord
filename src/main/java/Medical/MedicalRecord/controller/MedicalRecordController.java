@@ -178,7 +178,6 @@ public class MedicalRecordController {
     public String deleteRecord(@PathVariable("recordId") Long id,
                                RedirectAttributes redirectAttributes){
         MedicalRecord findRecord = medicalRecordService.findById(id);
-        Long symptomId = findRecord.getSymptom().getSymptomId();
         if (findRecord == null) {
             return "error-page/404";
         } else if (findRecord.isHasDrug()){
@@ -187,7 +186,10 @@ public class MedicalRecordController {
             return "redirect:/records/list";
         } else {
             medicalRecordService.deleteRecord(id);
-            symptomService.deleteSymptom(symptomId);
+            if(findRecord.isHasSymptom()) {
+                Long symptomId = findRecord.getSymptom().getSymptomId();
+                symptomService.deleteSymptom(symptomId);
+            }
             redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
             return "redirect:/records/list";
         }

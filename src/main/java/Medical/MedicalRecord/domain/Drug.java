@@ -26,10 +26,6 @@ public class Drug {
      */
     private String drugComponent;
 
-    @ManyToOne
-    @JoinColumn(name = "prescriptionDrugId")
-    private PrescriptionDrug prescriptionDrug;
-
     @Builder
     public Drug(String drugName, String drugComponent) {
         this.drugName = drugName;

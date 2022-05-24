@@ -37,6 +37,12 @@ public class Member {
     private String email;
 
     /**
+     * 패스워드
+     */
+    @Column(nullable = false)
+    private String password;
+
+    /**
      * 회원나이
      */
     private Integer age;

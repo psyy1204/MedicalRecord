@@ -9,30 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href='fullcalendar/main.css' rel='stylesheet' />
-    <script src='fullcalendar/main.js'></script>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                height: '600px',
-                expandRows: true,
-                googleCalendarApiKey: 'AIzaSyAkjECcqxNYynIo_mLJcpNiKfosAefaSBM',
-                eventSources: [
-                    {
-                        googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-                        className: 'medical record',
-                        color: '#be5683'
-                    }
-                ]
-            });
-            calendar.render();
-        });
-
-    </script>
-
     <title>Medical Record</title>
 
     <!-- Custom fonts for this template-->
@@ -44,6 +20,15 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        .fieldError {
+            border-color: #bd2121;
+        }
+
+        .dateError {
+            border-color: #21bd93;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -133,13 +118,13 @@
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-outline-primary btn-sm" type="button"
-                                    th:onclick="|location.href='@{/members/login}'|">
+                                    th:onclick="|location.href='@{/members/add}'|">
                                 Login
                             </button>
 
                             <button class="btn btn-sm btn-primary btn-sm"
                                     onclick="location.href='items.html'"
-                                    th:onclick="|location.href='@{/members/new}'|" type="button">
+                                    th:onclick="|location.href='@{/login}'|" type="button">
                                 Sign-up
                             </button>
                         </div>
@@ -185,90 +170,58 @@
                             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                         </div>
                     </li>
-
-
                 </ul>
 
             </nav>
             <!-- End of Topbar -->
 
-            <div id='calendar'></div>
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-
-                <!-- Content Row -->
-                <div class="row">
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            total HospitalPrice(Monthly)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">10,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            total HospitalPrice</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <input type="text" th:value="*{totalPrice}" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Login</h1>
+                    <!--                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+                    <!--                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
                 </div>
 
-                <!-- Content Row -->
+                <form role="form" action="/members/login" th:object="${loginForm}" method="post">
 
-                <div class="row">
+                    <div class="form-group">
+                        <label th:for="email">메일</label>
 
-                    <!-- Area Chart -->
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">연간 병원방문 횟수</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="myAreaChart" >
-                                    </canvas>
-                                </div>
-                            </div>
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="메일을 입력하세요"
+                               th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+                    </div>
+
+                    <div>
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="password" th:field="*{password}"
+                               class="form-control"
+                               th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{password}" />
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">
+                                로그인</button>
+                        </div>
+                        <div class="col">
+                            <button class="w-100 btn btn-secondary btn-lg"
+                                    onclick="location.href='items.html'"
+                                    th:onclick="|location.href='@{/members/new}'|"
+                                    type="button">가입</button>
                         </div>
                     </div>
-                </div>
-            </div>
+
+                </form>
+
+            </div> <!-- /container -->
+
         </div>
         <!-- End of Main Content -->
 

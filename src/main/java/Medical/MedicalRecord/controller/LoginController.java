@@ -1,24 +1,60 @@
 package Medical.MedicalRecord.controller;
 
-import Medical.MedicalRecord.domain.Gender;
-import Medical.MedicalRecord.form.MemberForm;
+import Medical.MedicalRecord.domain.Member;
+import Medical.MedicalRecord.form.LoginForm;
+import Medical.MedicalRecord.service.LoginService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import session.SessionConst;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/members")
+@RequiredArgsConstructor
 public class LoginController {
 
-    @ModelAttribute("gender")
-    public Gender[] gender() {
-            return Gender.values();
+    private final LoginService loginService;
+
+    @GetMapping("/members/login")
+    public String loginForm(@ModelAttribute("loginForm")LoginForm form) {
+        return "members/login";
     }
 
-    @GetMapping("/new")
-    public String loginForm(@ModelAttribute("memberForm") MemberForm form) {
-        return "members/addForms";
+    @PostMapping("/members/login")
+    public String login2(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+                         HttpServletRequest request,
+                         @RequestParam(defaultValue = "/") String redirectURL) {
+
+        if (bindingResult.hasErrors()) {
+            return "members/login";
+        }
+
+        Member loginMember = loginService.login(form.getEmail(), form.getPassword());
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "members/login";
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        session.setMaxInactiveInterval(1800);
+
+        return "redirect:" + redirectURL;
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
 }

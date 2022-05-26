@@ -1,7 +1,6 @@
 package Medical.MedicalRecord.repository;
 
 import Medical.MedicalRecord.domain.Drug;
-import Medical.MedicalRecord.domain.Hospital;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
 package Medical.MedicalRecord.controller;
 
-import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;
 import Medical.MedicalRecord.paging.Pagination;

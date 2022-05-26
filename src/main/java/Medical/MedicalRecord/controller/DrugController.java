@@ -2,7 +2,6 @@ package Medical.MedicalRecord.controller;
 
 import Medical.MedicalRecord.domain.Drug;
 
-import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.form.DrugForm;
 import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.DrugService;

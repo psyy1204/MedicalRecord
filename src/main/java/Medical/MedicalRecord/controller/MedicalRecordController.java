@@ -6,7 +6,6 @@ import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
-import Medical.MedicalRecord.service.MemberService;
 import Medical.MedicalRecord.service.SymptomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

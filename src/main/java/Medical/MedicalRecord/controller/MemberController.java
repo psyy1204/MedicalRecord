@@ -6,7 +6,6 @@ import Medical.MedicalRecord.form.MemberForm;
 import Medical.MedicalRecord.paging.Pagination;
 import Medical.MedicalRecord.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

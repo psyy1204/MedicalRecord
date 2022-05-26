@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 

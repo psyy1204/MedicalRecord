@@ -1,6 +1,5 @@
 package Medical.MedicalRecord.service;
 
-import Medical.MedicalRecord.domain.Hospital;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.domain.Symptom;
 import Medical.MedicalRecord.form.SymptomForm;

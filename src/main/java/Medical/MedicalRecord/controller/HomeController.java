@@ -15,9 +15,8 @@ public class HomeController {
 
     private final MedicalRecordService medicalRecordService;
 
-
     @GetMapping("/")
-    public String index2(Model model,
+    public String index(Model model,
                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
                          Member loginMember){
 

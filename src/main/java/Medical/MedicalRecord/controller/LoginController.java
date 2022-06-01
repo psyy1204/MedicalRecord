@@ -47,7 +47,6 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         session.setMaxInactiveInterval(1800);
 
-        System.out.println("redirectURL뀨 = " + redirectURL);
         return "redirect:" + redirectURL;
     }
 

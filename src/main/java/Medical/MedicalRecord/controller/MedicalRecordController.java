@@ -4,6 +4,7 @@ import Medical.MedicalRecord.domain.MedicalDepartmentCode;
 import Medical.MedicalRecord.domain.MedicalRecord;
 import Medical.MedicalRecord.form.MedicalRecordForm;
 import Medical.MedicalRecord.paging.Pagination;
+import Medical.MedicalRecord.repository.MemberRepository;
 import Medical.MedicalRecord.service.HospitalService;
 import Medical.MedicalRecord.service.MedicalRecordService;
 import Medical.MedicalRecord.service.SymptomService;
@@ -27,27 +28,11 @@ public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
     private final HospitalService hospitalService;
     private final SymptomService symptomService;
+    private final MemberRepository memberRepository;
 
     @ModelAttribute("medicalDepartmentCodes")
     public List<MedicalDepartmentCode> medicalDepartmentCodes() {
-        List<MedicalDepartmentCode> medicalDepartmentCodes = new ArrayList<>();
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("IM", "내과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("GS", "일반외과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("RM", "재활의학과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("OS", "정형외과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("ER", "응급의학과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("NE", "신경과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("NS", "신경외과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("UR", "비뇨기과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("FM", "가정의학과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("DT", "치과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("OB", "산부인과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("NP", "정신과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("OT", "안과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("ENT", "이비인후과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("PD", "소아과"));
-        medicalDepartmentCodes.add(new MedicalDepartmentCode("ETC", "기타"));
-        return medicalDepartmentCodes;
+        return getDepartmentCodes();
     }
 
     /**
@@ -192,5 +177,26 @@ public class MedicalRecordController {
             redirectAttributes.addFlashAttribute("result", "삭제가 완료되었습니다");
             return "redirect:/records/list";
         }
+    }
+
+    private List<MedicalDepartmentCode> getDepartmentCodes() {
+        List<MedicalDepartmentCode> medicalDepartmentCodes = new ArrayList<>();
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("IM", "내과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("GS", "일반외과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("RM", "재활의학과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("OS", "정형외과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("ER", "응급의학과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("NE", "신경과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("NS", "신경외과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("UR", "비뇨기과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("FM", "가정의학과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("DT", "치과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("OB", "산부인과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("NP", "정신과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("OT", "안과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("ENT", "이비인후과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("PD", "소아과"));
+        medicalDepartmentCodes.add(new MedicalDepartmentCode("ETC", "기타"));
+        return medicalDepartmentCodes;
     }
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,6 +51,7 @@ public class MemberController {
         }
 
         if (!form.getPassword().equals(form.getPasswordCheck())) {
+            result.addError(new FieldError("member", "password","비밀번호와 확인값이 다릅니다."));
             return "members/addForm";
         }
 

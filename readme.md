@@ -60,7 +60,7 @@
 
 * 증상 상세조회
 
-![simple_symptom](/images/simple_symptom.png)
+![simplesymptom](/images/simplesymptom.png)
 
 * 증상 리스트 조회
 

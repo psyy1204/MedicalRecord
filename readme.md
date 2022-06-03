@@ -1,6 +1,6 @@
 # Medical Record
 
-Mar ~
+## Mar ~
 
 ----
 
@@ -16,9 +16,35 @@ Mar ~
 
 ---
 
-![home](/images/home.png){: width="100" height="100"}
+### [홈화면]
 
-### [ 진료기록 ]
+![home](/images/home.png)
+
+---
+
+### [ 진료기록 기능]
+
+![add_record](/images/add_record.png)
+
+* 진료기록 입력 
+* 병원 입력시 등록되어 있는 병원이 있으면 join 되고 없으면 병원이 등록된다.
+
+![detail_record](/images/detail_record.png)
+
+* 진료기록 상세조회
+
+![symple_record](/images/symple_record.png)
+
+* 진료기록 간단 조회
+* 증상 클릭시 : 입력된 증상이 있으면 증상 상세조회, 없다면 다음과 같이 입력창으로 이동할 수 있다
+
+![if_nosymptom](/images/if_nosymptom.png)
+
+* 처방약 클릭시: 증상과 같이 입력된 처방약이 있으면 처방약 리스트 조회, 없다면 입력창으로 이동할 수 있다.
+
+![if_nodrug](/images/if_nodrug.png)
+
+---
 
 ### [ 증상 ]
 

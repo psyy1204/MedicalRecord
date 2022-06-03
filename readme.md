@@ -33,7 +33,7 @@
 
 * 진료기록 상세조회
 
-![symple_record](/images/symple_record.png)
+![simple_record](/images/simple_record.png)
 
 * 진료기록 간단 조회
 * 증상 클릭시 : 입력된 증상이 있으면 증상 상세조회, 없다면 다음과 같이 입력창으로 이동할 수 있다
@@ -48,11 +48,69 @@
 
 ### [ 증상 ]
 
-### [ 처방약 ]
+![add_symptom](/images/add_symptom.png)
 
-### [ 병원 ]
+* 증상 입력
 
-### [약]
+![drugsearch](/images/drugsearch.png)
+
+* 등록된 약을 확인하여 등록할 수 있다.(등록된 약이 아닐경우 등록이 된다.)
+
+![detail_symptom](/images/detail_symptom.png)
+
+* 증상 상세조회
+
+![simple_symptom](/images/simple_symptom.png)
+
+* 증상 리스트 조회
+
+---
+
+### [ 처방약 기능]
+
+![add_prescriptiondrug](/images/add_prescriptiondrug.png)
+
+* 처방약 등록
+
+![add_prescriptiondrug2](/images/add_prescriptiondrug2.png)
+
+* 처방약 추가 등록
+
+![prescriptiondrug](/images/prescriptiondrug.png)
+
+* 처방약 리스트 조회
+
+----
+
+### [ 병원 기능]
+
+![add_hospital](/images/add_hospital.png)
+
+* 병원 추가
+
+![detail_hospital](/images/detail_hospital.png)
+
+* 병원 정보 조회
+
+![hospitallist](/images/hospitallist.png)
+
+* 병원 리스트 조회
+
+---
+
+### [약 기능]
+
+![add_drug](/images/add_drug.png)
+
+* 약 등록
+
+![druglist](/images/druglist.png)
+
+* 약 목록 조회
+
+---
+
+
 
 
 

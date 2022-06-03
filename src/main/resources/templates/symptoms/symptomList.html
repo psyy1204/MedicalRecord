@@ -202,7 +202,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="symptom : ${symptoms}">
-                                    <td><a href="../../../../resources/templates/symptoms/symptom.html" th:href="@{/{symptomId}(symptomId=${symptom.symptomId})}" th:text="${symptom.symptomId}">No</a></td>
+                                    <td><a href="../../../../resources/templates/symptoms/symptom.html" th:href="@{/symptoms/{symptomId}(symptomId=${symptom.symptomId})}" th:text="${symptom.symptomId}">No</a></td>
                                     <td th:text="${symptom.simpleSymptom}"></td>
                                     <td th:text="${#dates.format(symptom.startDate, 'yyyy-MM-dd')}"></td>
                                     <td><a href="../../../../resources/templates/records/record.html" th:href="@{/records/{recordId}(recordId=${symptom.recordId})}"
